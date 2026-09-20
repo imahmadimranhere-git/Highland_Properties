@@ -1,0 +1,241 @@
+/* ==========================================================================
+   Shared chrome for the Admin and Sales Consultant panels:
+   navy sidebar, white content area, off-white page background.
+   ========================================================================== */
+
+.panel { min-height: 100vh; background-color: var(--off-white); }
+
+/* Sidebar ------------------------------------------------------------- */
+.panel-sidebar {
+    position: fixed;
+    inset: 0 auto 0 0;
+    z-index: 1040;
+    width: var(--sidebar-w);
+    background-color: var(--navy-800);
+    color: rgba(255, 255, 255, .78);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.panel-sidebar__brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    height: var(--topbar-h);
+    padding: 0 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, .10);
+    font-family: var(--font-serif);
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--white);
+    flex: none;
+}
+
+.panel-sidebar__brand span { color: var(--gold-500); }
+
+.panel-nav { padding: 14px 0 28px; }
+
+.panel-nav__group {
+    padding: 18px 20px 8px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, .42);
+}
+
+.panel-nav__link {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 20px;
+    font-size: .9rem;
+    color: rgba(255, 255, 255, .78);
+    border-left: 3px solid transparent;
+    transition: background-color var(--speed) var(--ease),
+                color var(--speed) var(--ease),
+                border-color var(--speed) var(--ease);
+}
+
+.panel-nav__link:hover {
+    background-color: rgba(255, 255, 255, .06);
+    color: var(--white);
+}
+
+/* Active item: gold left indicator. */
+.panel-nav__link.is-active {
+    background-color: rgba(194, 161, 77, .12);
+    border-left-color: var(--gold-500);
+    color: var(--white);
+    font-weight: 600;
+}
+
+.panel-nav__link .icon { color: currentColor; width: 17px; height: 17px; }
+
+/* Topbar --------------------------------------------------------------- */
+.panel-topbar {
+    position: sticky;
+    top: 0;
+    z-index: 1030;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    height: var(--topbar-h);
+    padding: 0 28px;
+    background-color: var(--white);
+    border-bottom: 1px solid var(--border);
+}
+
+.panel-topbar__title {
+    font-family: var(--font-serif);
+    font-size: 1.0625rem;
+    color: var(--navy-900);
+    margin: 0;
+}
+
+.panel-user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 10px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-btn);
+    background: none;
+    cursor: pointer;
+    font-size: .875rem;
+    color: var(--navy-800);
+}
+
+.panel-user__avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: var(--navy-800);
+    color: var(--white);
+    display: grid;
+    place-items: center;
+    font-size: .75rem;
+    font-weight: 600;
+}
+
+/* Content -------------------------------------------------------------- */
+.panel-main { margin-left: var(--sidebar-w); min-width: 0; }
+.panel-content { padding: 28px; }
+
+.page-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+}
+
+.page-head__title {
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    color: var(--navy-900);
+    margin: 0 0 4px;
+}
+
+.page-head__sub { font-size: .9rem; color: var(--muted); margin: 0; }
+
+/* Stat cards ----------------------------------------------------------- */
+.stat-grid {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    margin-bottom: 28px;
+}
+
+.stat-card {
+    background-color: var(--white);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--gold-500);
+    border-radius: var(--radius-card);
+    padding: 20px 22px;
+    box-shadow: var(--shadow-panel);
+}
+
+.stat-card__label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+}
+
+.stat-card__value {
+    font-family: var(--font-serif);
+    font-size: 2rem;
+    font-weight: 600;
+    line-height: 1;
+    color: var(--navy-900);
+}
+
+.stat-card__foot { font-size: .8125rem; color: var(--muted); margin-top: 8px; }
+
+/* Panel card wrapper around tables and forms. */
+.panel-box {
+    background-color: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-panel);
+    margin-bottom: 24px;
+}
+
+.panel-box__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 18px 22px;
+    border-bottom: 1px solid var(--border);
+}
+
+.panel-box__title {
+    font-family: var(--font-serif);
+    font-size: 1.0625rem;
+    color: var(--navy-900);
+    margin: 0;
+}
+
+.panel-box__body { padding: 22px; }
+.panel-box .table-wrap { border: 0; border-radius: 0; }
+
+/* Sidebar becomes an off-canvas drawer below 992px. -------------------- */
+@media (max-width: 991.98px) {
+    .panel-sidebar {
+        transform: translateX(-100%);
+        transition: transform var(--speed) var(--ease);
+    }
+
+    .panel-sidebar.is-open { transform: translateX(0); }
+    .panel-main { margin-left: 0; }
+    .panel-content { padding: 20px 16px; }
+    .panel-topbar { padding: 0 16px; }
+
+    .panel-backdrop {
+        position: fixed;
+        inset: 0;
+        z-index: 1035;
+        background-color: rgba(10, 31, 51, .5);
+    }
+}
+
+.panel-burger {
+    display: none;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-btn);
+    background: none;
+    padding: 7px 9px;
+    cursor: pointer;
+}
+
+@media (max-width: 991.98px) {
+    .panel-burger { display: inline-flex; }
+}

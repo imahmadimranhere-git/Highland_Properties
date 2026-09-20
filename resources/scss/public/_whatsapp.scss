@@ -1,0 +1,22 @@
+/* ==========================================================================
+   Floating WhatsApp button. Inline SVG, no third-party widget script.
+   ========================================================================== */
+
+.wa-float {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    z-index: 1050;
+    display: grid;
+    place-items: center;
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    background-color: #25D366;
+    color: var(--white);
+    box-shadow: 0 6px 18px rgba(10, 31, 51, .25);
+    transition: transform var(--speed) var(--ease);
+}
+
+.wa-float:hover { transform: scale(1.06); color: var(--white); }
+.wa-float svg { width: 27px; height: 27px; }

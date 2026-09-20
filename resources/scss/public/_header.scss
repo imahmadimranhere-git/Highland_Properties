@@ -1,0 +1,92 @@
+/* ==========================================================================
+   Public site header. White, sticky, navy links with a gold underline.
+   Mobile menu is plain JS (a class toggle) — no Bootstrap collapse plugin.
+   ========================================================================== */
+
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 1030;
+    background-color: var(--white);
+    border-bottom: 1px solid var(--border);
+}
+
+.site-header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    height: 76px;
+}
+
+.site-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-serif);
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--navy-900);
+}
+
+.site-brand span { color: var(--gold-500); }
+.site-brand img { height: 42px; width: auto; }
+
+.site-nav { display: flex; align-items: center; gap: 30px; }
+
+.site-nav__link {
+    position: relative;
+    font-size: .9rem;
+    font-weight: 500;
+    color: var(--navy-800);
+    padding: 6px 0;
+}
+
+.site-nav__link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--gold-500);
+    transition: width var(--speed) var(--ease);
+}
+
+.site-nav__link:hover::after,
+.site-nav__link.is-active::after { width: 100%; }
+.site-nav__link.is-active { color: var(--navy-900); font-weight: 600; }
+
+.site-header__cta { display: flex; align-items: center; gap: 14px; }
+
+.nav-burger {
+    display: none;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-btn);
+    background: none;
+    padding: 8px 10px;
+    cursor: pointer;
+}
+
+@media (max-width: 991.98px) {
+    .nav-burger { display: inline-flex; }
+
+    .site-nav {
+        position: fixed;
+        inset: 76px 0 auto 0;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        background-color: var(--white);
+        border-bottom: 1px solid var(--border);
+        padding: 8px 0 16px;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height var(--speed) var(--ease);
+    }
+
+    .site-nav.is-open { max-height: 80vh; overflow-y: auto; }
+    .site-nav__link { padding: 13px var(--gutter); border-bottom: 1px solid var(--border); }
+    .site-nav__link::after { display: none; }
+    .site-header__cta .btn { display: none; }
+}

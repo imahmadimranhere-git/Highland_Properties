@@ -1,0 +1,17 @@
+/* ==========================================================================
+   Bootstrap 5 — selective import.
+   Full bootstrap.css is ~190KB. We only pull reboot, containers and the grid,
+   which is roughly 45KB before gzip. Buttons, cards, badges, tables, navbars
+   and utilities are all written by hand in this theme, so importing them
+   would only ship dead CSS that our own rules immediately override.
+   ========================================================================== */
+
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/variables";
+@import "bootstrap/scss/variables-dark";
+@import "bootstrap/scss/maps";
+@import "bootstrap/scss/mixins";
+@import "bootstrap/scss/root";
+@import "bootstrap/scss/reboot";
+@import "bootstrap/scss/containers";
+@import "bootstrap/scss/grid";

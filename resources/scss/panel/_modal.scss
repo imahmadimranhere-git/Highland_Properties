@@ -1,0 +1,33 @@
+/* ==========================================================================
+   Delete confirmation dialog. Uses the native <dialog> element, so there is
+   no modal JS plugin and no focus-trap library to ship.
+   ========================================================================== */
+
+.dialog {
+    width: min(420px, calc(100vw - 32px));
+    padding: 0;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-card);
+    box-shadow: 0 20px 50px rgba(10, 31, 51, .28);
+    color: var(--text);
+}
+
+.dialog::backdrop { background-color: rgba(10, 31, 51, .55); }
+
+.dialog__body { padding: 26px 26px 20px; }
+
+.dialog__title {
+    font-family: var(--font-serif);
+    font-size: 1.1875rem;
+    color: var(--navy-900);
+    margin: 0 0 8px;
+}
+
+.dialog__text { font-size: .9375rem; color: var(--muted); margin: 0; }
+
+.dialog__foot {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 16px 26px 22px;
+}

@@ -1,0 +1,69 @@
+/* Pagination. Every listing in this project is paginated, so this is shared. */
+
+.pagination {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+    list-style: none;
+    margin: 0;
+    padding: 18px 22px;
+}
+
+.pagination__info {
+    margin-right: auto;
+    font-size: .8125rem;
+    color: var(--muted);
+}
+
+.pagination__link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 34px;
+    height: 34px;
+    padding: 0 10px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-btn);
+    font-size: .875rem;
+    color: var(--navy-800);
+    background-color: var(--white);
+    transition: border-color var(--speed) var(--ease), color var(--speed) var(--ease);
+}
+
+.pagination__link:hover {
+    border-color: var(--gold-500);
+    color: var(--gold-600);
+}
+
+.pagination__link.is-current {
+    background-color: var(--navy-800);
+    border-color: var(--navy-800);
+    color: var(--white);
+    font-weight: 600;
+}
+
+.pagination__link.is-disabled {
+    opacity: .45;
+    pointer-events: none;
+}
+
+/* Inline SVG bar chart on the dashboard. ------------------------------- */
+.chart svg {
+    width: 100%;
+    height: 180px;
+    display: block;
+}
+
+.chart__labels {
+    display: flex;
+    margin-top: 6px;
+}
+
+.chart__labels span {
+    flex: 1 1 0;
+    text-align: center;
+    font-size: 10px;
+    letter-spacing: .5px;
+    color: var(--muted);
+}

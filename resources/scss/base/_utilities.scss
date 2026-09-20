@@ -1,0 +1,72 @@
+/* ==========================================================================
+   A deliberately small utility set. Bootstrap's utility API is NOT imported
+   because it generates ~60KB of classes we would use maybe thirty of.
+   ========================================================================== */
+
+.u-container {
+    width: 100%;
+    max-width: var(--container-max);
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+}
+
+.u-section { padding-block: var(--section-y); }
+.u-section--tight { padding-block: calc(var(--section-y) * .6); }
+.u-bg-off { background-color: var(--off-white); }
+.u-bg-navy { background-color: var(--navy-900); color: var(--white); }
+
+.u-grid {
+    display: grid;
+    gap: 28px;
+    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+}
+
+.u-flex { display: flex; }
+.u-between { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.u-center { text-align: center; }
+.u-gap-8 { gap: 8px; }
+.u-gap-16 { gap: 16px; }
+.u-wrap { flex-wrap: wrap; }
+.u-mt-8 { margin-top: 8px; }
+.u-mt-16 { margin-top: 16px; }
+.u-mt-24 { margin-top: 24px; }
+.u-mt-40 { margin-top: 40px; }
+.u-mb-0 { margin-bottom: 0; }
+.u-mb-24 { margin-bottom: 24px; }
+.u-mb-40 { margin-bottom: 40px; }
+
+.u-hidden { display: none !important; }
+
+.visually-hidden {
+    position: absolute !important;
+    width: 1px; height: 1px;
+    padding: 0; margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Navy overlay for any image that carries text on top of it. */
+.media-overlay { position: relative; }
+
+.media-overlay::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(10, 31, 51, .25) 0%, rgba(10, 31, 51, .55) 100%);
+}
+
+.media-overlay > * { position: relative; z-index: 1; }
+
+/* Inline SVG icons: navy by default, gold on hover of the parent link. */
+.icon {
+    width: 18px;
+    height: 18px;
+    flex: none;
+    color: var(--navy-600);
+    transition: color var(--speed) var(--ease);
+}
+
+a:hover > .icon,
+.icon--gold { color: var(--gold-500); }

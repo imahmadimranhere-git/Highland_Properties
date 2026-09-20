@@ -1,0 +1,103 @@
+/* ==========================================================================
+   Forms. Server-side validation errors render under each field,
+   so every control has an explicit invalid state.
+   ========================================================================== */
+
+.form-group { margin-bottom: 20px; }
+
+.form-label {
+    display: block;
+    font-size: .8125rem;
+    font-weight: 600;
+    letter-spacing: .02em;
+    color: var(--navy-800);
+    margin-bottom: 7px;
+}
+
+.form-label .required { color: var(--danger); margin-left: 2px; }
+
+.form-control,
+.form-select,
+textarea.form-control {
+    display: block;
+    width: 100%;
+    padding: 11px 14px;
+    font-family: var(--font-sans);
+    font-size: .9375rem;
+    line-height: 1.5;
+    color: var(--text);
+    background-color: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-input);
+    transition: border-color var(--speed) var(--ease), box-shadow var(--speed) var(--ease);
+}
+
+.form-control::placeholder { color: #9AA8B2; }
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--navy-600);
+    box-shadow: 0 0 0 3px rgba(29, 74, 114, .10);
+    outline: none;
+}
+
+/* Native chevron replaced with an inline SVG — no icon font needed. */
+.form-select {
+    appearance: none;
+    padding-right: 38px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%230F2A43' stroke-width='1.6'%3E%3Cpath d='M4 6l4 4 4-4'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 16px;
+}
+
+textarea.form-control { min-height: 120px; resize: vertical; }
+
+.form-control.is-invalid,
+.form-select.is-invalid { border-color: var(--danger); }
+
+.form-error {
+    display: block;
+    font-size: .8125rem;
+    color: var(--danger);
+    margin-top: 6px;
+}
+
+.form-hint {
+    display: block;
+    font-size: .8125rem;
+    color: var(--muted);
+    margin-top: 6px;
+}
+
+.form-check {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin-bottom: 10px;
+}
+
+.form-check input[type="checkbox"],
+.form-check input[type="radio"] {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--navy-800);
+    flex: none;
+}
+
+.form-check label { font-size: .9375rem; margin: 0; }
+
+/* Alert block above a form when validation fails. */
+.alert {
+    padding: 14px 18px;
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--navy-600);
+    border-radius: var(--radius-input);
+    background-color: var(--off-white);
+    font-size: .9375rem;
+    margin-bottom: 20px;
+}
+
+.alert--danger { border-left-color: var(--danger); background-color: #FBF1F0; }
+.alert--success { border-left-color: var(--success); background-color: #EFF6F2; }
+.alert ul { margin: 8px 0 0; padding-left: 18px; }

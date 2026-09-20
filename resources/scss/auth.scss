@@ -1,0 +1,10 @@
+/* Sign-in bundle. Base tokens and form styles only — roughly a third the
+   size of the admin bundle, because the login page needs no panel chrome. */
+@import "base/bootstrap-core";
+@import "base/variables";
+@import "base/typography";
+@import "base/buttons";
+@import "base/forms";
+@import "base/utilities";
+
+@import "auth/login";

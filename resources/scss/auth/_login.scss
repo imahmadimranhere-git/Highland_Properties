@@ -1,0 +1,50 @@
+/* Sign-in screen: one centred card on a deep navy field. */
+
+body.auth {
+    min-height: 100vh;
+    background-color: var(--navy-900);
+    background-image: radial-gradient(circle at 20% 15%, rgba(29, 74, 114, .55), transparent 55%);
+}
+
+.auth-wrap {
+    min-height: 100vh;
+    display: grid;
+    place-content: center;
+    gap: 18px;
+    padding: 40px 20px;
+}
+
+.auth-card {
+    width: min(420px, 100%);
+    background-color: var(--white);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--gold-500);
+    border-radius: var(--radius-card);
+    padding: 36px 34px 30px;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, .35);
+}
+
+.auth-card__head { margin-bottom: 28px; }
+
+.auth-card__title {
+    font-size: 1.75rem;
+    margin-bottom: 0;
+}
+
+.auth-card__head .gold-divider { margin-top: 16px; }
+
+.auth-card__foot {
+    margin: 22px 0 0;
+    font-size: .8125rem;
+    color: var(--muted);
+    text-align: center;
+}
+
+.auth-back {
+    text-align: center;
+    margin: 0;
+    font-size: .875rem;
+}
+
+.auth-back a { color: rgba(255, 255, 255, .7); }
+.auth-back a:hover { color: var(--gold-500); }

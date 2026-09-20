@@ -1,0 +1,57 @@
+/* ==========================================================================
+   Status badges. The class names match the badge() method on each PHP enum,
+   so a Blade view never has to translate a status into a colour.
+   ========================================================================== */
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 10px;
+    border: 1px solid transparent;
+    border-radius: 2px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.2px;
+    line-height: 1;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.badge-gold {
+    background-color: var(--gold-100);
+    border-color: rgba(194, 161, 77, .45);
+    color: #7A6115;
+}
+
+.badge-success {
+    background-color: #E7F2EC;
+    border-color: rgba(26, 122, 76, .3);
+    color: var(--success);
+}
+
+.badge-navy {
+    background-color: #EAF0F6;
+    border-color: rgba(29, 74, 114, .25);
+    color: var(--navy-600);
+}
+
+.badge-muted {
+    background-color: #EEF1F3;
+    border-color: var(--border);
+    color: var(--muted);
+}
+
+.badge-danger {
+    background-color: #F8EAE8;
+    border-color: rgba(179, 57, 47, .28);
+    color: var(--danger);
+}
+
+/* Badge sitting on top of a project image. */
+.badge--on-image {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    z-index: 2;
+    box-shadow: 0 1px 4px rgba(10, 31, 51, .2);
+}

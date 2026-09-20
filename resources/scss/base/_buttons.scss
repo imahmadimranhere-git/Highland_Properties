@@ -1,0 +1,124 @@
+/* ==========================================================================
+   Buttons. Bootstrap's button CSS is not imported, so `.btn` is ours.
+   Three levels only: primary (navy fill), secondary (navy outline),
+   tertiary (gold outline). Radius 3px — never a full pill.
+   ========================================================================== */
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 13px 28px;
+    border: 1px solid transparent;
+    border-radius: var(--radius-btn);
+    font-family: var(--font-sans);
+    font-size: .875rem;
+    font-weight: 600;
+    letter-spacing: .04em;
+    line-height: 1;
+    text-align: center;
+    cursor: pointer;
+    background: none;
+    transition: background-color var(--speed) var(--ease),
+                border-color var(--speed) var(--ease),
+                color var(--speed) var(--ease);
+}
+
+.btn:disabled,
+.btn.is-disabled {
+    opacity: .5;
+    pointer-events: none;
+}
+
+.btn--primary {
+    background-color: var(--navy-800);
+    border-color: var(--navy-800);
+    color: var(--white);
+}
+
+.btn--primary:hover,
+.btn--primary:focus {
+    background-color: var(--gold-600);
+    border-color: var(--gold-600);
+    color: var(--white);
+}
+
+.btn--secondary {
+    background-color: transparent;
+    border-color: var(--navy-800);
+    color: var(--navy-800);
+}
+
+.btn--secondary:hover,
+.btn--secondary:focus {
+    background-color: var(--navy-800);
+    color: var(--white);
+}
+
+.btn--tertiary {
+    background-color: transparent;
+    border-color: var(--gold-500);
+    color: var(--gold-600);
+}
+
+.btn--tertiary:hover,
+.btn--tertiary:focus {
+    background-color: var(--gold-500);
+    border-color: var(--gold-500);
+    color: var(--navy-900);
+}
+
+/* On a navy or image background the primary button inverts. */
+.btn--on-dark {
+    background-color: var(--white);
+    border-color: var(--white);
+    color: var(--navy-900);
+}
+
+.btn--on-dark:hover,
+.btn--on-dark:focus {
+    background-color: var(--gold-500);
+    border-color: var(--gold-500);
+    color: var(--navy-900);
+}
+
+.btn--danger {
+    background-color: var(--danger);
+    border-color: var(--danger);
+    color: var(--white);
+}
+
+.btn--danger:hover { filter: brightness(.92); color: var(--white); }
+
+.btn--sm { padding: 9px 16px; font-size: .8125rem; }
+.btn--lg { padding: 16px 36px; font-size: .9375rem; }
+.btn--block { display: flex; width: 100%; }
+
+/* Icon-only action button used inside data tables. */
+.btn-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-btn);
+    background-color: var(--white);
+    color: var(--navy-600);
+    cursor: pointer;
+    transition: border-color var(--speed) var(--ease), color var(--speed) var(--ease);
+}
+
+.btn-icon:hover {
+    border-color: var(--gold-500);
+    color: var(--gold-600);
+}
+
+.btn-icon--danger:hover {
+    border-color: var(--danger);
+    color: var(--danger);
+}
+
+.btn-icon svg { width: 16px; height: 16px; }

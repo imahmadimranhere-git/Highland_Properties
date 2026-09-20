@@ -1,0 +1,27 @@
+/* Tab bar used by Master Data and other multi-section pages. */
+
+.tab-bar {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 24px;
+}
+
+.tab-bar__link {
+    padding: 11px 18px;
+    font-size: .875rem;
+    font-weight: 500;
+    color: var(--muted);
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    transition: color var(--speed) var(--ease), border-color var(--speed) var(--ease);
+}
+
+.tab-bar__link:hover { color: var(--navy-800); }
+
+.tab-bar__link.is-active {
+    color: var(--navy-900);
+    font-weight: 600;
+    border-bottom-color: var(--gold-500);
+}

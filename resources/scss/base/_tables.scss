@@ -1,0 +1,72 @@
+/* ==========================================================================
+   Data tables: navy header row, alternating off-white rows.
+   Used by unit categories on the public site and every panel listing.
+   ========================================================================== */
+
+.table-wrap {
+    width: 100%;
+    overflow-x: auto;           /* narrow screens scroll the table, not the page */
+    border: 1px solid var(--border);
+    border-radius: var(--radius-card);
+    background-color: var(--white);
+}
+
+.table-hp {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: .9375rem;
+    min-width: 640px;
+}
+
+.table-hp thead th {
+    background-color: var(--navy-800);
+    color: var(--white);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    text-align: left;
+    padding: 15px 18px;
+    white-space: nowrap;
+}
+
+.table-hp tbody td {
+    padding: 15px 18px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+}
+
+.table-hp tbody tr:nth-child(even) { background-color: var(--off-white); }
+.table-hp tbody tr:last-child td { border-bottom: 0; }
+
+@media (hover: hover) {
+    .table-hp tbody tr:hover { background-color: var(--gold-100); }
+}
+
+/* Price column reads bold navy. */
+.table-hp .is-price {
+    font-weight: 700;
+    color: var(--navy-800);
+    white-space: nowrap;
+}
+
+.table-hp .is-actions {
+    text-align: right;
+    white-space: nowrap;
+}
+
+.table-hp .is-actions > * + * { margin-left: 6px; }
+
+/* Empty state shown instead of an empty table body. */
+.empty-state {
+    padding: 56px 24px;
+    text-align: center;
+    color: var(--muted);
+}
+
+.empty-state__title {
+    font-family: var(--font-serif);
+    font-size: 1.125rem;
+    color: var(--navy-900);
+    margin-bottom: 6px;
+}

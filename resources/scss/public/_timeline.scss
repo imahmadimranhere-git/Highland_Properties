@@ -1,0 +1,68 @@
+/* ==========================================================================
+   Development updates timeline: navy vertical line, gold dots, photo strip.
+   ========================================================================== */
+
+.timeline {
+    position: relative;
+    list-style: none;
+    margin: 0;
+    padding: 0 0 0 30px;
+}
+
+.timeline::before {
+    content: "";
+    position: absolute;
+    top: 6px;
+    bottom: 6px;
+    left: 5px;
+    width: 2px;
+    background-color: var(--navy-800);
+    opacity: .18;
+}
+
+.timeline__item { position: relative; padding-bottom: 38px; }
+.timeline__item:last-child { padding-bottom: 0; }
+
+.timeline__item::before {
+    content: "";
+    position: absolute;
+    left: -30px;
+    top: 6px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: var(--gold-500);
+    box-shadow: 0 0 0 4px var(--white);
+}
+
+.timeline__date {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    color: var(--gold-600);
+    margin-bottom: 6px;
+}
+
+.timeline__title {
+    font-family: var(--font-serif);
+    font-size: 1.125rem;
+    color: var(--navy-900);
+    margin: 0 0 8px;
+}
+
+.timeline__text { color: var(--muted); margin-bottom: 14px; }
+
+.timeline__photos {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.timeline__photos img {
+    width: 120px;
+    height: 88px;
+    object-fit: cover;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-card);
+}

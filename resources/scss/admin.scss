@@ -1,0 +1,17 @@
+/* Admin panel bundle. Loads no public-site CSS. */
+@import "base/bootstrap-core";
+@import "base/variables";
+@import "base/typography";
+@import "base/buttons";
+@import "base/badges";
+@import "base/cards";
+@import "base/forms";
+@import "base/tables";
+@import "base/pagination";
+@import "base/utilities";
+
+@import "panel/layout";
+@import "panel/tabs";
+@import "panel/media";
+@import "panel/toast";
+@import "panel/modal";

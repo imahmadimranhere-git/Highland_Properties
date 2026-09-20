@@ -1,0 +1,96 @@
+/* ==========================================================================
+   Typography. Playfair Display for headings, Inter for body and UI.
+   Two weights per family only (see the font <link> in the layouts).
+   ========================================================================== */
+
+body {
+    font-family: var(--font-sans);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.6;
+    color: var(--text);
+    background-color: var(--white);
+    -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4 {
+    font-family: var(--font-serif);
+    font-weight: 600;
+    line-height: 1.22;
+    color: var(--navy-900);
+    margin: 0 0 16px;
+    letter-spacing: -.01em;
+}
+
+h1, .h1 { font-size: clamp(2rem, 4.4vw, 3.25rem); }
+h2, .h2 { font-size: clamp(1.625rem, 3.2vw, 2.375rem); }
+h3, .h3 { font-size: clamp(1.25rem, 2.2vw, 1.625rem); }
+h4, .h4 { font-size: 1.125rem; }
+h5 { font-size: 1rem; }
+
+p { margin: 0 0 16px; }
+p:last-child { margin-bottom: 0; }
+
+/* Body copy stays under ~75 characters per line for comfortable reading. */
+.lede {
+    font-size: 1.0625rem;
+    color: var(--muted);
+    max-width: 68ch;
+}
+
+.text-muted-hp { color: var(--muted); }
+.text-navy { color: var(--navy-800); }
+
+a {
+    color: var(--navy-600);
+    text-decoration: none;
+    transition: color var(--speed) var(--ease);
+}
+
+a:hover { color: var(--gold-600); }
+
+/* Visible keyboard focus everywhere — never remove the outline. */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+    outline: 2px solid var(--gold-500);
+    outline-offset: 2px;
+}
+
+/* Small uppercase label that sits above a section heading. ------------- */
+.section-label {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold-600); /* gold-600, not gold-500: contrast on white */
+    margin-bottom: 14px;
+}
+
+/* The 60px gold bar that sits under every main section heading. -------- */
+.gold-divider {
+    display: block;
+    width: 60px;
+    height: 3px;
+    background-color: var(--gold-500);
+    border: 0;
+    margin: 20px 0 0;
+    opacity: 1;
+}
+
+.gold-divider--center { margin-left: auto; margin-right: auto; }
+
+/* Thin rule between content blocks on the project detail page. */
+.rule-gold {
+    height: 1px;
+    border: 0;
+    background: linear-gradient(90deg, var(--gold-500) 0%, var(--border) 45%, var(--border) 100%);
+    opacity: 1;
+    margin: 0;
+}

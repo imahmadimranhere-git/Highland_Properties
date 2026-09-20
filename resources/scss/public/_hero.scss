@@ -1,0 +1,55 @@
+/* ==========================================================================
+   Home hero: full-width image, navy overlay, serif headline, one CTA.
+   ========================================================================== */
+
+.hero {
+    position: relative;
+    min-height: clamp(460px, 68vh, 640px);
+    display: grid;
+    align-items: center;
+    background-color: var(--navy-900);
+    overflow: hidden;
+}
+
+.hero__media {
+    position: absolute;
+    inset: 0;
+}
+
+.hero__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Subtle navy-to-darker-navy overlay keeps white text legible. */
+.hero__media::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(10, 31, 51, .45) 0%, rgba(10, 31, 51, .72) 100%);
+}
+
+.hero__inner {
+    position: relative;
+    z-index: 1;
+    max-width: 680px;
+    padding-block: 80px;
+    color: var(--white);
+}
+
+.hero__title {
+    font-size: clamp(2.125rem, 5vw, 3.5rem);
+    color: var(--white);
+    margin-bottom: 0;
+}
+
+.hero__text {
+    font-size: 1.0625rem;
+    color: rgba(255, 255, 255, .82);
+    max-width: 52ch;
+    margin: 24px 0 32px;
+}
+
+.hero .section-label { color: var(--gold-500); }
+.hero .gold-divider { margin-top: 22px; }
