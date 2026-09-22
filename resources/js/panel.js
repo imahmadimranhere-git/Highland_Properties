@@ -1,6 +1,6 @@
 /**
  * Shared behaviour for the admin and consultant panels.
- * Deliberately small: sidebar drawer, delete confirmation and toasts.
+ * Deliberately small: sidebar drawer, confirmation dialog and toasts.
  * No UI framework is loaded here.
  */
 import { toast, initFlashToasts } from './toast.js';
@@ -39,10 +39,11 @@ function initSidebar() {
 }
 
 /**
- * Every destructive action goes through one shared <dialog>.
- * Markup: <form method="POST" data-confirm="Delete this project?">
+ * Every destructive or sensitive action goes through one shared <dialog>.
+ * Markup: <form method="POST" data-confirm="Delete this project?" data-confirm-label="Delete">
+ * data-confirm-label is optional; the button reads "Delete" by default.
  */
-function initDeleteConfirm() {
+function initConfirm() {
     const dialog = document.getElementById('confirm-dialog');
     if (!dialog) return;
 
@@ -57,6 +58,11 @@ function initDeleteConfirm() {
         e.preventDefault();
         pendingForm = form;
         textEl.textContent = form.dataset.confirm;
+
+        const label = form.dataset.confirmLabel || 'Delete';
+        okBtn.textContent = label;
+        okBtn.className = 'btn btn--sm ' + (label === 'Delete' ? 'btn--danger' : 'btn--primary');
+
         dialog.showModal();
     });
 
@@ -77,7 +83,7 @@ function initDeleteConfirm() {
 
 export function initPanel() {
     initSidebar();
-    initDeleteConfirm();
+    initConfirm();
     initFlashToasts();
     window.hpToast = toast;
 }

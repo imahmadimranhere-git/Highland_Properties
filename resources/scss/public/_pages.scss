@@ -1,0 +1,149 @@
+/* ==========================================================================
+   Inner pages: testimonials, team, developers, FAQ, contact, blog.
+   ========================================================================== */
+
+/* Testimonials */
+.testimonial { margin: 0; }
+.testimonial__stars { display: flex; gap: 3px; margin-bottom: 14px; }
+
+.testimonial__text {
+    margin: 0 0 20px;
+    font-family: var(--font-serif);
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    color: var(--navy-900);
+}
+
+.testimonial__who { display: flex; align-items: center; gap: 12px; font-size: .9rem; }
+.testimonial__who img { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; }
+.testimonial__who span { display: flex; flex-direction: column; }
+
+/* Team */
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 32px;
+}
+
+.team-card__photo {
+    aspect-ratio: 1;
+    overflow: hidden;
+    border-radius: var(--radius-card);
+    background-color: var(--off-white);
+    margin-bottom: 16px;
+    border-bottom: 3px solid var(--gold-500);
+}
+
+.team-card__photo img { width: 100%; height: 100%; object-fit: cover; }
+.team-card__photo .img-ph { font-family: var(--font-serif); font-size: 2rem; letter-spacing: 0; }
+
+.team-card__name { font-size: 1.1875rem; margin: 0 0 2px; }
+
+.team-card__role {
+    font-size: 11px;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    color: var(--gold-600);
+    margin-bottom: 10px;
+}
+
+.team-card__links { display: flex; gap: 8px; }
+
+.team-card__links a {
+    display: inline-grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-btn);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--navy-600);
+}
+
+.team-card__links a:hover { border-color: var(--gold-500); color: var(--gold-600); }
+
+/* About value cards */
+.value-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 24px;
+}
+
+/* Developers */
+.developer-card__logo {
+    height: 72px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 18px;
+}
+
+.developer-card__logo img { max-height: 64px; width: auto; object-fit: contain; }
+
+/* FAQ — native <details>, no script. */
+.faq-list { border-top: 1px solid var(--border); }
+.faq { border-bottom: 1px solid var(--border); }
+
+.faq summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 20px 40px 20px 0;
+    position: relative;
+    font-family: var(--font-serif);
+    font-size: 1.0625rem;
+    color: var(--navy-900);
+}
+
+.faq summary::-webkit-details-marker { display: none; }
+
+.faq summary::after {
+    content: "+";
+    position: absolute;
+    right: 4px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: var(--font-sans);
+    font-size: 1.375rem;
+    color: var(--gold-500);
+    transition: transform var(--speed) var(--ease);
+}
+
+.faq[open] summary::after { transform: translateY(-50%) rotate(45deg); }
+.faq__answer { padding: 0 0 22px; color: var(--muted); max-width: 70ch; }
+
+/* Contact */
+.contact-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 22px; }
+.contact-list li { display: flex; gap: 14px; align-items: flex-start; }
+.contact-list .icon { width: 22px; height: 22px; margin-top: 2px; }
+
+.contact-list span {
+    display: block;
+    font-size: 11px;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+/* Blog */
+.post-cover {
+    display: block;
+    width: 100%;
+    max-width: 960px;
+    height: auto;
+    margin: 0 auto 48px;
+    border-radius: var(--radius-card);
+}
+
+/* Footer social icons */
+.social-links { display: flex; gap: 10px; margin-top: 18px; }
+
+.social-links a {
+    display: inline-grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    border: 1px solid rgba(255, 255, 255, .18);
+    border-radius: var(--radius-btn);
+}
+
+.social-links a:hover { border-color: var(--gold-500); }

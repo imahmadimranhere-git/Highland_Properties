@@ -60,6 +60,40 @@ class MediaService
         return $media;
     }
 
+    /**
+     * Rebuilds the WebP and thumbnail for an existing upload — used by
+     * `php artisan media:optimize` for files uploaded before GD had WebP
+     * support, or after the target sizes are changed.
+     */
+    public function regenerate(Media $media): bool
+    {
+        if (! $this->isConvertible($media->mime)) {
+            return false;
+        }
+
+        $disk = Storage::disk($media->disk);
+        $absolute = $disk->path($media->path);
+
+        if (! is_file($absolute)) {
+            return false;
+        }
+
+        foreach (array_filter([$media->webp_path, $media->thumb_path]) as $old) {
+            $disk->delete($old);
+        }
+
+        [$width, $height] = getimagesize($absolute) ?: [null, null];
+
+        $media->update([
+            'width' => $width,
+            'height' => $height,
+            'webp_path' => $this->convert($absolute, $media->folder ?? 'library', $this->fullWidth, 82, 'full'),
+            'thumb_path' => $this->convert($absolute, $media->folder ?? 'library', $this->thumbWidth, 76, 'thumb'),
+        ]);
+
+        return true;
+    }
+
     /** Removes every derivative as well as the database row. */
     public function delete(Media $media): void
     {

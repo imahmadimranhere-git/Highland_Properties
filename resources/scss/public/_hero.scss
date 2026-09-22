@@ -1,20 +1,33 @@
 /* ==========================================================================
    Home hero: full-width image, navy overlay, serif headline, one CTA.
+   Multiple slides cross-fade; only the first image loads eagerly.
    ========================================================================== */
 
 .hero {
     position: relative;
-    min-height: clamp(460px, 68vh, 640px);
-    display: grid;
-    align-items: center;
+    min-height: clamp(480px, 72vh, 680px);
     background-color: var(--navy-900);
     overflow: hidden;
+    display: grid;
 }
 
-.hero__media {
-    position: absolute;
-    inset: 0;
+.hero__slide {
+    grid-area: 1 / 1;
+    position: relative;
+    display: grid;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 900ms var(--ease), visibility 0s linear 900ms;
 }
+
+.hero__slide.is-active {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 900ms var(--ease);
+}
+
+.hero__media { position: absolute; inset: 0; }
 
 .hero__media img {
     width: 100%;
@@ -22,19 +35,19 @@
     object-fit: cover;
 }
 
-/* Subtle navy-to-darker-navy overlay keeps white text legible. */
+/* Subtle navy-to-darker-navy overlay keeps the white text readable. */
 .hero__media::after {
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, rgba(10, 31, 51, .45) 0%, rgba(10, 31, 51, .72) 100%);
+    background: linear-gradient(180deg, rgba(10, 31, 51, .40) 0%, rgba(10, 31, 51, .72) 100%);
 }
 
+.hero__container { position: relative; z-index: 1; }
+
 .hero__inner {
-    position: relative;
-    z-index: 1;
     max-width: 680px;
-    padding-block: 80px;
+    padding-block: 88px;
     color: var(--white);
 }
 
@@ -46,10 +59,39 @@
 
 .hero__text {
     font-size: 1.0625rem;
-    color: rgba(255, 255, 255, .82);
+    color: rgba(255, 255, 255, .84);
     max-width: 52ch;
-    margin: 24px 0 32px;
+    margin: 24px 0 0;
 }
 
+.hero .btn { margin-top: 32px; }
 .hero .section-label { color: var(--gold-500); }
 .hero .gold-divider { margin-top: 22px; }
+
+/* Compact banner at the top of inner pages. -------------------------- */
+.page-hero {
+    background-color: var(--navy-900);
+    background-image: radial-gradient(circle at 85% 20%, rgba(29, 74, 114, .6), transparent 55%);
+    color: var(--white);
+    padding: 72px 0 60px;
+}
+
+.page-hero .section-label { color: var(--gold-500); }
+
+.page-hero__title {
+    color: var(--white);
+    font-size: clamp(1.875rem, 4vw, 2.75rem);
+    margin: 0;
+    max-width: 22ch;
+}
+
+.page-hero__text {
+    color: rgba(255, 255, 255, .78);
+    max-width: 60ch;
+    margin: 20px 0 0;
+}
+
+@media (max-width: 767.98px) {
+    .page-hero { padding: 48px 0 40px; }
+    .hero__inner { padding-block: 56px; }
+}

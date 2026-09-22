@@ -6,10 +6,7 @@
     <meta name="robots" content="noindex, nofollow">
     <title>@yield('title', 'Sign in') &middot; {{ setting('site_name', 'Highland Properties') }}</title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Inter:wght@400;600&display=swap">
+    @include('partials.fonts')
 
     {{-- Login has its own tiny bundle: no sidebar, table or panel CSS. --}}
     @vite(['resources/scss/auth.scss'])

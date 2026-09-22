@@ -1,10 +1,12 @@
 @php
+    // 'active' lists every route that should light up the item,
+    // so opening a single lead still highlights "My Leads".
     $nav = [
-        ['route' => 'consultant.dashboard', 'label' => 'Dashboard', 'icon' => 'grid'],
-        ['route' => 'consultant.leads.index', 'label' => 'My Leads', 'icon' => 'users'],
-        ['route' => 'consultant.projects.index', 'label' => 'Projects', 'icon' => 'building'],
-        ['route' => 'consultant.reports.index', 'label' => 'My Reports', 'icon' => 'file'],
-        ['route' => 'consultant.profile.edit', 'label' => 'My Profile', 'icon' => 'user'],
+        ['route' => 'consultant.dashboard', 'active' => ['consultant.dashboard'], 'label' => 'Dashboard', 'icon' => 'grid'],
+        ['route' => 'consultant.leads.index', 'active' => ['consultant.leads.*'], 'label' => 'My Leads', 'icon' => 'users'],
+        ['route' => 'consultant.projects.index', 'active' => ['consultant.projects.*'], 'label' => 'Projects', 'icon' => 'building'],
+        ['route' => 'consultant.reports.index', 'active' => ['consultant.reports.*'], 'label' => 'My Reports', 'icon' => 'file'],
+        ['route' => 'consultant.profile.edit', 'active' => ['consultant.profile.*'], 'label' => 'My Profile', 'icon' => 'user'],
     ];
 @endphp
 
@@ -16,7 +18,7 @@
     <nav class="panel-nav" aria-label="Consultant">
         @foreach ($nav as $item)
             <a href="{{ route($item['route']) }}"
-               class="panel-nav__link {{ request()->routeIs($item['route']) ? 'is-active' : '' }}">
+               class="panel-nav__link {{ request()->routeIs(...$item['active']) ? 'is-active' : '' }}">
                 <x-ui.icon :name="$item['icon']" />
                 {{ $item['label'] }}
             </a>

@@ -4,12 +4,16 @@ import laravel from 'laravel-vite-plugin';
 export default defineConfig({
     plugins: [
         laravel({
-            // One bundle per area. The public site never downloads admin CSS
-            // or JS, neither panel downloads the other's, and the login page
-            // downloads neither.
+            // One bundle per area, plus one page-level script:
+            //   public      — every public page (menu, lazy map, hero fade)
+            //   project     — project detail page only (lightbox, calculator)
+            //   admin       — admin panel only
+            //   consultant  — consultant portal only
+            //   auth        — login page only
             input: [
                 'resources/scss/public.scss',
                 'resources/js/public.js',
+                'resources/js/project.js',
                 'resources/scss/admin.scss',
                 'resources/js/admin.js',
                 'resources/scss/consultant.scss',
@@ -23,7 +27,7 @@ export default defineConfig({
         preprocessorOptions: {
             scss: {
                 quietDeps: true,
-                silenceDeprecations: ['import', 'mixed-decls', 'color-functions', 'global-builtin'],
+                silenceDeprecations: ['import', 'color-functions', 'global-builtin'],
             },
         },
     },

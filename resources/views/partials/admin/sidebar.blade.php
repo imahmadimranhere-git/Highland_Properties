@@ -1,28 +1,28 @@
 @php
-    // Route names are placeholders until each module is built in step 4.
     $nav = [
         'Overview' => [
-            ['route' => 'admin.dashboard', 'label' => 'Dashboard', 'icon' => 'grid'],
+            ['route' => 'admin.dashboard', 'active' => ['admin.dashboard'], 'label' => 'Dashboard', 'icon' => 'grid'],
         ],
         'Inventory' => [
-            ['route' => 'admin.projects.index', 'label' => 'Projects & Listings', 'icon' => 'building'],
-            ['route' => 'admin.unit-categories.index', 'label' => 'Unit Categories', 'icon' => 'layers'],
-            ['route' => 'admin.development-updates.index', 'label' => 'Development Updates', 'icon' => 'clock'],
-            ['route' => 'admin.developers.index', 'label' => 'Developers', 'icon' => 'briefcase'],
-            ['route' => 'admin.master-data.index', 'label' => 'Master Data', 'icon' => 'sliders'],
+            ['route' => 'admin.projects.index', 'active' => ['admin.projects.index', 'admin.projects.create', 'admin.projects.edit'], 'label' => 'Projects & Listings', 'icon' => 'building'],
+            ['route' => 'admin.unit-categories.index', 'active' => ['admin.unit-categories.*', 'admin.projects.categories.*'], 'label' => 'Unit Categories', 'icon' => 'layers'],
+            ['route' => 'admin.development-updates.index', 'active' => ['admin.development-updates.*', 'admin.projects.updates.*'], 'label' => 'Development Updates', 'icon' => 'clock'],
+            ['route' => 'admin.developers.index', 'active' => ['admin.developers.*'], 'label' => 'Developers', 'icon' => 'briefcase'],
+            ['route' => 'admin.master-data.index', 'active' => ['admin.master-data.*'], 'label' => 'Master Data', 'icon' => 'sliders'],
         ],
         'Sales' => [
-            ['route' => 'admin.leads.index', 'label' => 'Lead Management', 'icon' => 'users'],
-            ['route' => 'admin.reports.index', 'label' => 'Reports', 'icon' => 'file'],
+            ['route' => 'admin.leads.index', 'active' => ['admin.leads.*'], 'label' => 'Lead Management', 'icon' => 'users'],
+            ['route' => 'admin.messages.index', 'active' => ['admin.messages.*'], 'label' => 'Inbox', 'icon' => 'mail'],
+            ['route' => 'admin.reports.index', 'active' => ['admin.reports.*'], 'label' => 'Reports', 'icon' => 'file'],
         ],
         'People' => [
-            ['route' => 'admin.users.index', 'label' => 'Users & Roles', 'icon' => 'shield'],
-            ['route' => 'admin.team.index', 'label' => 'Team / Agents', 'icon' => 'user'],
+            ['route' => 'admin.users.index', 'active' => ['admin.users.*'], 'label' => 'Users & Roles', 'icon' => 'shield'],
+            ['route' => 'admin.team.index', 'active' => ['admin.team.*'], 'label' => 'Team / Agents', 'icon' => 'user'],
         ],
         'Website' => [
-            ['route' => 'admin.content.index', 'label' => 'Content', 'icon' => 'edit'],
-            ['route' => 'admin.settings.index', 'label' => 'Website Settings', 'icon' => 'settings'],
-            ['route' => 'admin.media.index', 'label' => 'Media Library', 'icon' => 'image'],
+            ['route' => 'admin.content.index', 'active' => ['admin.content.*', 'admin.posts.*', 'admin.testimonials.*'], 'label' => 'Content', 'icon' => 'edit'],
+            ['route' => 'admin.settings.index', 'active' => ['admin.settings.*'], 'label' => 'Website Settings', 'icon' => 'settings'],
+            ['route' => 'admin.media.index', 'active' => ['admin.media.*'], 'label' => 'Media Library', 'icon' => 'image'],
         ],
     ];
 @endphp
@@ -38,7 +38,7 @@
 
             @foreach ($items as $item)
                 <a href="{{ route($item['route']) }}"
-                   class="panel-nav__link {{ request()->routeIs($item['route']) ? 'is-active' : '' }}">
+                   class="panel-nav__link {{ request()->routeIs(...$item['active']) ? 'is-active' : '' }}">
                     <x-ui.icon :name="$item['icon']" />
                     {{ $item['label'] }}
                 </a>

@@ -1,0 +1,81 @@
+/* Lead detail: definition list and the note / status history. */
+
+.detail-list {
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    gap: 10px 16px;
+    margin: 0;
+    font-size: .9375rem;
+}
+
+.detail-list dt {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding-top: 3px;
+}
+
+.detail-list dd { margin: 0; }
+
+.note-list {
+    list-style: none;
+    margin: 0;
+    padding: 0 0 0 22px;
+    border-left: 2px solid var(--border);
+}
+
+.note-list__item {
+    position: relative;
+    padding-bottom: 22px;
+}
+
+.note-list__item:last-child { padding-bottom: 0; }
+
+.note-list__item::before {
+    content: "";
+    position: absolute;
+    left: -28px;
+    top: 5px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: var(--gold-500);
+    box-shadow: 0 0 0 3px var(--white);
+}
+
+.note-list__meta {
+    display: flex;
+    gap: 10px;
+    align-items: baseline;
+    flex-wrap: wrap;
+    font-size: .875rem;
+    margin-bottom: 4px;
+}
+
+.note-list__meta time { font-size: .8125rem; color: var(--muted); }
+
+.note-list__status {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--navy-600);
+    background-color: #EAF0F6;
+    padding: 3px 8px;
+    border-radius: 2px;
+    margin: 0 0 6px;
+}
+
+/* Printing the automatic reports page: drop the panel chrome. */
+@media print {
+    .panel-sidebar,
+    .panel-topbar,
+    .page-head .u-flex,
+    .tab-bar,
+    .panel-box form { display: none !important; }
+
+    .panel-main { margin-left: 0 !important; }
+    .panel { background: #fff; }
+    .panel-box { box-shadow: none; break-inside: avoid; }
+}

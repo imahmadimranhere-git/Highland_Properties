@@ -12,8 +12,7 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
 
         // Admin and consultant routes live in their own files so the three
-        // panels never share a route file. Both run through the web middleware
-        // group, and get a URL prefix plus a route-name prefix.
+        // panels never share a route file.
         then: function () {
             Route::middleware('web')
                 ->prefix('admin')
@@ -27,7 +26,6 @@ return Application::configure(basePath: dirname(__DIR__))
         },
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        // Short names so routes can say ->middleware('role:super_admin')
         $middleware->alias([
             'role' => \App\Http\Middleware\EnsureUserHasRole::class,
             'active' => \App\Http\Middleware\EnsureUserIsActive::class,
