@@ -21,13 +21,18 @@ class HomeController extends Controller
     {
         return view('web.home', [
             'slides' => Cache::remember(PublicCache::SLIDERS, PublicCache::TTL, fn () => HomeSlider::active()
-                ->with('media:id,disk,path,webp_path,thumb_path,width,height,alt_text')
-                ->get(['id', 'media_id', 'title', 'subtitle', 'cta_label', 'cta_url'])),
+                // Three crops per banner: laptop, tablet, phone.
+                ->with([
+                    'media:id,disk,path,webp_path,thumb_path,width,height,alt_text',
+                    'tablet:id,disk,path,webp_path,thumb_path,width,height,alt_text',
+                    'mobile:id,disk,path,webp_path,thumb_path,width,height,alt_text',
+                ])
+                ->get(['id', 'media_id', 'media_id_tablet', 'media_id_mobile', 'title', 'subtitle', 'cta_label', 'cta_url'])),
 
             'featured' => Cache::remember(PublicCache::FEATURED_PROJECTS, PublicCache::TTL, fn () => Project::published()
                 ->featured()
                 ->forCard()
-                ->with(['city:id,name', 'location:id,name', 'cover:id,disk,path,webp_path,thumb_path'])
+                ->with(['city:id,name', 'location:id,name', 'cover:id,disk,path,webp_path,thumb_path', 'coverTablet:id,disk,path,webp_path,thumb_path', 'coverMobile:id,disk,path,webp_path,thumb_path'])
                 ->orderBy('sort_order')
                 ->limit(6)
                 ->get()),
@@ -36,6 +41,7 @@ class HomeController extends Controller
                 ->limit(6)
                 ->get(['id', 'name', 'designation', 'rating', 'message', 'photo'])),
 
+            // A blog post has a single cover; only projects carry three crops.
             'posts' => Cache::remember(PublicCache::LATEST_POSTS, PublicCache::TTL, fn () => Post::published()
                 ->with('cover:id,disk,path,webp_path,thumb_path')
                 ->latest('published_at')

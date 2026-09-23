@@ -74,3 +74,17 @@
     letter-spacing: 2px;
     text-transform: uppercase;
 }
+
+/* Two-column split used on the home page. The gutter is a class, not an
+   inline style, so it can shrink on phones — a 56px gutter gives the row a
+   -28px margin, which is wider than the container padding and pushes the
+   whole page sideways. */
+.split-row {
+    --bs-gutter-x: 56px;
+    row-gap: 32px;
+    align-items: center;
+}
+
+@media (max-width: 767.98px) {
+    .split-row { --bs-gutter-x: 24px; }
+}

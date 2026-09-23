@@ -25,6 +25,18 @@ use Illuminate\View\View;
 
 class ProjectController extends Controller
 {
+    /** Handled by syncRelations(), never mass-assigned. */
+    private const FILE_FIELDS = [
+        'amenities', 'cover', 'cover_tablet', 'cover_mobile', 'gallery', 'floor_plans', 'brochure',
+    ];
+
+    /** Upload field => database column for the three cover crops. */
+    private const COVER_CROPS = [
+        'cover' => 'cover_media_id',
+        'cover_tablet' => 'cover_media_id_tablet',
+        'cover_mobile' => 'cover_media_id_mobile',
+    ];
+
     public function __construct(private readonly MediaService $media)
     {
     }
@@ -68,7 +80,7 @@ class ProjectController extends Controller
 
     public function store(ProjectRequest $request): RedirectResponse
     {
-        $project = Project::create($request->safe()->except(['amenities', 'cover', 'gallery', 'floor_plans', 'brochure']));
+        $project = Project::create($request->safe()->except(self::FILE_FIELDS));
 
         $this->syncRelations($request, $project);
         DashboardStatsService::flush();
@@ -83,6 +95,8 @@ class ProjectController extends Controller
         $project->load([
             'amenities:id',
             'cover:id,disk,path,webp_path,thumb_path',
+            'coverTablet:id,disk,path,webp_path,thumb_path',
+            'coverMobile:id,disk,path,webp_path,thumb_path',
             'media',
         ]);
 
@@ -91,7 +105,7 @@ class ProjectController extends Controller
 
     public function update(ProjectRequest $request, Project $project): RedirectResponse
     {
-        $project->update($request->safe()->except(['amenities', 'cover', 'gallery', 'floor_plans', 'brochure']));
+        $project->update($request->safe()->except(self::FILE_FIELDS));
 
         $this->syncRelations($request, $project);
         DashboardStatsService::flush();
@@ -117,8 +131,10 @@ class ProjectController extends Controller
     {
         $project->media()->detach($media->id);
 
-        if ($project->cover_media_id === $media->id) {
-            $project->update(['cover_media_id' => null]);
+        foreach (self::COVER_CROPS as $column) {
+            if ($project->{$column} === $media->id) {
+                $project->update([$column => null]);
+            }
         }
 
         // The file itself is only deleted when nothing else points at it.
@@ -151,9 +167,16 @@ class ProjectController extends Controller
     {
         $project->amenities()->sync($request->input('amenities', []));
 
-        if ($request->hasFile('cover')) {
-            $cover = $this->media->store($request->file('cover'), 'projects', $project->name);
-            $project->update(['cover_media_id' => $cover->id]);
+        $covers = [];
+
+        foreach (self::COVER_CROPS as $field => $column) {
+            if ($request->hasFile($field)) {
+                $covers[$column] = $this->media->store($request->file($field), 'projects', $project->name)->id;
+            }
+        }
+
+        if ($covers) {
+            $project->update($covers);
         }
 
         foreach ($request->file('gallery', []) as $file) {

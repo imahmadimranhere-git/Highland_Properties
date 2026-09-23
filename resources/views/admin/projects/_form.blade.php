@@ -121,17 +121,42 @@
 
         <x-panel.box title="Media">
             <div class="row">
-                <div class="col-sm-6 form-group">
-                    <label class="form-label" for="cover">Cover image</label>
+                <div class="col-12">
+                    @php
+                        $covers = [
+                            'cover' => ['label' => 'Laptop / desktop cover', 'hint' => '1600 × 900 px', 'media' => $project->cover],
+                            'cover_tablet' => ['label' => 'Tablet cover', 'hint' => '1024 × 768 px', 'media' => $project->coverTablet],
+                            'cover_mobile' => ['label' => 'Mobile cover', 'hint' => '800 × 1000 px', 'media' => $project->coverMobile],
+                        ];
+                    @endphp
 
-                    @if ($project->cover)
-                        <img src="{{ $project->cover->thumb_url }}" alt="Current cover" width="180" height="120"
-                             loading="lazy" style="object-fit:cover;display:block;margin-bottom:10px;border-radius:3px;">
+                    @if ($project->exists && ! $project->hasAllCovers())
+                        <div class="alert">
+                            This project still needs the {{ implode(' and ', $project->missingCoverSizes()) }} cover image.
+                            All three sizes are required before it can go live.
+                        </div>
                     @endif
 
-                    <input id="cover" name="cover" type="file" accept="image/*"
-                           class="form-control @error('cover') is-invalid @enderror">
-                    @error('cover')<span class="form-error">{{ $message }}</span>@enderror
+                    <div class="row">
+                        @foreach ($covers as $field => $cover)
+                            <div class="col-md-4 form-group">
+                                <label class="form-label" for="{{ $field }}">{{ $cover['label'] }}</label>
+
+                                <div class="banner-preview {{ $cover['media'] ? '' : 'is-empty' }}">
+                                    @if ($cover['media'])
+                                        <img src="{{ $cover['media']->thumb_url }}" alt="" loading="lazy" width="320" height="180">
+                                    @else
+                                        <span class="img-ph">Not uploaded</span>
+                                    @endif
+                                </div>
+
+                                <input id="{{ $field }}" name="{{ $field }}" type="file" accept="image/*"
+                                       class="form-control @error($field) is-invalid @enderror">
+                                <span class="form-hint">{{ $cover['hint'] }}</span>
+                                @error($field)<span class="form-error">{{ $message }}</span>@enderror
+                            </div>
+                        @endforeach
+                    </div>
                 </div>
 
                 <div class="col-sm-6 form-group">

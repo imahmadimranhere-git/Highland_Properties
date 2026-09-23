@@ -74,6 +74,12 @@
                                                 {{ $project->city?->name }}
                                                 @if ($project->is_featured) &middot; Featured @endif
                                             </span>
+
+                                            @unless ($project->hasAllCovers())
+                                                <span class="badge badge-gold" style="margin-top:4px;">
+                                                    Needs {{ implode(' + ', $project->missingCoverSizes()) }} cover
+                                                </span>
+                                            @endunless
                                         </div>
                                     </div>
                                 </td>

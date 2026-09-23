@@ -9,9 +9,14 @@
         <x-ui.status-badge :status="$project->status" class="badge--on-image" />
 
         @if ($project->cover)
-            <img src="{{ $project->cover->thumb_url }}" alt="{{ $project->name }}"
-                 width="480" height="360"
-                 loading="{{ $eager ? 'eager' : 'lazy' }}" decoding="async">
+            <x-web.picture
+                :desktop="$project->coverFor('desktop')"
+                :tablet="$project->coverFor('tablet')"
+                :mobile="$project->coverFor('mobile')"
+                :alt="$project->name"
+                :width="480" :height="360"
+                thumb
+                :eager="$eager" />
         @else
             <span class="img-ph">Image coming soon</span>
         @endif

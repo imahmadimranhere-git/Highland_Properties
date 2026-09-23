@@ -11,8 +11,15 @@ use Illuminate\Support\Facades\Cache;
 
 class HomeSliderController extends Controller
 {
-    /** The public home page caches its slides under this key (step 6). */
-    public const CACHE_KEY = 'home.sliders';
+    /** The public home page caches its slides under this key. */
+    public const CACHE_KEY = \App\Support\PublicCache::SLIDERS;
+
+    /** Form field => database column. */
+    private const CROPS = [
+        'image' => 'media_id',
+        'image_tablet' => 'media_id_tablet',
+        'image_mobile' => 'media_id_mobile',
+    ];
 
     public function __construct(private readonly MediaService $media)
     {
@@ -20,27 +27,26 @@ class HomeSliderController extends Controller
 
     public function store(HomeSliderRequest $request): RedirectResponse
     {
-        $data = $request->safe()->except('image');
-        $data['media_id'] = $this->media->store($request->file('image'), 'slider', $data['title'] ?? null)->id;
+        $data = $request->safe()->except(array_keys(self::CROPS));
 
-        HomeSlider::create($data);
+        HomeSlider::create($data + $this->storeCrops($request, $data['title'] ?? null));
         Cache::forget(self::CACHE_KEY);
 
-        return back()->with('success', 'Slide added.');
+        return back()->with('success', 'Banner added with all three sizes.');
     }
 
     public function update(HomeSliderRequest $request, HomeSlider $slider): RedirectResponse
     {
-        $data = $request->safe()->except('image');
+        $data = $request->safe()->except(array_keys(self::CROPS));
 
-        if ($request->hasFile('image')) {
-            $data['media_id'] = $this->media->store($request->file('image'), 'slider', $data['title'] ?? null)->id;
-        }
-
-        $slider->update($data);
+        $slider->update($data + $this->storeCrops($request, $data['title'] ?? $slider->title));
         Cache::forget(self::CACHE_KEY);
 
-        return back()->with('success', 'Slide updated.');
+        $message = $slider->fresh()->isComplete()
+            ? 'Banner updated.'
+            : 'Saved, but the banner stays off the website until the ' . implode(' and ', $slider->fresh()->missingSizes()) . ' image is uploaded.';
+
+        return back()->with($slider->fresh()->isComplete() ? 'success' : 'error', $message);
     }
 
     public function destroy(HomeSlider $slider): RedirectResponse
@@ -48,6 +54,23 @@ class HomeSliderController extends Controller
         $slider->delete();
         Cache::forget(self::CACHE_KEY);
 
-        return back()->with('success', 'Slide removed.');
+        return back()->with('success', 'Banner removed.');
+    }
+
+    /**
+     * Stores whichever crops were uploaded and returns the columns to set.
+     * Each crop is converted to WebP like any other upload.
+     */
+    private function storeCrops(HomeSliderRequest $request, ?string $title): array
+    {
+        $columns = [];
+
+        foreach (self::CROPS as $field => $column) {
+            if ($request->hasFile($field)) {
+                $columns[$column] = $this->media->store($request->file($field), 'slider', $title)->id;
+            }
+        }
+
+        return $columns;
     }
 }

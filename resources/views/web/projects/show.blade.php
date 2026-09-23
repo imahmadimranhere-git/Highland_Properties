@@ -8,8 +8,12 @@
 
 @push('head')
     @if ($project->cover)
-        {{-- Cover is the LCP element: fetch it before anything else. --}}
-        <link rel="preload" as="image" href="{{ $project->cover->url }}" fetchpriority="high">
+        {{-- Cover is the LCP element: fetch it before anything else. Each
+             preload carries its own media query, so a phone only preloads
+             the phone crop. --}}
+        <link rel="preload" as="image" href="{{ $project->coverFor('mobile')->url }}" media="(max-width: 575.98px)" fetchpriority="high">
+        <link rel="preload" as="image" href="{{ $project->coverFor('tablet')->url }}" media="(min-width: 576px) and (max-width: 991.98px)" fetchpriority="high">
+        <link rel="preload" as="image" href="{{ $project->cover->url }}" media="(min-width: 992px)" fetchpriority="high">
     @endif
     {{-- Lightbox + installment calculator. Loaded on this page only. --}}
     @vite('resources/js/project.js')
@@ -24,11 +28,12 @@
     {{-- 1. Header ------------------------------------------------------- --}}
     <section class="project-hero">
         <div class="project-hero__media">
-            @if ($project->cover)
-                <img src="{{ $project->cover->url }}" alt="{{ $project->cover->alt_text ?: $project->name }}"
-                     width="{{ $project->cover->width ?? 1600 }}" height="{{ $project->cover->height ?? 900 }}"
-                     fetchpriority="high" decoding="async">
-            @endif
+            <x-web.picture
+                :desktop="$project->coverFor('desktop')"
+                :tablet="$project->coverFor('tablet')"
+                :mobile="$project->coverFor('mobile')"
+                :alt="$project->cover?->alt_text ?: $project->name"
+                eager />
         </div>
 
         <div class="u-container project-hero__inner">

@@ -21,7 +21,13 @@
                     <a href="{{ route('consultant.projects.show', $project->slug) }}" class="card__media">
                         <x-ui.status-badge :status="$project->status" class="badge--on-image" />
                         @if ($project->cover)
-                            <img src="{{ $project->cover->thumb_url }}" alt="{{ $project->name }}" loading="lazy" width="480" height="360">
+                            <x-web.picture
+                                :desktop="$project->coverFor('desktop')"
+                                :tablet="$project->coverFor('tablet')"
+                                :mobile="$project->coverFor('mobile')"
+                                :alt="$project->name"
+                                :width="480" :height="360"
+                                thumb />
                         @else
                             <span class="img-ph">No cover yet</span>
                         @endif

@@ -70,7 +70,8 @@ Route::middleware(['auth', 'active', 'role:super_admin'])->group(function () {
     Route::resource('amenities', AmenityController::class)->only(['store', 'update', 'destroy']);
 
     /* 7 — Leads --------------------------------------------------------- */
-    Route::get('leads/export', [LeadController::class, 'export'])->name('leads.export');
+    Route::get('leads/export/pdf', [LeadController::class, 'exportPdf'])->name('leads.export.pdf');
+    Route::get('leads/export/csv', [LeadController::class, 'exportCsv'])->name('leads.export.csv');
     Route::resource('leads', LeadController::class)->only(['index', 'create', 'store', 'show', 'destroy']);
     Route::patch('leads/{lead}/assign', [LeadController::class, 'assign'])->name('leads.assign');
     Route::patch('leads/{lead}/status', [LeadController::class, 'status'])->name('leads.status');

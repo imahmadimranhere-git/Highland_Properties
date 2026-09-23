@@ -343,3 +343,19 @@ html { scroll-padding-top: 140px; scroll-behavior: smooth; }
 
     body:has(.mobile-cta) .site-footer { padding-bottom: 72px; }
 }
+
+/* Empty grid cells stay white instead of showing the border colour. */
+.fact-grid,
+.calc-result {
+    gap: 0;
+    background: none;
+    border: 0;
+    border-top: 1px solid var(--border);
+    border-left: 1px solid var(--border);
+}
+
+.fact-grid > div,
+.calc-result > div {
+    border-right: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+}

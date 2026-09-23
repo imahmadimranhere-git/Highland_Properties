@@ -14,14 +14,19 @@ use App\Models\User;
 use App\Services\CsvExporter;
 use App\Services\DashboardStatsService;
 use App\Services\LeadService;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\View\View;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class LeadController extends Controller
 {
+    /** A PDF is rendered in memory; beyond this, CSV is the right format. */
+    private const PDF_ROW_LIMIT = 400;
+
     public function __construct(private readonly LeadService $leads)
     {
     }
@@ -131,8 +136,67 @@ class LeadController extends Controller
         return back()->with('success', 'Note saved.');
     }
 
+    /**
+     * Same filters as the list, rendered as a PDF the admin can print or
+     * send on. Capped because a PDF is built in memory, unlike the CSV.
+     */
+    public function exportPdf(Request $request): Response|RedirectResponse
+    {
+        $query = $this->filtered($request)
+            ->with(['project:id,name', 'unitCategory:id,name', 'assignedTo:id,name'])
+            ->latest();
+
+        if ((clone $query)->count() > self::PDF_ROW_LIMIT) {
+            return back()->with('error', 'More than ' . self::PDF_ROW_LIMIT . ' leads match these filters. Narrow the date range, or use the CSV export.');
+        }
+
+        $leads = $query->get();
+
+        $pdf = Pdf::loadView('admin.leads.pdf', [
+            'leads' => $leads,
+            'filters' => $this->filterSummary($request),
+            'wonValue' => $leads->where('status', LeadStatus::ClosedWon)->sum('deal_value'),
+        ])->setPaper('a4', 'landscape');
+
+        return $pdf->download('leads-' . now()->format('Y-m-d') . '.pdf');
+    }
+
+    /** Readable description of the filters, printed on the PDF. */
+    private function filterSummary(Request $request): array
+    {
+        $summary = [];
+
+        if ($request->filled('q')) {
+            $summary[] = 'Search: ' . $request->string('q');
+        }
+
+        if ($request->filled('status')) {
+            $summary[] = 'Status: ' . LeadStatus::from($request->string('status')->toString())->label();
+        }
+
+        if ($request->filled('project')) {
+            $summary[] = 'Project: ' . Project::whereKey($request->integer('project'))->value('name');
+        }
+
+        if ($request->input('consultant') === 'none') {
+            $summary[] = 'Consultant: unassigned';
+        } elseif ($request->filled('consultant')) {
+            $summary[] = 'Consultant: ' . User::whereKey($request->integer('consultant'))->value('name');
+        }
+
+        if ($request->filled('from') || $request->filled('to')) {
+            $summary[] = 'Received: ' . ($request->input('from') ?: 'any') . ' to ' . ($request->input('to') ?: 'today');
+        }
+
+        if ($request->boolean('due')) {
+            $summary[] = 'Follow-up due or overdue';
+        }
+
+        return $summary;
+    }
+
     /** Same filters as the list, streamed as CSV. */
-    public function export(Request $request): StreamedResponse
+    public function exportCsv(Request $request): StreamedResponse
     {
         $query = $this->filtered($request)
             ->with(['project:id,name', 'assignedTo:id,name', 'unitCategory:id,name'])

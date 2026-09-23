@@ -22,7 +22,9 @@ class DevelopmentUpdateController extends Controller
     public function index(Request $request): View
     {
         $updates = DevelopmentUpdate::query()
-            ->with(['project:id,name', 'photos'])
+            // slug is required: Project's route key is its slug, so a project
+            // loaded without it cannot be passed to route().
+            ->with(['project:id,name,slug', 'photos'])
             ->when($request->filled('project'), fn ($q) => $q->where('project_id', $request->integer('project')))
             ->orderByDesc('update_date')
             ->paginate(15)

@@ -1,0 +1,141 @@
+/* ==========================================================================
+   Responsive hardening. Imported LAST in every bundle so it can correct
+   fixed widths set earlier (including inline ones on filter forms).
+   Breakpoints: 991px tablet, 767px large phone, 575px phone, 400px small phone.
+   ========================================================================== */
+
+/* Nothing may push the page sideways. ---------------------------------- */
+html, body { max-width: 100%; }
+
+img, svg, video, iframe, canvas, table {
+    max-width: 100%;
+}
+
+img { height: auto; }
+
+/* Long emails, URLs and slugs wrap instead of stretching their container. */
+td, dd, p, a, .card__meta, .library-card__name {
+    overflow-wrap: anywhere;
+}
+
+/* Grid and flex children shrink below their content width. */
+.u-grid > *,
+.row > *,
+.panel-main,
+.project-main,
+.card__body { min-width: 0; }
+
+@media (max-width: 991.98px) {
+    /* Filter bars: fields stack and fill the row, overriding fixed widths. */
+    .panel-box__head { flex-wrap: wrap; }
+
+    .panel-box__head form,
+    .page-head form { width: 100%; }
+
+    .panel-box__head .form-control,
+    .panel-box__head .form-select,
+    .page-head .form-control,
+    .page-head .form-select { width: 100% !important; max-width: none !important; }
+
+    .panel-box__head form.u-flex,
+    .page-head form.u-flex { flex-wrap: wrap; }
+}
+
+@media (max-width: 767.98px) {
+    /* A wide gutter on a Bootstrap row creates a negative margin larger than
+       the container padding, which scrolls the whole page sideways. Cap it. */
+    .row { --bs-gutter-x: 24px; }
+
+    /* Home hero on a phone: shorter, and the button spans the width. */
+    .hero { min-height: clamp(420px, 78vh, 560px); }
+    .hero__inner { padding-block: 48px; }
+    .hero__text { font-size: 1rem; margin-top: 18px; }
+    .hero .btn { margin-top: 24px; display: flex; width: 100%; justify-content: center; }
+    .hero .gold-divider { margin-top: 16px; }
+
+    /* Page headers: title above the action buttons, buttons full width. */
+    .page-head { flex-direction: column; align-items: stretch; }
+    .page-head .u-flex { width: 100%; }
+    .page-head .btn { flex: 1 1 auto; justify-content: center; }
+
+    .panel-topbar__title { font-size: .9375rem; }
+    .panel-content { padding: 16px 12px; }
+    .panel-box__body { padding: 16px; }
+    .panel-box__head { padding: 14px 16px; }
+
+    /* Detail lists become one column. */
+    .detail-list { grid-template-columns: 1fr; gap: 4px 0; }
+    .detail-list dd { margin-bottom: 12px; }
+
+    /* Tighter card and section grids. */
+    .u-grid { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
+    .plan-grid { grid-template-columns: 1fr; }
+    .fact-grid { grid-template-columns: repeat(2, 1fr); }
+    .calc-result { grid-template-columns: repeat(2, 1fr); }
+    .team-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 22px; }
+    .gallery { grid-template-columns: repeat(2, 1fr); }
+    .value-grid { grid-template-columns: 1fr; }
+    .stat-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .stat-card { padding: 16px; }
+    .stat-card__value { font-size: 1.625rem; }
+
+    /* Contact strip stacks. */
+    .contact-strip .u-between { flex-direction: column; align-items: flex-start; gap: 20px; }
+
+    /* A table still scrolls sideways, but only inside its own box. */
+    .table-wrap { -webkit-overflow-scrolling: touch; }
+    .table-hp { min-width: 560px; font-size: .875rem; }
+    .table-hp thead th, .table-hp tbody td { padding: 12px 14px; }
+
+    /* Forms inside modals and boxes. */
+    .dialog { width: calc(100vw - 24px); }
+}
+
+@media (max-width: 575.98px) {
+    .stat-grid { grid-template-columns: 1fr; }
+    .u-grid { grid-template-columns: 1fr; }
+    .fact-grid,
+    .calc-result { grid-template-columns: 1fr; }
+    .gallery { grid-template-columns: 1fr; }
+    .timeline__photos img { width: 96px; height: 72px; }
+
+    /* Action buttons in a table row keep their own line rather than
+       squeezing the row into an unreadable width. */
+    .table-hp .is-actions > * + * { margin-left: 4px; }
+
+    /* Page hero and section rhythm. */
+    .page-hero { padding: 40px 0 32px; }
+    .project-hero__inner { padding-block: 32px; }
+    .project-nav .u-container { gap: 18px; }
+    .project-section { padding-bottom: 40px; }
+    .project-section + .project-section { padding-top: 40px; }
+
+    /* Buttons: full width when they sit alone in a card. */
+    .card__body > .btn:only-of-type { display: flex; width: 100%; }
+
+    /* Footer columns stack fully. */
+    .site-footer__bottom { flex-direction: column; gap: 8px; }
+}
+
+@media (max-width: 399.98px) {
+    :root { --gutter: 12px; }
+
+    .btn { padding: 12px 18px; font-size: .8125rem; }
+    .site-header__inner { height: 64px; }
+    .site-nav { inset-block-start: 64px; }
+    .project-nav { top: 64px; }
+    .team-grid { grid-template-columns: 1fr; }
+}
+
+/* Landscape phones: a short viewport should not be filled by the hero. */
+@media (max-height: 520px) and (orientation: landscape) {
+    .hero { min-height: 420px; }
+    .project-hero { min-height: 320px; }
+}
+
+/* Printing any panel page: drop the chrome, keep the content. */
+@media print {
+    .panel-sidebar, .panel-topbar, .mobile-cta, .wa-float, .nav-burger { display: none !important; }
+    .panel-main { margin-left: 0 !important; }
+    .table-hp { min-width: 0; }
+}

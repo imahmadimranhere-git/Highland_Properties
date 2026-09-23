@@ -7,10 +7,13 @@
 @if ($hero?->media)
     @section('og_image', $hero->media->url)
 
-    {{-- The hero image is the largest thing on the page (LCP), so the browser
-         is told to fetch it immediately, before it parses the CSS. --}}
+    {{-- The banner is the largest thing on the page (LCP), so the browser is
+         told to fetch it immediately. Each preload carries the same media
+         query as its <source>, so a phone only preloads the phone crop. --}}
     @push('head')
-        <link rel="preload" as="image" href="{{ $hero->media->url }}" fetchpriority="high">
+        <link rel="preload" as="image" href="{{ $hero->mobile->url }}" media="(max-width: 575.98px)" fetchpriority="high">
+        <link rel="preload" as="image" href="{{ $hero->tablet->url }}" media="(min-width: 576px) and (max-width: 991.98px)" fetchpriority="high">
+        <link rel="preload" as="image" href="{{ $hero->media->url }}" media="(min-width: 992px)" fetchpriority="high">
     @endpush
 @endif
 
@@ -21,10 +24,16 @@
             <div class="hero__slide {{ $loop->first ? 'is-active' : '' }}" aria-hidden="{{ $loop->first ? 'false' : 'true' }}">
                 @if ($slide->media)
                     <div class="hero__media">
-                        <img src="{{ $slide->media->url }}" alt="{{ $slide->media->alt_text ?? '' }}"
-                             width="{{ $slide->media->width ?? 1600 }}" height="{{ $slide->media->height ?? 900 }}"
-                             @if ($loop->first) fetchpriority="high" @else loading="lazy" @endif
-                             decoding="async">
+                        {{-- The browser picks one file and downloads only that one:
+                             phones never fetch the 1920px laptop banner. --}}
+                        <picture>
+                            <source media="(max-width: 575.98px)" srcset="{{ $slide->mobile->url }}">
+                            <source media="(max-width: 991.98px)" srcset="{{ $slide->tablet->url }}">
+                            <img src="{{ $slide->media->url }}" alt="{{ $slide->media->alt_text ?? '' }}"
+                                 width="{{ $slide->media->width ?? 1600 }}" height="{{ $slide->media->height ?? 900 }}"
+                                 @if ($loop->first) fetchpriority="high" @else loading="lazy" @endif
+                                 decoding="async">
+                        </picture>
                     </div>
                 @endif
 
@@ -79,7 +88,7 @@
     {{-- 3. About teaser --------------------------------------------------- --}}
     <section class="u-section u-bg-off">
         <div class="u-container">
-            <div class="row" style="--bs-gutter-x:56px;row-gap:32px;align-items:center;">
+            <div class="row split-row">
                 <div class="col-lg-6">
                     <x-ui.section-heading label="About us" :title="setting('about_heading', 'Building trust, one project at a time')" />
                 </div>

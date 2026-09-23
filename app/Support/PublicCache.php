@@ -11,16 +11,23 @@ use Illuminate\Support\Facades\Cache;
  */
 final class PublicCache
 {
-    public const FEATURED_PROJECTS = 'public.featured_projects';
-    public const PROJECT_GRID = 'public.project_grid';
-    public const DEVELOPERS = 'public.developers';
-    public const TESTIMONIALS = 'public.testimonials';
-    public const TESTIMONIALS_ALL = 'public.testimonials.all';
-    public const TEAM = 'public.team';
-    public const FAQS = 'public.faqs';
-    public const LATEST_POSTS = 'public.latest_posts';
-    public const SLIDERS = 'home.sliders';
-    public const SITEMAP = 'public.sitemap';
+    /**
+     * Bump this whenever a cached query changes which relations or columns it
+     * loads. Old entries are then ignored instead of being handed to code
+     * that expects the new shape.
+     */
+    public const VERSION = 'v2';
+
+    public const FEATURED_PROJECTS = 'public.featured_projects.' . self::VERSION;
+    public const PROJECT_GRID = 'public.project_grid.' . self::VERSION;
+    public const DEVELOPERS = 'public.developers.' . self::VERSION;
+    public const TESTIMONIALS = 'public.testimonials.' . self::VERSION;
+    public const TESTIMONIALS_ALL = 'public.testimonials.all.' . self::VERSION;
+    public const TEAM = 'public.team.' . self::VERSION;
+    public const FAQS = 'public.faqs.' . self::VERSION;
+    public const LATEST_POSTS = 'public.latest_posts.' . self::VERSION;
+    public const SLIDERS = 'home.sliders.' . self::VERSION;
+    public const SITEMAP = 'public.sitemap.' . self::VERSION;
 
     /** Cached for a day; in practice they are cleared long before by the observer. */
     public const TTL = 86400;
@@ -28,7 +35,7 @@ final class PublicCache
     public static function flush(): void
     {
         foreach ((new \ReflectionClass(self::class))->getConstants() as $name => $key) {
-            if ($name !== 'TTL') {
+            if (! in_array($name, ['TTL', 'VERSION'], true)) {
                 Cache::forget($key);
             }
         }

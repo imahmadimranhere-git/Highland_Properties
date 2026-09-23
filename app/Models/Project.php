@@ -21,7 +21,7 @@ class Project extends Model
 
     protected $fillable = [
         'developer_id', 'city_id', 'location_id', 'project_type_id',
-        'assigned_consultant_id', 'cover_media_id',
+        'assigned_consultant_id', 'cover_media_id', 'cover_media_id_tablet', 'cover_media_id_mobile',
         'name', 'slug', 'ownership_flag', 'status', 'short_description', 'description',
         'address', 'latitude', 'longitude', 'map_embed_url', 'nearby_landmarks',
         'total_area', 'total_floors', 'total_units', 'completion_target', 'approvals',
@@ -64,9 +64,58 @@ class Project extends Model
         return $this->belongsTo(User::class, 'assigned_consultant_id');
     }
 
+    /** Laptop / desktop cover. */
     public function cover(): BelongsTo
     {
         return $this->belongsTo(Media::class, 'cover_media_id');
+    }
+
+    public function coverTablet(): BelongsTo
+    {
+        return $this->belongsTo(Media::class, 'cover_media_id_tablet');
+    }
+
+    public function coverMobile(): BelongsTo
+    {
+        return $this->belongsTo(Media::class, 'cover_media_id_mobile');
+    }
+
+    /**
+     * The cover crop for one screen size, falling back to the laptop image.
+     *
+     * Never triggers a query: if the relation was not eager-loaded (an older
+     * cached collection, for example) it simply falls back instead of
+     * throwing a lazy-loading violation.
+     */
+    public function coverFor(string $size): ?Media
+    {
+        $relation = match ($size) {
+            'tablet' => 'coverTablet',
+            'mobile' => 'coverMobile',
+            default => 'cover',
+        };
+
+        $crop = $this->relationLoaded($relation) ? $this->getRelation($relation) : null;
+
+        // A crop that is loaded but empty still falls back to the laptop image,
+        // so older projects keep working until all three sizes are uploaded.
+        return $crop ?? ($this->relationLoaded('cover') ? $this->getRelation('cover') : null);
+    }
+
+    /** All three crops uploaded. */
+    public function hasAllCovers(): bool
+    {
+        return $this->cover_media_id && $this->cover_media_id_tablet && $this->cover_media_id_mobile;
+    }
+
+    /** Which crops are still missing, for the admin warning. */
+    public function missingCoverSizes(): array
+    {
+        return array_keys(array_filter([
+            'laptop' => ! $this->cover_media_id,
+            'tablet' => ! $this->cover_media_id_tablet,
+            'mobile' => ! $this->cover_media_id_mobile,
+        ]));
     }
 
     public function amenities(): BelongsToMany
@@ -112,7 +161,8 @@ class Project extends Model
     {
         return $query->select([
             'id', 'name', 'slug', 'status', 'starting_price', 'short_description',
-            'city_id', 'location_id', 'cover_media_id', 'sort_order',
+            'city_id', 'location_id', 'sort_order',
+            'cover_media_id', 'cover_media_id_tablet', 'cover_media_id_mobile',
         ]);
     }
 

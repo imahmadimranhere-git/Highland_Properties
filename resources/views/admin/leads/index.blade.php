@@ -5,9 +5,10 @@
 @section('content')
     <x-panel.page-head title="Lead Management" sub="Every inquiry from the website, calls and walk-ins.">
         <x-slot:actions>
-            <a href="{{ route('admin.leads.export', request()->query()) }}" class="btn btn--secondary btn--sm">
-                <x-ui.icon name="download" :size="16" /> Export CSV
+            <a href="{{ route('admin.leads.export.pdf', request()->query()) }}" class="btn btn--secondary btn--sm">
+                <x-ui.icon name="download" :size="16" /> Export PDF
             </a>
+            <a href="{{ route('admin.leads.export.csv', request()->query()) }}" class="btn btn--secondary btn--sm">CSV</a>
             <a href="{{ route('admin.leads.create') }}" class="btn btn--primary btn--sm">
                 <x-ui.icon name="plus" :size="16" /> Add lead
             </a>

@@ -58,7 +58,10 @@ class ProjectRequest extends FormRequest
 
             // 6MB per photo: a modern phone photo fits, a raw camera file does not.
             // Everything is downscaled and converted to WebP on upload anyway.
+            // Three crops of the cover: laptop, tablet, phone.
             'cover' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:6144'],
+            'cover_tablet' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:6144'],
+            'cover_mobile' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:6144'],
             'gallery' => ['nullable', 'array', 'max:24'],
             'gallery.*' => ['image', 'mimes:jpg,jpeg,png,webp', 'max:6144'],
             'floor_plans' => ['nullable', 'array', 'max:12'],
@@ -79,6 +82,45 @@ class ProjectRequest extends FormRequest
                 ->values()
                 ->all(),
         ]);
+    }
+
+    /**
+     * A draft may be saved with an incomplete cover, but a project cannot go
+     * live until all three crops exist — otherwise phones would be served the
+     * 1920px laptop image.
+     */
+    public function after(): array
+    {
+        return [
+            function (\Illuminate\Validation\Validator $validator) {
+                if (! $this->boolean('is_published')) {
+                    return;
+                }
+
+                $project = $this->route('project');
+
+                $crops = [
+                    'cover' => $project?->cover_media_id,
+                    'cover_tablet' => $project?->cover_media_id_tablet,
+                    'cover_mobile' => $project?->cover_media_id_mobile,
+                ];
+
+                foreach ($crops as $field => $existing) {
+                    if (! $existing && ! $this->hasFile($field)) {
+                        $validator->errors()->add($field, 'Upload the ' . $this->attributes()[$field] . ' before putting the project live.');
+                    }
+                }
+            },
+        ];
+    }
+
+    public function attributes(): array
+    {
+        return [
+            'cover' => 'laptop cover image',
+            'cover_tablet' => 'tablet cover image',
+            'cover_mobile' => 'mobile cover image',
+        ];
     }
 
     public function messages(): array
