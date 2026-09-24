@@ -1,50 +1,101 @@
-/* Sign-in screen: one centred card on a deep navy field. */
+/* ==========================================================================
+   Sign-in screen. Staff only: no registration, no password-reset form —
+   accounts and passwords are handled by the administrator.
+   ========================================================================== */
 
 body.auth {
     min-height: 100vh;
     background-color: var(--navy-900);
-    background-image: radial-gradient(circle at 20% 15%, rgba(29, 74, 114, .55), transparent 55%);
+    background-image:
+        radial-gradient(circle at 18% 12%, rgba(29, 74, 114, .55), transparent 55%),
+        radial-gradient(circle at 85% 88%, rgba(194, 161, 77, .18), transparent 50%);
 }
 
+/* Rounded floating bar --------------------------------------------------- */
+.auth-bar {
+    position: relative;
+    z-index: 2;
+    width: min(960px, calc(100% - 32px));
+    margin: 20px auto 0;
+    padding: 12px 14px 12px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    border: 1px solid rgba(255, 255, 255, .12);
+    border-radius: var(--radius-pill);
+    background-color: rgba(255, 255, 255, .06);
+    backdrop-filter: blur(8px);
+}
+
+.auth-bar__brand {
+    display: flex;
+    align-items: baseline;
+    gap: 7px;
+    font-family: var(--font-serif);
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--white);
+}
+
+.auth-bar__brand em { font-style: normal; color: var(--gold-500); }
+.auth-bar__brand img { height: 34px; width: auto; display: block; }
+
+.auth-bar__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 9px 16px;
+    border: 1px solid rgba(255, 255, 255, .18);
+    border-radius: var(--radius-pill);
+    font-size: .8125rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, .82);
+    transition: border-color var(--speed) var(--ease), color var(--speed) var(--ease);
+}
+
+.auth-bar__link:hover { border-color: var(--gold-500); color: var(--gold-500); }
+
+/* Card ------------------------------------------------------------------- */
 .auth-wrap {
-    min-height: 100vh;
+    position: relative;
+    min-height: calc(100vh - 90px);
     display: grid;
     place-content: center;
-    gap: 18px;
-    padding: 40px 20px;
+    padding: 32px 16px 48px;
 }
 
 .auth-card {
-    width: min(420px, 100%);
+    width: min(430px, 100%);
     background-color: var(--white);
     border: 1px solid var(--border);
     border-top: 3px solid var(--gold-500);
     border-radius: var(--radius-card);
-    padding: 36px 34px 30px;
-    box-shadow: 0 24px 60px rgba(0, 0, 0, .35);
+    padding: 38px 34px 30px;
+    box-shadow: 0 28px 64px rgba(0, 0, 0, .38);
 }
 
-.auth-card__head { margin-bottom: 28px; }
-
-.auth-card__title {
-    font-size: 1.75rem;
-    margin-bottom: 0;
-}
-
+.auth-card__head { margin-bottom: 26px; }
+.auth-card__title { font-size: 1.75rem; margin-bottom: 0; }
 .auth-card__head .gold-divider { margin-top: 16px; }
+
+.auth-card__note {
+    margin: 18px 0 0;
+    font-size: .875rem;
+    color: var(--muted);
+}
 
 .auth-card__foot {
     margin: 22px 0 0;
+    padding-top: 18px;
+    border-top: 1px solid var(--border);
     font-size: .8125rem;
     color: var(--muted);
     text-align: center;
 }
 
-.auth-back {
-    text-align: center;
-    margin: 0;
-    font-size: .875rem;
+@media (max-width: 575.98px) {
+    .auth-bar { padding: 10px 12px 10px 16px; }
+    .auth-bar__link span { display: none; }
+    .auth-card { padding: 30px 22px 24px; }
 }
-
-.auth-back a { color: rgba(255, 255, 255, .7); }
-.auth-back a:hover { color: var(--gold-500); }

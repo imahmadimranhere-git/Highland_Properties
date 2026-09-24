@@ -97,3 +97,43 @@
     .page-hero { padding: 48px 0 40px; }
     .hero__inner { padding-block: 56px; }
 }
+
+/* Banner dots ---------------------------------------------------------- */
+.hero-dots {
+    position: absolute;
+    left: 50%;
+    bottom: 26px;
+    transform: translateX(-50%);
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 14px;
+    border-radius: var(--radius-pill);
+    background-color: rgba(10, 31, 51, .45);
+    backdrop-filter: blur(6px);
+}
+
+.hero-dots__dot {
+    width: 9px;
+    height: 9px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, .45);
+    cursor: pointer;
+    transition: width var(--speed) var(--ease), background-color var(--speed) var(--ease);
+}
+
+.hero-dots__dot:hover { background-color: rgba(255, 255, 255, .8); }
+
+/* The active dot stretches into a bar, so the position is obvious. */
+.hero-dots__dot.is-active {
+    width: 26px;
+    border-radius: var(--radius-pill);
+    background-color: var(--gold-500);
+}
+
+@media (max-width: 575.98px) {
+    .hero-dots { bottom: 16px; padding: 7px 12px; gap: 8px; }
+}

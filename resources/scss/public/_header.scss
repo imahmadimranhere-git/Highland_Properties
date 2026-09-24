@@ -16,7 +16,7 @@
     align-items: center;
     justify-content: space-between;
     gap: 24px;
-    height: 76px;
+    height: var(--header-h);
 }
 
 .site-brand {
@@ -71,21 +71,37 @@
 @media (max-width: 991.98px) {
     .nav-burger { display: inline-flex; }
 
+    /*
+     * The closed menu is fully invisible. A max-height of 0 hides the links
+     * but the panel's own border and background still paint, which left a
+     * stray line stuck under the navbar on every page.
+     */
     .site-nav {
         position: fixed;
-        inset: 76px 0 auto 0;
+        inset: var(--sticky-top, var(--header-h)) 0 auto 0;
         flex-direction: column;
         align-items: stretch;
         gap: 0;
-        background-color: var(--white);
-        border-bottom: 1px solid var(--border);
-        padding: 8px 0 16px;
+        padding: 0;
         max-height: 0;
         overflow: hidden;
-        transition: max-height var(--speed) var(--ease);
+        visibility: hidden;
+        background-color: transparent;
+        border-bottom: 0;
+        box-shadow: none;
+        transition: max-height var(--speed) var(--ease), visibility 0s linear var(--speed);
     }
 
-    .site-nav.is-open { max-height: 80vh; overflow-y: auto; }
+    .site-nav.is-open {
+        max-height: 80vh;
+        overflow-y: auto;
+        visibility: visible;
+        padding: 8px 0 16px;
+        background-color: var(--white);
+        border-bottom: 1px solid var(--border);
+        box-shadow: 0 10px 24px rgba(10, 31, 51, .10);
+        transition: max-height var(--speed) var(--ease), visibility 0s;
+    }
     .site-nav__link { padding: 13px var(--gutter); border-bottom: 1px solid var(--border); }
     .site-nav__link::after { display: none; }
     .site-header__cta .btn { display: none; }

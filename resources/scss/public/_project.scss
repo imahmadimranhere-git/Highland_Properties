@@ -61,11 +61,19 @@
     color: var(--gold-500);
 }
 
-/* In-page section links, sticky under the header. */
+/*
+ * In-page section links. They stop under the header and the page keeps
+ * scrolling beneath them, so a visitor can jump to any section from anywhere.
+ *
+ * --sticky-top is measured from the real header by public.js: a custom logo
+ * can make the header taller than any value written here, and when the two
+ * disagree these links end up half-hidden behind it.
+ */
 .project-nav {
     position: sticky;
-    top: 76px;
+    top: var(--sticky-top, var(--header-h));
     z-index: 1020;
+    min-height: var(--subnav-h);
     background-color: var(--white);
     border-bottom: 1px solid var(--border);
 }
@@ -75,20 +83,47 @@
     gap: 26px;
     overflow-x: auto;
     scrollbar-width: none;
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
 }
+
+.project-nav .u-container::-webkit-scrollbar { display: none; }
 
 .project-nav a {
     flex: none;
+    scroll-snap-align: start;
     padding: 15px 0;
     font-size: .875rem;
     font-weight: 500;
     color: var(--navy-800);
     border-bottom: 2px solid transparent;
+    transition: color var(--speed) var(--ease), border-color var(--speed) var(--ease);
 }
 
 .project-nav a:hover { border-bottom-color: var(--gold-500); color: var(--navy-900); }
 
-html { scroll-padding-top: 140px; scroll-behavior: smooth; }
+/* An #anchor must land below both sticky bars. */
+html {
+    scroll-padding-top: calc(var(--sticky-top, var(--header-h)) + var(--subnav-h) + 20px);
+    scroll-behavior: smooth;
+}
+
+/*
+ * Phones: the section links do not stick at all. They sit under the header
+ * image, and scroll away with the page like any other content.
+ *
+ * Two bars pinned to a small screen took a third of it and kept colliding with
+ * each other; the page reads better with the links simply in the flow. On a
+ * laptop there is room, so there they stay stuck under the header.
+ */
+@media (max-width: 767.98px) {
+    .project-nav {
+        position: static;
+        box-shadow: none;
+    }
+
+    html { scroll-padding-top: calc(var(--sticky-top, var(--header-h)) + 16px); }
+}
 
 /* Two-column layout with the sticky price card. */
 .project-layout {
@@ -98,7 +133,7 @@ html { scroll-padding-top: 140px; scroll-behavior: smooth; }
     padding-block: 64px;
 }
 
-.project-aside .card--sticky { top: 150px; }
+.project-aside .card--sticky { top: calc(var(--sticky-top, var(--header-h)) + var(--subnav-h) + 20px); }
 
 @media (max-width: 991.98px) {
     .project-layout { grid-template-columns: 1fr; gap: 0; padding-block: 40px; }

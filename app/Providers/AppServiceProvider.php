@@ -15,11 +15,13 @@ use App\Models\TeamMember;
 use App\Models\Testimonial;
 use App\Models\UnitCategory;
 use App\Observers\PublicCacheObserver;
+use App\Services\NotificationCounts;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Connection;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -53,6 +55,20 @@ class AppServiceProvider extends ServiceProvider
                 'url' => request()->fullUrl(),
                 'total_ms' => $connection->totalQueryDuration(),
             ]);
+        });
+
+        /*
+         * Sidebar badges. Attached to the two sidebar partials so the three
+         * small counts run on panel pages only, never on the public site.
+         */
+        View::composer('partials.admin.sidebar', function ($view) {
+            $view->with('badges', app(NotificationCounts::class)->forAdmin());
+        });
+
+        View::composer('partials.consultant.sidebar', function ($view) {
+            $view->with('badges', auth()->check()
+                ? app(NotificationCounts::class)->forConsultant(auth()->user())
+                : []);
         });
 
         // Anything shown on the public site clears the public cache when edited.

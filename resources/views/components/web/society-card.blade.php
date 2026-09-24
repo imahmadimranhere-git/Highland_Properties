@@ -39,5 +39,13 @@
                 <span class="text-muted-hp" style="font-size:.8125rem;">{{ number_format($society->total_plots) }} plots</span>
             @endif
         </div>
+
+        <a href="{{ route('societies.show', $society->slug) }}" class="card__action">
+            View details
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                 stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M5 12h14M13 6l6 6-6 6"/>
+            </svg>
+        </a>
     </div>
 </article>

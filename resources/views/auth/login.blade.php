@@ -3,12 +3,34 @@
 @section('title', 'Sign in')
 
 @section('content')
+    {{-- Rounded floating bar: just the logo and a way back to the site. --}}
+    <header class="auth-bar">
+        <a href="{{ route('home') }}" class="auth-bar__brand">
+            @if (setting('logo'))
+                <img src="{{ Storage::disk('public')->url(setting('logo')) }}"
+                     alt="{{ setting('site_name', 'Highland Properties') }}" height="34">
+            @else
+                <span>{{ \Illuminate\Support\Str::before(setting('site_name', 'Highland Properties'), ' ') }}</span>
+                <em>{{ \Illuminate\Support\Str::after(setting('site_name', 'Highland Properties'), ' ') }}</em>
+            @endif
+        </a>
+
+        <a href="{{ route('home') }}" class="auth-bar__link">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor"
+                 stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M19 12H5M11 6l-6 6 6 6"/>
+            </svg>
+            Back to website
+        </a>
+    </header>
+
     <main class="auth-wrap">
         <div class="auth-card">
             <div class="auth-card__head">
-                <p class="section-label">Highland Properties</p>
+                <p class="section-label">Staff access</p>
                 <h1 class="auth-card__title">Sign in</h1>
                 <hr class="gold-divider">
+                <p class="auth-card__note">For administrators and sales consultants only.</p>
             </div>
 
             <form method="POST" action="{{ route('login') }}" novalidate>
@@ -40,10 +62,8 @@
             </form>
 
             <p class="auth-card__foot">
-                Forgot your password? Ask the administrator to reset it for you.
+                Accounts are created by the administrator. Forgot your password? Ask them to reset it.
             </p>
         </div>
-
-        <p class="auth-back"><a href="{{ route('home') }}">Back to the website</a></p>
     </main>
 @endsection

@@ -100,9 +100,9 @@
                              style="object-fit:contain;display:block;margin-bottom:10px;">
                     @endif
 
-                    <input id="logo" name="logo" type="file" accept=".svg,.png,.webp"
+                    <input id="logo" name="logo" type="file" accept=".svg,.png,.webp,.jpg,.jpeg"
                            class="form-control @error('logo') is-invalid @enderror">
-                    <span class="form-hint">SVG preferred. Maximum 512 KB.</span>
+                    <span class="form-hint">SVG preferred. PNG, WebP and JPG also work. Up to 4 MB.</span>
                     @error('logo')<span class="form-error">{{ $message }}</span>@enderror
                 </div>
 

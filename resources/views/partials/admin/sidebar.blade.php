@@ -12,9 +12,9 @@
             ['route' => 'admin.master-data.index', 'active' => ['admin.master-data.*'], 'label' => 'Master Data', 'icon' => 'sliders'],
         ],
         'Sales' => [
-            ['route' => 'admin.leads.index', 'active' => ['admin.leads.*'], 'label' => 'Lead Management', 'icon' => 'users'],
-            ['route' => 'admin.messages.index', 'active' => ['admin.messages.*'], 'label' => 'Inbox', 'icon' => 'mail'],
-            ['route' => 'admin.reports.index', 'active' => ['admin.reports.*'], 'label' => 'Reports', 'icon' => 'file'],
+            ['route' => 'admin.leads.index', 'active' => ['admin.leads.*'], 'label' => 'Lead Management', 'icon' => 'users', 'badge' => 'leads'],
+            ['route' => 'admin.messages.index', 'active' => ['admin.messages.*'], 'label' => 'Inbox', 'icon' => 'mail', 'badge' => 'messages'],
+            ['route' => 'admin.reports.index', 'active' => ['admin.reports.*'], 'label' => 'Reports', 'icon' => 'file', 'badge' => 'reports'],
         ],
         'People' => [
             ['route' => 'admin.users.index', 'active' => ['admin.users.*'], 'label' => 'Users & Roles', 'icon' => 'shield'],
@@ -38,10 +38,18 @@
             <div class="panel-nav__group">{{ $group }}</div>
 
             @foreach ($items as $item)
+                @php $count = isset($item['badge']) ? ($badges[$item['badge']] ?? 0) : 0; @endphp
+
                 <a href="{{ route($item['route']) }}"
                    class="panel-nav__link {{ request()->routeIs(...$item['active']) ? 'is-active' : '' }}">
                     <x-ui.icon :name="$item['icon']" />
-                    {{ $item['label'] }}
+                    <span>{{ $item['label'] }}</span>
+
+                    {{-- Stays until the work is done: read the message, contact
+                         the lead, review the report. --}}
+                    @if ($count > 0)
+                        <span class="panel-nav__badge" aria-label="{{ $count }} needing attention">{{ $count > 99 ? '99+' : $count }}</span>
+                    @endif
                 </a>
             @endforeach
         @endforeach

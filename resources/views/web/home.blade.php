@@ -61,6 +61,18 @@
                 </div>
             </div>
         @endforelse
+
+        {{-- Dots: show how many banners there are and which one is showing. --}}
+        @if ($slides->count() > 1)
+            <div class="hero-dots" role="tablist" aria-label="Banners">
+                @foreach ($slides as $slide)
+                    <button type="button" class="hero-dots__dot {{ $loop->first ? 'is-active' : '' }}"
+                            data-slide="{{ $loop->index }}" role="tab"
+                            aria-label="Banner {{ $loop->iteration }}"
+                            aria-selected="{{ $loop->first ? 'true' : 'false' }}"></button>
+                @endforeach
+            </div>
+        @endif
     </section>
 
     {{-- 2. Featured projects ---------------------------------------------- --}}

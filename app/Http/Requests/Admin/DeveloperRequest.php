@@ -34,7 +34,7 @@ class DeveloperRequest extends FormRequest
 
             // Logos are SVG or PNG only: a photograph-sized JPEG has no place
             // in a logo slot, and both formats stay crisp at any size.
-            'logo' => ['nullable', 'file', 'mimes:svg,png,webp', 'max:512'],
+            'logo' => ['nullable', 'file', 'mimes:svg,png,webp,jpg,jpeg', 'max:4096'],
         ];
     }
 
@@ -56,8 +56,8 @@ class DeveloperRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'logo.max' => 'The logo must be 512 KB or smaller.',
-            'logo.mimes' => 'Upload the logo as SVG, PNG or WebP.',
+            'logo.max' => 'The logo must be 4 MB or smaller.',
+            'logo.mimes' => 'Upload the logo as SVG, PNG, WebP or JPG.',
         ];
     }
 }

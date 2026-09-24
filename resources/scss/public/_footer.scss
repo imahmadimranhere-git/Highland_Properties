@@ -16,10 +16,24 @@
 }
 
 @media (max-width: 767.98px) {
-    .site-footer__grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+    .site-footer { padding-top: 44px; }
+    .site-footer__grid { grid-template-columns: 1fr 1fr; gap: 28px 20px; padding-bottom: 32px; }
+
+    /* The brand block spans both columns so the tagline is not squeezed. */
+    .site-footer__grid > div:first-child { grid-column: 1 / -1; }
+
+    .site-footer h4 { margin-bottom: 12px; }
+    .site-footer li + li { margin-top: 8px; }
+
+    .site-footer__bottom {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+        text-align: left;
+    }
 }
 
-@media (max-width: 479.98px) {
+@media (max-width: 420px) {
     .site-footer__grid { grid-template-columns: 1fr; }
 }
 

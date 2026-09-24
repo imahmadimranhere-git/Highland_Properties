@@ -15,8 +15,10 @@ class SettingRequest extends FormRequest
         'general' => [
             'site_name' => ['required', 'string', 'max:120'],
             'tagline' => ['nullable', 'string', 'max:200'],
-            'logo' => ['nullable', 'file', 'mimes:svg,png,webp', 'max:512'],
-            'favicon' => ['nullable', 'file', 'mimes:png,ico,svg', 'max:128'],
+            // No tight limit: a logo is uploaded once and is not what slows
+            // a site down. 4 MB simply stops an accidental camera photo.
+            'logo' => ['nullable', 'file', 'mimes:svg,png,webp,jpg,jpeg', 'max:4096'],
+            'favicon' => ['nullable', 'file', 'mimes:png,ico,svg,webp', 'max:1024'],
         ],
         'contact' => [
             'phone' => ['nullable', 'string', 'max:30'],
@@ -64,7 +66,7 @@ class SettingRequest extends FormRequest
             'youtube_video_url.regex' => 'Paste a YouTube link, for example https://youtu.be/xxxxxxxxxxx',
             'youtube_channel_url.regex' => 'Paste a YouTube channel link, for example https://youtube.com/@yourchannel',
             'whatsapp.regex' => 'Use digits only with the country code, for example 923001234567.',
-            'logo.mimes' => 'Upload the logo as SVG, PNG or WebP.',
+            'logo.mimes' => 'Upload the logo as SVG, PNG, WebP or JPG.',
         ];
     }
 }

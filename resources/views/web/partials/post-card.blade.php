@@ -9,6 +9,14 @@
     <div class="card__body">
         <p class="card__price-label">{{ $post->published_at?->format('d F Y') }}</p>
         <h3 class="project-card__name"><a href="{{ route('blog.show', $post->slug) }}">{{ $post->title }}</a></h3>
-        @if ($post->excerpt)<p class="text-muted-hp u-mb-0">{{ $post->excerpt }}</p>@endif
+        @if ($post->excerpt)<p class="text-muted-hp u-mb-24">{{ $post->excerpt }}</p>@endif
+
+        <a href="{{ route('blog.show', $post->slug) }}" class="card__action">
+            Read article
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                 stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M5 12h14M13 6l6 6-6 6"/>
+            </svg>
+        </a>
     </div>
 </article>

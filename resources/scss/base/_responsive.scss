@@ -106,7 +106,12 @@ td, dd, p, a, .card__meta, .library-card__name {
     /* Page hero and section rhythm. */
     .page-hero { padding: 40px 0 32px; }
     .project-hero__inner { padding-block: 32px; }
-    .project-nav .u-container { gap: 18px; }
+    .project-nav .u-container { gap: 20px; }
+    .project-nav a { padding: 14px 0; font-size: .875rem; white-space: nowrap; }
+
+    /* A short page must still be able to scroll far enough for the last
+       section to reach the sticky bar. */
+    .project-section:last-of-type { min-height: 40vh; }
     .project-section { padding-bottom: 40px; }
     .project-section + .project-section { padding-top: 40px; }
 
@@ -121,9 +126,6 @@ td, dd, p, a, .card__meta, .library-card__name {
     :root { --gutter: 12px; }
 
     .btn { padding: 12px 18px; font-size: .8125rem; }
-    .site-header__inner { height: 64px; }
-    .site-nav { inset-block-start: 64px; }
-    .project-nav { top: 64px; }
     .team-grid { grid-template-columns: 1fr; }
 }
 

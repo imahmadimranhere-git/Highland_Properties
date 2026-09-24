@@ -34,7 +34,15 @@
 
         @if ($project->starting_price)
             <span class="card__price-label">Starting from</span>
-            <span class="card__price">{{ money($project->starting_price) }}</span>
+            <span class="card__price u-mb-16">{{ money($project->starting_price) }}</span>
         @endif
+
+        <a href="{{ route('projects.show', $project->slug) }}" class="card__action">
+            View details
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                 stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M5 12h14M13 6l6 6-6 6"/>
+            </svg>
+        </a>
     </div>
 </article>

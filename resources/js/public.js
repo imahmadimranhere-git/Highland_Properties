@@ -5,6 +5,42 @@
  */
 import { initFlashToasts } from './toast.js';
 
+/**
+ * Publishes the header's real height as --sticky-top, used by anything that
+ * has to sit directly below it.
+ *
+ * It must NOT write to --header-h: the header sizes itself from that variable,
+ * so feeding a measurement back into it creates a loop where the header grows
+ * a little on every pass and the page keeps stretching.
+ */
+function initHeaderHeight() {
+    const header = document.querySelector('.site-header');
+    if (!header) return;
+
+    let last = null;
+
+    const publish = () => {
+        const height = Math.round(header.getBoundingClientRect().height);
+
+        // Write only on a real change, so the observer cannot trigger itself.
+        if (height === last || height === 0) return;
+
+        last = height;
+        document.documentElement.style.setProperty('--sticky-top', `${height}px`);
+    };
+
+    publish();
+
+    if ('ResizeObserver' in window) {
+        new ResizeObserver(publish).observe(header);
+    } else {
+        window.addEventListener('resize', publish);
+    }
+
+    // Logos and fonts finish loading after this runs; re-measure once they do.
+    window.addEventListener('load', publish);
+}
+
 function initMobileNav() {
     const nav = document.getElementById('site-nav');
     const burger = document.querySelector('.nav-burger');
@@ -22,43 +58,20 @@ function initMobileNav() {
  */
 function initLazyEmbeds() {
     document.querySelectorAll('[data-map-src]').forEach((box) => {
-        box.addEventListener('click', (event) => {
-            // The channel badge sits inside the player frame; clicking it must
-            // open the channel, not start the video.
-            if (event.target.closest('.video-embed__channel')) return;
-
+        box.addEventListener('click', () => {
             const frame = document.createElement('iframe');
             frame.src = box.dataset.mapSrc;
             frame.loading = 'lazy';
             frame.width = '100%';
             frame.height = '380';
             frame.style.border = '0';
-            frame.style.borderRadius = '4px';
+            frame.style.borderRadius = '14px';
             frame.title = box.dataset.mapTitle || 'Location map';
             frame.referrerPolicy = 'no-referrer-when-downgrade';
             frame.allowFullscreen = true;
             box.replaceWith(frame);
         }, { once: true });
     });
-}
-
-/** Cross-fades home slides. Does nothing with a single slide or reduced motion. */
-function initHeroRotation() {
-    const hero = document.querySelector('[data-hero-rotate]');
-    if (!hero || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-    const slides = Array.from(hero.querySelectorAll('.hero__slide'));
-    let index = 0;
-
-    setInterval(() => {
-        if (document.hidden) return;
-
-        slides[index].classList.remove('is-active');
-        slides[index].setAttribute('aria-hidden', 'true');
-        index = (index + 1) % slides.length;
-        slides[index].classList.add('is-active');
-        slides[index].setAttribute('aria-hidden', 'false');
-    }, 6500);
 }
 
 /**
@@ -87,8 +100,57 @@ function initVideoFacade() {
     });
 }
 
+/**
+ * Cross-fades home banners and keeps the dots in step. Tapping a dot jumps
+ * to that banner and stops the timer, so a visitor is never pulled away
+ * from the one they chose.
+ */
+function initHeroRotation() {
+    const hero = document.querySelector('[data-hero-rotate]');
+    if (!hero) return;
+
+    const slides = Array.from(hero.querySelectorAll('.hero__slide'));
+    const dots = Array.from(hero.querySelectorAll('.hero-dots__dot'));
+    if (slides.length < 2) return;
+
+    let index = 0;
+    let timer = null;
+
+    const show = (next) => {
+        slides[index].classList.remove('is-active');
+        slides[index].setAttribute('aria-hidden', 'true');
+        dots[index]?.classList.remove('is-active');
+        dots[index]?.setAttribute('aria-selected', 'false');
+
+        index = (next + slides.length) % slides.length;
+
+        slides[index].classList.add('is-active');
+        slides[index].setAttribute('aria-hidden', 'false');
+        dots[index]?.classList.add('is-active');
+        dots[index]?.setAttribute('aria-selected', 'true');
+    };
+
+    const start = () => {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+        timer = setInterval(() => {
+            if (!document.hidden) show(index + 1);
+        }, 6500);
+    };
+
+    dots.forEach((dot) => {
+        dot.addEventListener('click', () => {
+            clearInterval(timer);
+            show(Number(dot.dataset.slide));
+        });
+    });
+
+    start();
+}
+
+initHeaderHeight();
 initMobileNav();
-initVideoFacade();
 initLazyEmbeds();
+initVideoFacade();
 initHeroRotation();
 initFlashToasts();

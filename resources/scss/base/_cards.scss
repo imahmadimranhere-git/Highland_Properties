@@ -32,7 +32,12 @@
     transition: transform 400ms var(--ease);
 }
 
-.card__body { padding: 22px 22px 24px; }
+.card__body {
+    padding: 22px 22px 24px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
 .card__footer {
     padding: 16px 22px;
     border-top: 1px solid var(--border);
@@ -105,3 +110,63 @@
 @media (max-width: 991.98px) {
     .card--sticky { position: static; }
 }
+
+/* A visible action inside a card, so it is obvious the card leads somewhere.
+   The whole card stays clickable; this just says so. */
+.card__action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    width: 100%;
+    margin-top: auto;
+    padding: 11px 16px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-btn);
+    background-color: var(--white);
+    color: var(--navy-800);
+    font-size: .8125rem;
+    font-weight: 600;
+    letter-spacing: .03em;
+    transition: background-color var(--speed) var(--ease),
+                border-color var(--speed) var(--ease),
+                color var(--speed) var(--ease);
+}
+
+.card__action svg {
+    width: 16px;
+    height: 16px;
+    transition: transform var(--speed) var(--ease);
+}
+
+@media (hover: hover) {
+    .card--interactive:hover .card__action,
+    .card__action:hover {
+        background-color: var(--navy-800);
+        border-color: var(--navy-800);
+        color: var(--white);
+    }
+
+    .card--interactive:hover .card__action svg { transform: translateX(3px); }
+}
+
+/* Media corners follow the card radius. */
+.card__media { border-radius: 0; }
+.card > .card__media:first-child { border-top-left-radius: calc(var(--radius-card) - 1px); border-top-right-radius: calc(var(--radius-card) - 1px); }
+
+/*
+ * The action link covers the whole card, so a tap anywhere — the button, the
+ * name, the price, the empty space — opens the page. Before this, only the
+ * image and the title were links and the button did nothing.
+ */
+.card--interactive .card__action::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    border-radius: inherit;
+}
+
+/* Anything that must stay separately clickable sits above that overlay. */
+.card--interactive .badge--on-image,
+.card--interactive .card__media { z-index: 2; }

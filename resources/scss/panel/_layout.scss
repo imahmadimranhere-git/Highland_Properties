@@ -73,6 +73,23 @@
 }
 
 .panel-nav__link .icon { color: currentColor; width: 17px; height: 17px; }
+.panel-nav__link > span:first-of-type { flex: 1; }
+
+/* Count of things waiting: unread messages, uncontacted leads, unreviewed
+   reports. It disappears by itself once the work is done. */
+.panel-nav__badge {
+    display: inline-grid;
+    place-items: center;
+    min-width: 22px;
+    height: 22px;
+    padding: 0 7px;
+    border-radius: var(--radius-pill);
+    background-color: var(--gold-500);
+    color: var(--navy-900);
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1;
+}
 
 /* Topbar --------------------------------------------------------------- */
 .panel-topbar {

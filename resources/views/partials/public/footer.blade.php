@@ -59,7 +59,7 @@
 
         <div class="site-footer__bottom">
             <span>&copy; {{ date('Y') }} {{ setting('site_name', 'Highland Properties') }}. All rights reserved.</span>
-            <a href="{{ route('sitemap') }}">Sitemap</a>
+            <span>Marketed and developed with care.</span>
         </div>
     </div>
 </footer>
