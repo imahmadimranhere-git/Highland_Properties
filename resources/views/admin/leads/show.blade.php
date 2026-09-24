@@ -21,8 +21,8 @@
                 <dl class="detail-list">
                     <dt>Phone</dt><dd>{{ $lead->phone }}</dd>
                     <dt>Email</dt><dd>{{ $lead->email ?: '—' }}</dd>
-                    <dt>Project</dt><dd>{{ $lead->project?->name ?? 'General inquiry' }}</dd>
-                    <dt>Category</dt><dd>{{ $lead->unitCategory ? $lead->unitCategory->name . ' — ' . $lead->unitCategory->unit_type : '—' }}</dd>
+                    <dt>Project</dt><dd>{{ $lead->project?->name ?? $lead->society?->name ?? 'General inquiry' }}</dd>
+                    <dt>Category</dt><dd>{{ $lead->unitCategory?->name ?? $lead->plotCategory?->size_label ?? '—' }}</dd>
                     <dt>Status</dt><dd><x-ui.status-badge :status="$lead->status" /></dd>
                     <dt>Follow-up</dt><dd>{{ $lead->next_follow_up_at?->format('d M Y') ?? '—' }}</dd>
                     @if ($lead->deal_value)

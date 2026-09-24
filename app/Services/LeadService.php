@@ -6,6 +6,7 @@ use App\Enums\LeadSource;
 use App\Enums\LeadStatus;
 use App\Models\Lead;
 use App\Models\Project;
+use App\Models\Society;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
@@ -21,9 +22,11 @@ class LeadService
      */
     public function createFromWebsite(array $data): Lead
     {
-        $consultantId = isset($data['project_id'])
-            ? Project::whereKey($data['project_id'])->value('assigned_consultant_id')
-            : null;
+        $consultantId = match (true) {
+            ! empty($data['project_id']) => Project::whereKey($data['project_id'])->value('assigned_consultant_id'),
+            ! empty($data['society_id']) => Society::whereKey($data['society_id'])->value('assigned_consultant_id'),
+            default => null,
+        };
 
         $lead = Lead::create($data + [
             'assigned_to' => $consultantId,

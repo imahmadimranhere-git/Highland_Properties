@@ -46,7 +46,7 @@
                                     <a href="{{ route('consultant.leads.show', $lead->id) }}"><strong>{{ $lead->name }}</strong></a>
                                     <span style="display:block;font-size:.8125rem;" class="text-muted-hp">{{ $lead->phone }}</span>
                                 </td>
-                                <td>{{ $lead->project?->name ?? 'General' }}</td>
+                                <td>{{ $lead->project?->name ?? $lead->society?->name ?? 'General' }}</td>
                                 <td><x-ui.status-badge :status="$lead->status" /></td>
                                 <td>
                                     @if ($lead->next_follow_up_at)

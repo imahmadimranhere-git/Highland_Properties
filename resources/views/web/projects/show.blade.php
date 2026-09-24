@@ -22,6 +22,7 @@
 @php
     $location = collect([$project->location?->name, $project->city?->name])->filter()->implode(', ');
     $plans = $project->unitCategories->filter(fn ($c) => $c->paymentPlan);
+    $mapUrl = \App\Support\MapEmbed::url($project->map_embed_url, $project->latitude, $project->longitude, $project->address);
 @endphp
 
 @section('content')
@@ -94,9 +95,9 @@
 
                 @if ($project->address)<p>{{ $project->address }}</p>@endif
 
-                @if ($project->map_embed_url)
+                @if ($mapUrl)
                     {{-- The map iframe is only created when the visitor clicks. --}}
-                    <button type="button" class="map-placeholder" data-map-src="{{ $project->map_embed_url }}" data-map-title="Map of {{ $project->name }}">
+                    <button type="button" class="map-placeholder" data-map-src="{{ $mapUrl }}" data-map-title="Map of {{ $project->name }}">
                         <x-ui.icon name="pin" :size="28" class="icon icon--gold" />
                         <span>Show map</span>
                     </button>

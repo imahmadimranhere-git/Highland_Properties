@@ -1,0 +1,114 @@
+/* ==========================================================================
+   Home page video: text on the left, a compact 16:9 player on the right.
+   The section is deliberately short — it is a supporting block, not a hero.
+   ========================================================================== */
+
+.video-section { color: var(--white); }
+
+.video-split {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
+    align-items: center;
+    gap: 48px;
+}
+
+.video-split__title {
+    color: var(--white);
+    font-size: clamp(1.5rem, 2.6vw, 2.125rem);
+    margin: 0;
+    max-width: 18ch;
+}
+
+.video-split .gold-divider { margin-top: 18px; }
+
+.video-split__lede {
+    color: rgba(255, 255, 255, .78);
+    max-width: 44ch;
+    margin: 22px 0 0;
+}
+
+.video-split__cta { margin-top: 26px; }
+.video-split__cta svg { flex: none; }
+
+/* Player ---------------------------------------------------------------- */
+.video-embed {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border-radius: 6px;
+    background-color: #000;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, .42);
+    cursor: pointer;
+}
+
+.video-embed__poster,
+.video-embed iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    object-fit: cover;
+    display: block;
+}
+
+.video-embed__poster { transition: transform 500ms var(--ease); }
+
+/* YouTube's own play button shape. */
+.video-embed__play {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    width: 54px;
+    height: 38px;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+}
+
+.video-embed__play-bg { fill: rgba(33, 33, 33, .8); transition: fill var(--speed) var(--ease); }
+
+@media (hover: hover) {
+    .video-embed:hover .video-embed__play-bg { fill: #FF0000; }
+    .video-embed:hover .video-embed__poster { transform: scale(1.03); }
+}
+
+.video-embed__play:focus-visible { outline: 2px solid var(--gold-500); outline-offset: 6px; }
+
+/* Channel badge: icon only, tucked into the corner. */
+.video-embed__channel {
+    position: absolute;
+    right: 12px;
+    bottom: 12px;
+    z-index: 2;
+    display: inline-grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 3px;
+    background-color: rgba(10, 31, 51, .82);
+    color: #FF0000;
+    backdrop-filter: blur(4px);
+    transition: background-color var(--speed) var(--ease), color var(--speed) var(--ease);
+}
+
+.video-embed__channel:hover { background-color: #FF0000; color: var(--white); }
+
+/* Once the player is in, the badge moves clear of YouTube's own controls. */
+.video-embed.is-playing .video-embed__channel { bottom: auto; top: 12px; }
+
+@media (max-width: 991.98px) {
+    .video-split { grid-template-columns: 1fr; gap: 28px; }
+    .video-split__title { max-width: none; }
+    .video-split__lede { max-width: none; margin-top: 16px; }
+    .video-split__cta { margin-top: 20px; }
+    .video-split__player { max-width: 640px; }
+}
+
+@media (max-width: 575.98px) {
+    .video-embed { border-radius: 4px; }
+    .video-embed__play { width: 46px; height: 32px; }
+    .video-embed__channel { width: 30px; height: 30px; right: 10px; bottom: 10px; }
+}

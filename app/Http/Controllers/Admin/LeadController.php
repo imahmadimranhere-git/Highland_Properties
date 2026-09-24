@@ -38,7 +38,7 @@ class LeadController extends Controller
                 'id', 'name', 'phone', 'email', 'project_id', 'assigned_to',
                 'status', 'source', 'next_follow_up_at', 'created_at',
             ])
-            ->with(['project:id,name', 'assignedTo:id,name'])
+            ->with(['project:id,name', 'society:id,name', 'assignedTo:id,name'])
             ->latest()
             ->paginate(20)
             ->withQueryString();
@@ -80,6 +80,8 @@ class LeadController extends Controller
     {
         $lead->load([
             'project:id,name,slug',
+            'society:id,name,slug',
+            'plotCategory:id,size_label,block,plot_type',
             'unitCategory:id,name,unit_type',
             'assignedTo:id,name,phone',
             'notes' => fn ($q) => $q->with('user:id,name'),

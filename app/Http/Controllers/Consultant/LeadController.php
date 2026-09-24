@@ -28,7 +28,7 @@ class LeadController extends Controller
     {
         $leads = Lead::visibleTo($request->user())
             ->select(['id', 'name', 'phone', 'project_id', 'status', 'next_follow_up_at', 'created_at'])
-            ->with('project:id,name')
+            ->with(['project:id,name', 'society:id,name'])
             ->when($request->filled('q'), function ($q) use ($request) {
                 $term = '%' . $request->string('q') . '%';
                 $q->where(fn ($w) => $w->where('name', 'like', $term)->orWhere('phone', 'like', $term));
@@ -53,6 +53,8 @@ class LeadController extends Controller
 
         $lead->load([
             'project:id,name,slug',
+            'society:id,name,slug',
+            'plotCategory:id,size_label,block,plot_type',
             'unitCategory:id,name,unit_type',
             'notes' => fn ($q) => $q->with('user:id,name'),
         ]);

@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests\Admin;
 
-use App\Enums\InstallmentFrequency;
 use App\Enums\UnitAvailability;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -14,10 +13,7 @@ class UnitCategoryRequest extends FormRequest
         return true;
     }
 
-    /**
-     * The category and its payment plan are one form, because a category
-     * without a plan is not something a buyer can be quoted from.
-     */
+    /** Unit details only — payment plans are no longer edited here. */
     public function rules(): array
     {
         return [
@@ -30,26 +26,6 @@ class UnitCategoryRequest extends FormRequest
             'total_price' => ['required', 'numeric', 'min:0', 'max:9999999999999'],
             'availability' => ['required', Rule::enum(UnitAvailability::class)],
             'sort_order' => ['nullable', 'integer', 'min:0', 'max:999'],
-
-            'plan.booking_amount' => ['required', 'numeric', 'min:0'],
-            'plan.down_payment' => ['required', 'numeric', 'min:0'],
-            'plan.installment_count' => ['required', 'integer', 'min:0', 'max:500'],
-            'plan.installment_frequency' => ['required', Rule::enum(InstallmentFrequency::class)],
-            'plan.installment_amount' => ['required', 'numeric', 'min:0'],
-            'plan.possession_charges' => ['required', 'numeric', 'min:0'],
-            'plan.notes' => ['nullable', 'string', 'max:1000'],
-        ];
-    }
-
-    public function attributes(): array
-    {
-        return [
-            'plan.booking_amount' => 'booking amount',
-            'plan.down_payment' => 'down payment',
-            'plan.installment_count' => 'number of installments',
-            'plan.installment_frequency' => 'installment frequency',
-            'plan.installment_amount' => 'installment amount',
-            'plan.possession_charges' => 'possession charges',
         ];
     }
 }

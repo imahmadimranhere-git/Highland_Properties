@@ -22,6 +22,11 @@ class Amenity extends Model
         return $this->belongsToMany(Project::class);
     }
 
+    public function societies(): BelongsToMany
+    {
+        return $this->belongsToMany(Society::class);
+    }
+
     public function scopeActive(Builder $query): Builder
     {
         return $query->where('is_active', true);

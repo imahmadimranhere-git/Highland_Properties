@@ -15,7 +15,7 @@ class Lead extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'project_id', 'unit_category_id', 'assigned_to',
+        'project_id', 'society_id', 'unit_category_id', 'plot_category_id', 'assigned_to',
         'name', 'phone', 'email', 'message',
         'status', 'source', 'next_follow_up_at', 'closed_at', 'deal_value',
     ];
@@ -31,6 +31,16 @@ class Lead extends Model
     public function project(): BelongsTo
     {
         return $this->belongsTo(Project::class);
+    }
+
+    public function society(): BelongsTo
+    {
+        return $this->belongsTo(Society::class);
+    }
+
+    public function plotCategory(): BelongsTo
+    {
+        return $this->belongsTo(PlotCategory::class);
     }
 
     public function unitCategory(): BelongsTo

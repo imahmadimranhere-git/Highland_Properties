@@ -22,7 +22,11 @@ function initMobileNav() {
  */
 function initLazyEmbeds() {
     document.querySelectorAll('[data-map-src]').forEach((box) => {
-        box.addEventListener('click', () => {
+        box.addEventListener('click', (event) => {
+            // The channel badge sits inside the player frame; clicking it must
+            // open the channel, not start the video.
+            if (event.target.closest('.video-embed__channel')) return;
+
             const frame = document.createElement('iframe');
             frame.src = box.dataset.mapSrc;
             frame.loading = 'lazy';
@@ -57,7 +61,34 @@ function initHeroRotation() {
     }, 6500);
 }
 
+/**
+ * Swaps the video poster for the real YouTube player on click. Until then the
+ * page loads no YouTube scripts at all — the embed is ~700KB.
+ */
+function initVideoFacade() {
+    document.querySelectorAll('[data-video]').forEach((box) => {
+        box.addEventListener('click', (event) => {
+            // The channel badge sits inside the player frame; clicking it must
+            // open the channel, not start the video.
+            if (event.target.closest('.video-embed__channel')) return;
+
+            const frame = document.createElement('iframe');
+            frame.src = box.dataset.video;                 // already carries autoplay=1
+            frame.title = 'Video';
+            frame.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+            frame.referrerPolicy = 'strict-origin-when-cross-origin';
+            frame.allowFullscreen = true;
+
+            box.querySelector('.video-embed__poster')?.remove();
+            box.querySelector('.video-embed__play')?.remove();
+            box.classList.add('is-playing');
+            box.prepend(frame);
+        });
+    });
+}
+
 initMobileNav();
+initVideoFacade();
 initLazyEmbeds();
 initHeroRotation();
 initFlashToasts();

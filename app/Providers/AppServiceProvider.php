@@ -8,7 +8,9 @@ use App\Models\Faq;
 use App\Models\HomeSlider;
 use App\Models\PaymentPlan;
 use App\Models\Post;
+use App\Models\PlotCategory;
 use App\Models\Project;
+use App\Models\Society;
 use App\Models\TeamMember;
 use App\Models\Testimonial;
 use App\Models\UnitCategory;
@@ -55,7 +57,7 @@ class AppServiceProvider extends ServiceProvider
 
         // Anything shown on the public site clears the public cache when edited.
         foreach ([
-            Project::class, UnitCategory::class, PaymentPlan::class, DevelopmentUpdate::class,
+            Project::class, Society::class, PlotCategory::class, UnitCategory::class, PaymentPlan::class, DevelopmentUpdate::class,
             Developer::class, Testimonial::class, TeamMember::class, Faq::class,
             Post::class, HomeSlider::class,
         ] as $model) {

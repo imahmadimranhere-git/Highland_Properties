@@ -21,8 +21,10 @@
                         @endif
                     </ul>
 
-                    @if (setting('map_embed_url'))
-                        <button type="button" class="map-placeholder u-mt-24" data-map-src="{{ setting('map_embed_url') }}" data-map-title="Office location">
+                    @php $mapUrl = \App\Support\MapEmbed::url(setting('map_embed_url'), null, null, setting('address')); @endphp
+
+                    @if ($mapUrl)
+                        <button type="button" class="map-placeholder u-mt-24" data-map-src="{{ $mapUrl }}" data-map-title="Office location">
                             <x-ui.icon name="pin" :size="28" class="icon icon--gold" />
                             <span>Show office on map</span>
                         </button>

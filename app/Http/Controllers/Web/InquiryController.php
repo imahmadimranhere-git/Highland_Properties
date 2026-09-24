@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Web;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Web\InquiryRequest;
 use App\Models\Project;
+use App\Models\Society;
 use App\Services\LeadService;
 use Illuminate\Http\RedirectResponse;
 
@@ -22,10 +23,10 @@ class InquiryController extends Controller
     {
         $this->leads->createFromWebsite($request->safe()->except('website'));
 
-        $slug = Project::whereKey($request->integer('project_id'))->value('slug');
+        $target = $request->filled('society_id')
+            ? route('societies.show', Society::whereKey($request->integer('society_id'))->value('slug'))
+            : route('projects.show', Project::whereKey($request->integer('project_id'))->value('slug'));
 
-        return redirect()
-            ->to(route('projects.show', $slug) . '#inquiry')
-            ->with('inquiry_sent', true);
+        return redirect()->to($target . '#inquiry')->with('inquiry_sent', true);
     }
 }

@@ -12,14 +12,15 @@
 
         <nav id="site-nav" class="site-nav" aria-label="Main">
             @php
+                // FAQ and Developers still have pages (linked from the footer
+                // and from project pages); they are simply not in the main menu.
                 $links = [
                     'home' => 'Home',
-                    'about' => 'About',
-                    'projects.index' => 'Projects',
-                    'developers.index' => 'Developers',
+                    'societies.index' => 'Societies',
+                    'projects.index' => 'High-Rise Projects',
                     'team' => 'Team',
                     'blog.index' => 'Blog',
-                    'faq' => 'FAQ',
+                    'about' => 'About Us',
                     'contact' => 'Contact',
                 ];
             @endphp

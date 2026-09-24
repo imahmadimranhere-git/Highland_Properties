@@ -4,7 +4,8 @@
             ['route' => 'admin.dashboard', 'active' => ['admin.dashboard'], 'label' => 'Dashboard', 'icon' => 'grid'],
         ],
         'Inventory' => [
-            ['route' => 'admin.projects.index', 'active' => ['admin.projects.index', 'admin.projects.create', 'admin.projects.edit'], 'label' => 'Projects & Listings', 'icon' => 'building'],
+            ['route' => 'admin.societies.index', 'active' => ['admin.societies.*'], 'label' => 'Societies', 'icon' => 'sliders'],
+            ['route' => 'admin.projects.index', 'active' => ['admin.projects.index', 'admin.projects.create', 'admin.projects.edit'], 'label' => 'High-Rise Projects', 'icon' => 'building'],
             ['route' => 'admin.unit-categories.index', 'active' => ['admin.unit-categories.*', 'admin.projects.categories.*'], 'label' => 'Unit Categories', 'icon' => 'layers'],
             ['route' => 'admin.development-updates.index', 'active' => ['admin.development-updates.*', 'admin.projects.updates.*'], 'label' => 'Development Updates', 'icon' => 'clock'],
             ['route' => 'admin.developers.index', 'active' => ['admin.developers.*'], 'label' => 'Developers', 'icon' => 'briefcase'],

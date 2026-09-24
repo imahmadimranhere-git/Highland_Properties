@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Enums\InstallmentFrequency;
 use App\Enums\UnitAvailability;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\UnitCategoryRequest;
@@ -13,22 +12,20 @@ use Illuminate\View\View;
 
 class UnitCategoryController extends Controller
 {
-    /** Categories of one project, each with its payment plan. */
+    /** Unit categories of one project: type, size, price, availability. */
     public function index(Project $project): View
     {
-        $project->load(['unitCategories.paymentPlan']);
+        $project->load('unitCategories');
 
         return view('admin.unit-categories.index', [
             'project' => $project,
             'availabilities' => UnitAvailability::cases(),
-            'frequencies' => InstallmentFrequency::cases(),
         ]);
     }
 
     public function store(UnitCategoryRequest $request, Project $project): RedirectResponse
     {
-        $category = $project->unitCategories()->create($request->safe()->except('plan'));
-        $category->paymentPlan()->create($request->validated('plan'));
+        $category = $project->unitCategories()->create($request->validated());
 
         $this->refreshStartingPrice($project);
 
@@ -39,8 +36,7 @@ class UnitCategoryController extends Controller
     {
         abort_unless($category->project_id === $project->id, 404);
 
-        $category->update($request->safe()->except('plan'));
-        $category->paymentPlan()->updateOrCreate([], $request->validated('plan'));
+        $category->update($request->validated());
 
         $this->refreshStartingPrice($project);
 
@@ -51,7 +47,6 @@ class UnitCategoryController extends Controller
     {
         abort_unless($category->project_id === $project->id, 404);
 
-        // The payment plan row goes with it through the foreign key cascade.
         $category->delete();
         $this->refreshStartingPrice($project);
 

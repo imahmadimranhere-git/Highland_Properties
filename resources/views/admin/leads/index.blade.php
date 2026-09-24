@@ -91,7 +91,7 @@
                                     <a href="{{ route('admin.leads.show', $lead) }}"><strong>{{ $lead->name }}</strong></a>
                                     <span style="display:block;font-size:.8125rem;" class="text-muted-hp">{{ $lead->phone }}</span>
                                 </td>
-                                <td>{{ $lead->project?->name ?? 'General' }}</td>
+                                <td>{{ $lead->project?->name ?? $lead->society?->name ?? 'General' }}</td>
                                 <td>{{ $lead->assignedTo?->name ?? 'Unassigned' }}</td>
                                 <td><x-ui.status-badge :status="$lead->status" /></td>
                                 <td>

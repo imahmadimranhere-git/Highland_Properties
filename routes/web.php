@@ -8,6 +8,7 @@ use App\Http\Controllers\Web\InquiryController;
 use App\Http\Controllers\Web\PageController;
 use App\Http\Controllers\Web\ProjectController;
 use App\Http\Controllers\Web\SitemapController;
+use App\Http\Controllers\Web\SocietyController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,6 +23,9 @@ Route::get('about-us', [PageController::class, 'about'])->name('about');
 Route::get('our-team', [PageController::class, 'team'])->name('team');
 Route::get('testimonials', [PageController::class, 'testimonials'])->name('testimonials');
 Route::get('faq', [PageController::class, 'faq'])->name('faq');
+
+Route::get('societies', [SocietyController::class, 'index'])->name('societies.index');
+Route::get('societies/{slug}', [SocietyController::class, 'show'])->name('societies.show');
 
 Route::get('projects', [ProjectController::class, 'index'])->name('projects.index');
 Route::get('projects/{slug}', [ProjectController::class, 'show'])->name('projects.show');

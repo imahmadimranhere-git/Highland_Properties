@@ -7,7 +7,12 @@
 @else
     <form method="POST" action="{{ route('inquiry.store') }}" novalidate>
         @csrf
-        <input type="hidden" name="project_id" value="{{ $project->id }}">
+        @isset($project)
+            <input type="hidden" name="project_id" value="{{ $project->id }}">
+        @endisset
+        @isset($society)
+            <input type="hidden" name="society_id" value="{{ $society->id }}">
+        @endisset
 
         {{-- Honeypot. Invisible to people and screen readers; bots fill it in. --}}
         <div aria-hidden="true" style="position:absolute;left:-9999px;">
@@ -42,16 +47,29 @@
             </div>
 
             <div class="col-md-6 form-group">
-                <label class="form-label" for="inq-category">Category of interest</label>
-                <select id="inq-category" name="unit_category_id" class="form-select @error('unit_category_id') is-invalid @enderror">
-                    <option value="">Not sure yet</option>
-                    @foreach ($project->unitCategories as $category)
-                        <option value="{{ $category->id }}" @selected(old('unit_category_id') == $category->id)>
-                            {{ $category->name }} — {{ $category->unit_type }}
-                        </option>
-                    @endforeach
-                </select>
-                @error('unit_category_id')<span class="form-error">{{ $message }}</span>@enderror
+                @isset($society)
+                    <label class="form-label" for="inq-plot">Plot size of interest</label>
+                    <select id="inq-plot" name="plot_category_id" class="form-select @error('plot_category_id') is-invalid @enderror">
+                        <option value="">Not sure yet</option>
+                        @foreach ($society->plotCategories as $plot)
+                            <option value="{{ $plot->id }}" @selected(old('plot_category_id') == $plot->id)>
+                                {{ $plot->size_label }} — {{ $plot->plot_type->label() }}
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('plot_category_id')<span class="form-error">{{ $message }}</span>@enderror
+                @else
+                    <label class="form-label" for="inq-category">Category of interest</label>
+                    <select id="inq-category" name="unit_category_id" class="form-select @error('unit_category_id') is-invalid @enderror">
+                        <option value="">Not sure yet</option>
+                        @foreach ($project->unitCategories as $category)
+                            <option value="{{ $category->id }}" @selected(old('unit_category_id') == $category->id)>
+                                {{ $category->name }} — {{ $category->unit_type }}
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('unit_category_id')<span class="form-error">{{ $message }}</span>@enderror
+                @endisset
             </div>
 
             <div class="col-12 form-group">

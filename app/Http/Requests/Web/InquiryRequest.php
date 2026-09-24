@@ -20,10 +20,22 @@ class InquiryRequest extends FormRequest
             'phone' => ['required', 'string', 'max:30', 'regex:/^[0-9+\-\s()]{7,30}$/'],
             'email' => ['nullable', 'email', 'max:150'],
             'message' => ['nullable', 'string', 'max:2000'],
-            'project_id' => ['required', Rule::exists('projects', 'id')->where('is_published', true)->whereNull('deleted_at')],
+            // An inquiry belongs to a project or to a society, never neither.
+            'project_id' => [
+                'nullable', 'required_without:society_id',
+                Rule::exists('projects', 'id')->where('is_published', true)->whereNull('deleted_at'),
+            ],
+            'society_id' => [
+                'nullable', 'required_without:project_id',
+                Rule::exists('societies', 'id')->where('is_published', true)->whereNull('deleted_at'),
+            ],
             'unit_category_id' => [
                 'nullable',
                 Rule::exists('unit_categories', 'id')->where('project_id', $this->integer('project_id')),
+            ],
+            'plot_category_id' => [
+                'nullable',
+                Rule::exists('plot_categories', 'id')->where('society_id', $this->integer('society_id')),
             ],
             // Honeypot: hidden from people, filled in by most spam bots.
             'website' => ['prohibited'],

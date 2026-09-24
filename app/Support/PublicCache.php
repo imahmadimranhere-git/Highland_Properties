@@ -20,6 +20,8 @@ final class PublicCache
 
     public const FEATURED_PROJECTS = 'public.featured_projects.' . self::VERSION;
     public const PROJECT_GRID = 'public.project_grid.' . self::VERSION;
+    public const SOCIETY_GRID = 'public.society_grid.' . self::VERSION;
+    public const FEATURED_SOCIETIES = 'public.featured_societies.' . self::VERSION;
     public const DEVELOPERS = 'public.developers.' . self::VERSION;
     public const TESTIMONIALS = 'public.testimonials.' . self::VERSION;
     public const TESTIMONIALS_ALL = 'public.testimonials.all.' . self::VERSION;
@@ -43,6 +45,7 @@ final class PublicCache
         // Paginated project grid pages are cached per page number.
         for ($page = 1; $page <= 20; $page++) {
             Cache::forget(self::PROJECT_GRID . '.' . $page);
+            Cache::forget(self::SOCIETY_GRID . '.' . $page);
         }
     }
 }

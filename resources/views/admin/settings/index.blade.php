@@ -11,6 +11,7 @@
             'contact' => 'Contact',
             'social' => 'Social links',
             'seo' => 'SEO',
+            'video' => 'Video',
             'about' => 'About page',
             'slider' => 'Home slider',
         ];

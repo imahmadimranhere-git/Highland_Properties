@@ -23,13 +23,20 @@ class SettingRequest extends FormRequest
             'whatsapp' => ['nullable', 'string', 'max:30', 'regex:/^[0-9+\s]+$/'],
             'email' => ['nullable', 'email', 'max:150'],
             'address' => ['nullable', 'string', 'max:255'],
-            'map_embed_url' => ['nullable', 'url', 'max:500'],
+            'map_embed_url' => ['nullable', 'string', 'max:2000'],
         ],
         'social' => [
             'facebook' => ['nullable', 'url', 'max:255'],
             'instagram' => ['nullable', 'url', 'max:255'],
             'linkedin' => ['nullable', 'url', 'max:255'],
             'youtube' => ['nullable', 'url', 'max:255'],
+        ],
+        'video' => [
+            'video_heading' => ['nullable', 'string', 'max:120'],
+            'video_text' => ['nullable', 'string', 'max:300'],
+            // Any YouTube URL shape is accepted; the id is parsed out later.
+            'youtube_video_url' => ['nullable', 'url', 'max:255', 'regex:~(youtube\\.com|youtu\\.be)~i'],
+            'youtube_channel_url' => ['nullable', 'url', 'max:255', 'regex:~youtube\\.com~i'],
         ],
         'seo' => [
             'meta_title' => ['nullable', 'string', 'max:255'],
@@ -54,6 +61,8 @@ class SettingRequest extends FormRequest
     public function messages(): array
     {
         return [
+            'youtube_video_url.regex' => 'Paste a YouTube link, for example https://youtu.be/xxxxxxxxxxx',
+            'youtube_channel_url.regex' => 'Paste a YouTube channel link, for example https://youtube.com/@yourchannel',
             'whatsapp.regex' => 'Use digits only with the country code, for example 923001234567.',
             'logo.mimes' => 'Upload the logo as SVG, PNG or WebP.',
         ];

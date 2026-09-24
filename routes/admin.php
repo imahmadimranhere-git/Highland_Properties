@@ -15,7 +15,9 @@ use App\Http\Controllers\Admin\MasterDataController;
 use App\Http\Controllers\Admin\MediaController;
 use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\ProjectController;
+use App\Http\Controllers\Admin\PlotCategoryController;
 use App\Http\Controllers\Admin\ProjectTypeController;
+use App\Http\Controllers\Admin\SocietyController;
 use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\TeamMemberController;
@@ -57,6 +59,18 @@ Route::middleware(['auth', 'active', 'role:super_admin'])->group(function () {
         Route::post('projects/{project}/updates', 'store')->name('projects.updates.store');
         Route::put('projects/{project}/updates/{update}', 'update')->name('projects.updates.update');
         Route::delete('projects/{project}/updates/{update}', 'destroy')->name('projects.updates.destroy');
+    });
+
+    /* Societies — plots sold in Marla and Kanal --------------------------- */
+    Route::resource('societies', SocietyController::class)->except('show');
+    Route::delete('societies/{society}/media/{media}', [SocietyController::class, 'detachMedia'])
+        ->name('societies.media.destroy');
+
+    Route::controller(PlotCategoryController::class)->group(function () {
+        Route::get('societies/{society}/plots', 'index')->name('societies.plots.index');
+        Route::post('societies/{society}/plots', 'store')->name('societies.plots.store');
+        Route::put('societies/{society}/plots/{plot}', 'update')->name('societies.plots.update');
+        Route::delete('societies/{society}/plots/{plot}', 'destroy')->name('societies.plots.destroy');
     });
 
     /* 5 — Developers ---------------------------------------------------- */
@@ -110,7 +124,7 @@ Route::middleware(['auth', 'active', 'role:super_admin'])->group(function () {
     /* 12 — Website settings --------------------------------------------- */
     Route::get('settings', [SettingController::class, 'index'])->name('settings.index');
     Route::put('settings/{group}', [SettingController::class, 'update'])
-        ->whereIn('group', ['general', 'contact', 'social', 'seo', 'about'])
+        ->whereIn('group', ['general', 'contact', 'social', 'seo', 'about', 'video'])
         ->name('settings.update');
     Route::resource('sliders', HomeSliderController::class)->only(['store', 'update', 'destroy']);
 

@@ -29,7 +29,8 @@
             <div>
                 <h4>Explore</h4>
                 <ul>
-                    <li><a href="{{ route('projects.index') }}">Our projects</a></li>
+                    <li><a href="{{ route('societies.index') }}">Societies</a></li>
+                    <li><a href="{{ route('projects.index') }}">High-rise projects</a></li>
                     <li><a href="{{ route('developers.index') }}">Developers</a></li>
                     <li><a href="{{ route('team') }}">Our team</a></li>
                     <li><a href="{{ route('blog.index') }}">Blog</a></li>

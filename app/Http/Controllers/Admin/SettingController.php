@@ -25,7 +25,7 @@ class SettingController extends Controller
             // One cached array for all settings — no query per field.
             'values' => Setting::values(),
             'sliders' => $tab === 'slider'
-                ? HomeSlider::with('media')->orderBy('sort_order')->get()
+                ? HomeSlider::with(['media', 'tablet', 'mobile'])->orderBy('sort_order')->get()
                 : collect(),
         ]);
     }

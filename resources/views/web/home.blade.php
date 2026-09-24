@@ -85,7 +85,10 @@
         </section>
     @endif
 
-    {{-- 3. About teaser --------------------------------------------------- --}}
+    {{-- 3. Video --}}
+    @include('web.partials.video')
+
+    {{-- 4. About teaser --------------------------------------------------- --}}
     <section class="u-section u-bg-off">
         <div class="u-container">
             <div class="row split-row">
@@ -100,7 +103,7 @@
         </div>
     </section>
 
-    {{-- 4. Testimonials --------------------------------------------------- --}}
+    {{-- 5. Testimonials --------------------------------------------------- --}}
     @if ($testimonials->isNotEmpty())
         <section class="u-section">
             <div class="u-container">
@@ -119,7 +122,7 @@
         </section>
     @endif
 
-    {{-- 5. Latest posts --------------------------------------------------- --}}
+    {{-- 6. Latest posts --------------------------------------------------- --}}
     @if ($posts->isNotEmpty())
         <section class="u-section u-bg-off">
             <div class="u-container">

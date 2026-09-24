@@ -105,10 +105,15 @@
 
             <div class="form-group">
                 <label class="form-label" for="map_embed_url">Map embed URL</label>
-                <input id="map_embed_url" name="map_embed_url" type="url" maxlength="500"
-                       class="form-control @error('map_embed_url') is-invalid @enderror"
-                       value="{{ old('map_embed_url', $project->map_embed_url) }}">
-                <span class="form-hint">The map only loads when a visitor clicks it, never on page load.</span>
+                <textarea id="map_embed_url" name="map_embed_url" rows="3" maxlength="2000"
+                          class="form-control @error('map_embed_url') is-invalid @enderror"
+                          placeholder="Paste the embed link, or the whole &lt;iframe&gt; code">{{ old('map_embed_url', $project->map_embed_url) }}</textarea>
+                <span class="form-hint">
+                    Best result: Google Maps &rarr; Share &rarr; <strong>Embed a map</strong> &rarr; Copy HTML, and paste
+                    the whole thing here. A plain "Copy link" address also works — the coordinates are read out of it.
+                    Leave it empty and the map falls back to the coordinates, then the address.
+                    The map only loads when a visitor clicks it.
+                </span>
                 @error('map_embed_url')<span class="form-error">{{ $message }}</span>@enderror
             </div>
 
