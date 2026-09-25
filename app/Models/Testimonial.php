@@ -11,7 +11,7 @@ class Testimonial extends Model
 {
     protected $fillable = [
         'project_id', 'name', 'designation', 'rating', 'message',
-        'photo', 'status', 'sort_order',
+        'youtube_url', 'photo', 'status', 'sort_order',
     ];
 
     protected $casts = [
@@ -22,6 +22,12 @@ class Testimonial extends Model
     public function project(): BelongsTo
     {
         return $this->belongsTo(Project::class);
+    }
+
+    /** True when a usable YouTube link is saved. */
+    public function hasVideo(): bool
+    {
+        return \App\Support\Youtube::id($this->youtube_url) !== null;
     }
 
     public function scopeApproved(Builder $query): Builder

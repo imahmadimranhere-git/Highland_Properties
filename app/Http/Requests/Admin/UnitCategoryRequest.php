@@ -3,17 +3,25 @@
 namespace App\Http\Requests\Admin;
 
 use App\Enums\UnitAvailability;
+use App\Http\Requests\Concerns\DefaultsSortOrder;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
 class UnitCategoryRequest extends FormRequest
 {
+    use DefaultsSortOrder;
+
     public function authorize(): bool
     {
         return true;
     }
 
     /** Unit details only — payment plans are no longer edited here. */
+    protected function prepareForValidation(): void
+    {
+        $this->merge($this->defaultSortOrder());
+    }
+
     public function rules(): array
     {
         return [

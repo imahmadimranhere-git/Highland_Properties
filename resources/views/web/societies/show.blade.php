@@ -59,9 +59,11 @@
 
             {{-- Overview --}}
             <section id="overview" class="project-section">
-                <span class="section-label">Overview</span>
-                <h2>About {{ $society->name }}</h2>
-                <hr class="gold-divider u-mb-24">
+                <div class="section-pin">
+                    <span class="section-label">Overview</span>
+                    <h2>About {{ $society->name }}</h2>
+                    <hr class="gold-divider">
+                </div>
 
                 @if ($society->description)
                     <div class="prose">{!! nl2br(e($society->description)) !!}</div>
@@ -78,18 +80,15 @@
 
             {{-- Location --}}
             <section id="location" class="project-section">
-                <span class="section-label">Location</span>
-                <h2>{{ $location }}</h2>
-                <hr class="gold-divider u-mb-24">
+                <div class="section-pin">
+                    <span class="section-label">Location</span>
+                    <h2>{{ $location }}</h2>
+                    <hr class="gold-divider">
+                </div>
 
                 @if ($society->address)<p>{{ $society->address }}</p>@endif
 
-                @if ($mapUrl)
-                    <button type="button" class="map-placeholder" data-map-src="{{ $mapUrl }}" data-map-title="Map of {{ $society->name }}">
-                        <x-ui.icon name="pin" :size="28" class="icon icon--gold" />
-                        <span>Show map</span>
-                    </button>
-                @endif
+                @include('web.partials.map', ['url' => $mapUrl, 'title' => 'Map of ' . $society->name])
 
                 @if ($society->nearby_landmarks)
                     <ul class="landmarks">
@@ -128,9 +127,11 @@
             {{-- Plot sizes --}}
             @if ($society->plotCategories->isNotEmpty())
                 <section id="plots" class="project-section">
-                    <span class="section-label">Plot sizes</span>
-                    <h2>Sizes and rates</h2>
-                    <hr class="gold-divider u-mb-24">
+                    <div class="section-pin">
+                        <span class="section-label">Plot sizes</span>
+                        <h2>Sizes and rates</h2>
+                        <hr class="gold-divider">
+                    </div>
 
                     <div class="table-wrap">
                         <table class="table-hp">
@@ -172,9 +173,11 @@
             {{-- Gallery & master plans --}}
             @if ($society->gallery->isNotEmpty() || $society->floorPlans->isNotEmpty())
                 <section id="gallery" class="project-section">
-                    <span class="section-label">Gallery</span>
-                    <h2>Images and master plan</h2>
-                    <hr class="gold-divider u-mb-24">
+                    <div class="section-pin">
+                        <span class="section-label">Gallery</span>
+                        <h2>Images and master plan</h2>
+                        <hr class="gold-divider">
+                    </div>
 
                     @if ($society->gallery->isNotEmpty())
                         <div class="gallery" data-lightbox-group="gallery">
@@ -211,9 +214,11 @@
             {{-- Amenities --}}
             @if ($society->amenities->isNotEmpty())
                 <section id="amenities" class="project-section">
-                    <span class="section-label">Amenities</span>
-                    <h2>Living here</h2>
-                    <hr class="gold-divider u-mb-24">
+                    <div class="section-pin">
+                        <span class="section-label">Amenities</span>
+                        <h2>Living here</h2>
+                        <hr class="gold-divider">
+                    </div>
                     <ul class="amenity-list">
                         @foreach ($society->amenities as $amenity)
                             <li>
@@ -227,9 +232,11 @@
 
             {{-- Inquiry --}}
             <section id="inquiry" class="project-section">
-                <span class="section-label">Inquire</span>
-                <h2>Ask about {{ $society->name }}</h2>
-                <hr class="gold-divider u-mb-24">
+                <div class="section-pin">
+                    <span class="section-label">Inquire</span>
+                    <h2>Ask about {{ $society->name }}</h2>
+                    <hr class="gold-divider">
+                </div>
                 @include('web.partials.inquiry-form', ['society' => $society])
             </section>
         </div>

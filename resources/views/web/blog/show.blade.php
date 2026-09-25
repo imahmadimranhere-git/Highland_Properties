@@ -26,6 +26,29 @@
                 <div class="prose prose--narrow">
                     {!! \Illuminate\Support\Str::markdown($post->content ?? '', ['html_input' => 'strip', 'allow_unsafe_links' => false]) !!}
                 </div>
+
+                {{--
+                    Nothing renders when either field is empty, so older posts
+                    are unaffected. The text is escaped by Blade and the address
+                    was checked on save, so neither can carry a script.
+                --}}
+                @if ($post->hasExternalLink())
+                    <aside class="post-link prose--narrow">
+                        <p class="post-link__label">Read more</p>
+
+                        <a href="{{ $post->external_link_url }}" target="_blank" rel="noopener noreferrer"
+                           class="post-link__anchor">
+                            <span>{{ $post->external_link_text }}</span>
+
+                            <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor"
+                                 stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <path d="M14 4h6v6M20 4 10 14M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/>
+                            </svg>
+                        </a>
+
+                        <span class="post-link__host">{{ parse_url($post->external_link_url, PHP_URL_HOST) }}</span>
+                    </aside>
+                @endif
             </div>
         </section>
     </article>

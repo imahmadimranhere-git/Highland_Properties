@@ -4,11 +4,14 @@ namespace App\Http\Requests\Admin;
 
 use App\Enums\OwnershipFlag;
 use App\Enums\ProjectStatus;
+use App\Http\Requests\Concerns\DefaultsSortOrder;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
 class ProjectRequest extends FormRequest
 {
+    use DefaultsSortOrder;
+
     public function authorize(): bool
     {
         return true;
@@ -76,6 +79,7 @@ class ProjectRequest extends FormRequest
     protected function prepareForValidation(): void
     {
         $this->merge([
+            ...$this->defaultSortOrder(),
             'is_featured' => $this->boolean('is_featured'),
             'is_published' => $this->boolean('is_published'),
             // The landmarks textarea is one entry per line.

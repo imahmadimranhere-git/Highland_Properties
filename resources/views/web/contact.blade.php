@@ -23,12 +23,9 @@
 
                     @php $mapUrl = \App\Support\MapEmbed::url(setting('map_embed_url'), null, null, setting('address')); @endphp
 
-                    @if ($mapUrl)
-                        <button type="button" class="map-placeholder u-mt-24" data-map-src="{{ $mapUrl }}" data-map-title="Office location">
-                            <x-ui.icon name="pin" :size="28" class="icon icon--gold" />
-                            <span>Show office on map</span>
-                        </button>
-                    @endif
+                    <div class="u-mt-24">
+                        @include('web.partials.map', ['url' => $mapUrl, 'title' => 'Office location'])
+                    </div>
                 </div>
 
                 <div class="col-lg-7" id="contact-form">

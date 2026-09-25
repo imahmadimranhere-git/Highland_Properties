@@ -69,9 +69,11 @@
 
             {{-- 2. Overview ----------------------------------------------- --}}
             <section id="overview" class="project-section">
-                <span class="section-label">Overview</span>
-                <h2>About {{ $project->name }}</h2>
-                <hr class="gold-divider u-mb-24">
+                <div class="section-pin">
+                    <span class="section-label">Overview</span>
+                    <h2>About {{ $project->name }}</h2>
+                    <hr class="gold-divider">
+                </div>
 
                 @if ($project->description)
                     <div class="prose">{!! nl2br(e($project->description)) !!}</div>
@@ -89,19 +91,15 @@
 
             {{-- 3. Location ----------------------------------------------- --}}
             <section id="location" class="project-section">
-                <span class="section-label">Location</span>
-                <h2>{{ $location }}</h2>
-                <hr class="gold-divider u-mb-24">
+                <div class="section-pin">
+                    <span class="section-label">Location</span>
+                    <h2>{{ $location }}</h2>
+                    <hr class="gold-divider">
+                </div>
 
                 @if ($project->address)<p>{{ $project->address }}</p>@endif
 
-                @if ($mapUrl)
-                    {{-- The map iframe is only created when the visitor clicks. --}}
-                    <button type="button" class="map-placeholder" data-map-src="{{ $mapUrl }}" data-map-title="Map of {{ $project->name }}">
-                        <x-ui.icon name="pin" :size="28" class="icon icon--gold" />
-                        <span>Show map</span>
-                    </button>
-                @endif
+                @include('web.partials.map', ['url' => $mapUrl, 'title' => 'Map of ' . $project->name])
 
                 @if ($project->nearby_landmarks)
                     <ul class="landmarks">
@@ -143,9 +141,11 @@
             {{-- 5. Unit categories ---------------------------------------- --}}
             @if ($project->unitCategories->isNotEmpty())
                 <section id="categories" class="project-section">
-                    <span class="section-label">Unit categories</span>
-                    <h2>Sizes and prices</h2>
-                    <hr class="gold-divider u-mb-24">
+                    <div class="section-pin">
+                        <span class="section-label">Unit categories</span>
+                        <h2>Sizes and prices</h2>
+                        <hr class="gold-divider">
+                    </div>
 
                     <div class="table-wrap">
                         <table class="table-hp">
@@ -171,9 +171,11 @@
             {{-- 6. Payment plan + calculator ------------------------------ --}}
             @if ($plans->isNotEmpty())
                 <section id="payment-plan" class="project-section">
-                    <span class="section-label">Payment plan</span>
-                    <h2>How the payments are spread</h2>
-                    <hr class="gold-divider u-mb-24">
+                    <div class="section-pin">
+                        <span class="section-label">Payment plan</span>
+                        <h2>How the payments are spread</h2>
+                        <hr class="gold-divider">
+                    </div>
 
                     <div class="plan-grid">
                         @foreach ($plans as $category)
@@ -207,9 +209,11 @@
             {{-- 7. Development updates ------------------------------------ --}}
             @if ($project->developmentUpdates->isNotEmpty())
                 <section id="updates" class="project-section">
-                    <span class="section-label">Development updates</span>
-                    <h2>Progress on site</h2>
-                    <hr class="gold-divider u-mb-24">
+                    <div class="section-pin">
+                        <span class="section-label">Development updates</span>
+                        <h2>Progress on site</h2>
+                        <hr class="gold-divider">
+                    </div>
 
                     <ul class="timeline">
                         @foreach ($project->developmentUpdates as $update)
@@ -237,9 +241,11 @@
             {{-- 8. Gallery & floor plans ---------------------------------- --}}
             @if ($project->gallery->isNotEmpty() || $project->floorPlans->isNotEmpty())
                 <section id="gallery" class="project-section">
-                    <span class="section-label">Gallery</span>
-                    <h2>Images and floor plans</h2>
-                    <hr class="gold-divider u-mb-24">
+                    <div class="section-pin">
+                        <span class="section-label">Gallery</span>
+                        <h2>Images and floor plans</h2>
+                        <hr class="gold-divider">
+                    </div>
 
                     @if ($project->gallery->isNotEmpty())
                         <div class="gallery" data-lightbox-group="gallery">
@@ -276,9 +282,11 @@
             {{-- 9. Amenities ---------------------------------------------- --}}
             @if ($project->amenities->isNotEmpty())
                 <section id="amenities" class="project-section">
-                    <span class="section-label">Amenities</span>
-                    <h2>Living here</h2>
-                    <hr class="gold-divider u-mb-24">
+                    <div class="section-pin">
+                        <span class="section-label">Amenities</span>
+                        <h2>Living here</h2>
+                        <hr class="gold-divider">
+                    </div>
 
                     <ul class="amenity-list">
                         @foreach ($project->amenities as $amenity)
@@ -293,9 +301,11 @@
 
             {{-- 10. Inquiry form ------------------------------------------ --}}
             <section id="inquiry" class="project-section">
-                <span class="section-label">Inquire</span>
-                <h2>Ask about {{ $project->name }}</h2>
-                <hr class="gold-divider u-mb-24">
+                <div class="section-pin">
+                    <span class="section-label">Inquire</span>
+                    <h2>Ask about {{ $project->name }}</h2>
+                    <hr class="gold-divider">
+                </div>
                 @include('web.partials.inquiry-form', ['project' => $project])
             </section>
         </div>
@@ -322,7 +332,7 @@
     {{-- 11. Contact strip ------------------------------------------------ --}}
     @include('web.partials.contact-strip', [
         'heading' => 'Questions about ' . $project->name . '?',
-        'whatsappText' => 'Hi, I am interested in ' . $project->name . ' — ' . url()->current(),
+        'whatsappText' => 'Assalam-o-Alaikum , I am interested in ' . $project->name . ' — ' . url()->current(),
     ])
 
     {{-- Mobile: a slim bar replaces the sticky side card. --}}

@@ -2,13 +2,21 @@
 
 namespace App\Http\Requests\Admin;
 
+use App\Http\Requests\Concerns\DefaultsSortOrder;
 use Illuminate\Foundation\Http\FormRequest;
 
 class HomeSliderRequest extends FormRequest
 {
+    use DefaultsSortOrder;
+
     public function authorize(): bool
     {
         return true;
+    }
+
+    protected function prepareForValidation(): void
+    {
+        $this->merge($this->defaultSortOrder());
     }
 
     public function rules(): array

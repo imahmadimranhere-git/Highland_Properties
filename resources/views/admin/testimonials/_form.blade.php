@@ -53,10 +53,31 @@
     </div>
 
     <div class="col-12 form-group">
-        <label class="form-label" for="message">Testimonial <span class="required">*</span></label>
-        <textarea id="message" name="message" rows="4" maxlength="2000" required
+        <label class="form-label" for="message">Testimonial</label>
+        <textarea id="message" name="message" rows="4" maxlength="2000"
                   class="form-control @error('message') is-invalid @enderror">{{ old('message', $testimonial->message) }}</textarea>
+        <span class="form-hint">Leave empty if you are adding a video instead.</span>
         @error('message')<span class="form-error">{{ $message }}</span>@enderror
+    </div>
+
+    <div class="col-12 form-group">
+        <label class="form-label" for="youtube_url">Video testimonial (optional)</label>
+        <input id="youtube_url" name="youtube_url" type="url" maxlength="255"
+               class="form-control @error('youtube_url') is-invalid @enderror"
+               value="{{ old('youtube_url', $testimonial->youtube_url) }}"
+               placeholder="https://youtu.be/xxxxxxxxxxx">
+        <span class="form-hint">
+            Paste the client's video link from YouTube. With a video the testimonial shows as a
+            player; without one it shows as written words. Both can be used together.
+        </span>
+        @error('youtube_url')<span class="form-error">{{ $message }}</span>@enderror
+
+        @if ($testimonial->hasVideo())
+            <div class="banner-preview u-mt-16" style="max-width:280px;">
+                <img src="{{ \App\Support\Youtube::thumbnail($testimonial->youtube_url) }}"
+                     alt="Video thumbnail" loading="lazy" width="280" height="158">
+            </div>
+        @endif
     </div>
 
     <div class="col-md-6 form-group">

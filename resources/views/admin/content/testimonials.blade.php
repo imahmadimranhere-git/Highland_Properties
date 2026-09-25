@@ -27,6 +27,9 @@
                             <td>
                                 <strong>{{ $t->name }}</strong>
                                 <span style="display:block;font-size:.8125rem;" class="text-muted-hp">{{ $t->designation }}</span>
+                                @if ($t->hasVideo())
+                                    <span class="badge badge-gold" style="margin-top:4px;">Video</span>
+                                @endif
                             </td>
                             <td style="max-width:360px;">{{ \Illuminate\Support\Str::limit($t->message, 110) }}</td>
                             <td>{{ $t->rating }} / 5</td>

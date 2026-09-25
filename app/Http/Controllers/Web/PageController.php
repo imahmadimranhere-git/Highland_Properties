@@ -29,7 +29,7 @@ class PageController extends Controller
     {
         $testimonials = Cache::remember(PublicCache::TESTIMONIALS_ALL, PublicCache::TTL, fn () => Testimonial::approved()
             ->with('project:id,name,slug')
-            ->get(['id', 'project_id', 'name', 'designation', 'rating', 'message', 'photo']));
+            ->get(['id', 'project_id', 'name', 'designation', 'rating', 'message', 'youtube_url', 'photo']));
 
         return view('web.testimonials', compact('testimonials'));
     }

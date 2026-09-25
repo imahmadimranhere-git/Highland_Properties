@@ -39,7 +39,7 @@ class HomeController extends Controller
 
             'testimonials' => Cache::remember(PublicCache::TESTIMONIALS, PublicCache::TTL, fn () => Testimonial::approved()
                 ->limit(6)
-                ->get(['id', 'name', 'designation', 'rating', 'message', 'photo'])),
+                ->get(['id', 'name', 'designation', 'rating', 'message', 'youtube_url', 'photo'])),
 
             // A blog post has a single cover; only projects carry three crops.
             'posts' => Cache::remember(PublicCache::LATEST_POSTS, PublicCache::TTL, fn () => Post::published()

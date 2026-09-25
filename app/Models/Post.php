@@ -15,6 +15,7 @@ class Post extends Model
 
     protected $fillable = [
         'author_id', 'cover_media_id', 'title', 'slug', 'excerpt', 'content',
+        'external_link_text', 'external_link_url',
         'published_at', 'is_published', 'meta_title', 'meta_description',
     ];
 
@@ -36,6 +37,15 @@ class Post extends Model
     public function cover(): BelongsTo
     {
         return $this->belongsTo(Media::class, 'cover_media_id');
+    }
+
+    /**
+     * True only when both halves of the link exist. The blade asks this one
+     * question instead of checking two columns in two places.
+     */
+    public function hasExternalLink(): bool
+    {
+        return filled($this->external_link_text) && filled($this->external_link_url);
     }
 
     public function scopePublished(Builder $query): Builder

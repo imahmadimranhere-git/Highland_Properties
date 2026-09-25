@@ -4,11 +4,14 @@ namespace App\Http\Requests\Admin;
 
 use App\Enums\OwnershipFlag;
 use App\Enums\ProjectStatus;
+use App\Http\Requests\Concerns\DefaultsSortOrder;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
 class SocietyRequest extends FormRequest
 {
+    use DefaultsSortOrder;
+
     public function authorize(): bool
     {
         return true;
@@ -72,6 +75,7 @@ class SocietyRequest extends FormRequest
     protected function prepareForValidation(): void
     {
         $this->merge([
+            ...$this->defaultSortOrder(),
             'is_featured' => $this->boolean('is_featured'),
             'is_published' => $this->boolean('is_published'),
             'nearby_landmarks' => collect(preg_split('/\r\n|\r|\n/', (string) $this->input('landmarks_text')))

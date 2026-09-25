@@ -2,10 +2,13 @@
 
 namespace App\Http\Requests\Admin;
 
+use App\Http\Requests\Concerns\DefaultsSortOrder;
 use Illuminate\Foundation\Http\FormRequest;
 
 class FaqRequest extends FormRequest
 {
+    use DefaultsSortOrder;
+
     public function authorize(): bool
     {
         return true;
@@ -25,6 +28,7 @@ class FaqRequest extends FormRequest
     protected function prepareForValidation(): void
     {
         $this->merge([
+            ...$this->defaultSortOrder(),
             'is_active' => $this->boolean('is_active'),
             'group' => $this->input('group') ?: 'general',
         ]);

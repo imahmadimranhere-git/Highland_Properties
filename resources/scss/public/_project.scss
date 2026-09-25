@@ -140,6 +140,58 @@ html {
     .project-aside { display: none; }
 }
 
+/* ==========================================================================
+   Pinned section headings.
+   ==========================================================================
+   Each section's heading sticks to the top while that section's own content
+   scrolls underneath it; when the next section arrives, its heading pushes the
+   previous one out and takes its place. That is the whole effect — and it is
+   pure CSS, which is what makes it behave the same on a phone as on a laptop.
+
+   Three things it deliberately avoids, because each one silently breaks
+   position: sticky on mobile browsers:
+     · a JS scroll library driving the offsets by hand (touch scrolling on iOS
+       fires far fewer events than a mouse wheel, so the pin stutters)
+     · vh units, which jump every time a mobile address bar hides or shows
+     · transform / will-change / filter on an ancestor, any of which turns that
+       ancestor into the containing block and cancels the sticky child
+   -------------------------------------------------------------------------- */
+
+.project-main,
+.project-section {
+    /* An overflow value other than visible on an ancestor cancels sticky. */
+    overflow: visible;
+}
+
+.section-pin {
+    position: sticky;
+    /* Desktop: below the header and the section links, both of which stick. */
+    top: calc(var(--sticky-top, var(--header-h)) + var(--subnav-h));
+    z-index: 4;
+    padding: 16px 0 14px;
+    margin-bottom: 8px;
+    background-color: var(--white);
+}
+
+.section-pin h2 { margin-bottom: 0; }
+.section-pin .gold-divider { margin-top: 16px; }
+
+/* The content below must pass under the heading, never over it. */
+.project-section > *:not(.section-pin) { position: relative; z-index: 1; }
+
+@media (max-width: 767.98px) {
+    /* The section links are not sticky on phones, so only the header counts. */
+    .section-pin {
+        top: var(--sticky-top, var(--header-h));
+        padding: 14px 0 12px;
+    }
+}
+
+/* Someone who asked for less movement gets none. */
+@media (prefers-reduced-motion: reduce) {
+    .section-pin { position: static; }
+}
+
 /* Sections separated by a thin gold-flecked rule. */
 .project-section { padding-bottom: 56px; }
 
@@ -180,7 +232,30 @@ html {
 
 .fact-grid dd { margin: 0; font-weight: 600; color: var(--navy-900); }
 
-/* Map placeholder: a button until clicked, then replaced by the iframe. */
+/* The map itself. Rounded and bordered to match the cards. */
+.map-frame {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-card);
+    background-color: var(--off-white);
+}
+
+.map-frame iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+}
+
+@media (max-width: 575.98px) {
+    .map-frame { aspect-ratio: 4 / 3; }
+}
+
+/* Kept for anything still using the click-to-load placeholder. */
 .map-placeholder {
     width: 100%;
     height: 280px;

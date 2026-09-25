@@ -28,7 +28,7 @@
                 <span class="form-hint">Shown on the blog list and in search results.</span>
             </div>
 
-            <div class="form-group u-mb-0">
+            <div class="form-group">
                 <label class="form-label" for="content">Content</label>
                 <textarea id="content" name="content" rows="18" maxlength="60000" class="form-control"
                           style="font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.875rem;">{{ old('content', $post->content) }}</textarea>
@@ -36,6 +36,36 @@
                     Markdown: <code>## Heading</code>, <code>**bold**</code>, <code>- list item</code>,
                     <code>[link text](https://…)</code>. A blank line starts a new paragraph.
                 </span>
+            </div>
+
+            {{--
+                One highlighted link shown under the article. For links inside a
+                sentence, use the Markdown form above: [Laravel docs](https://laravel.com/docs)
+            --}}
+            <hr class="rule-gold u-mb-24">
+
+            <p class="section-label">External link</p>
+
+            <div class="row">
+                <div class="col-md-5 form-group u-mb-0">
+                    <label class="form-label" for="external_link_text">Link text</label>
+                    <input id="external_link_text" name="external_link_text" type="text" maxlength="160"
+                           class="form-control @error('external_link_text') is-invalid @enderror"
+                           value="{{ old('external_link_text', $post->external_link_text) }}"
+                           placeholder="Laravel Official Documentation">
+                    <span class="form-hint">The words readers click on.</span>
+                    @error('external_link_text')<span class="form-error">{{ $message }}</span>@enderror
+                </div>
+
+                <div class="col-md-7 form-group u-mb-0">
+                    <label class="form-label" for="external_link_url">Link address</label>
+                    <input id="external_link_url" name="external_link_url" type="url" maxlength="500"
+                           class="form-control @error('external_link_url') is-invalid @enderror"
+                           value="{{ old('external_link_url', $post->external_link_url) }}"
+                           placeholder="https://laravel.com/docs">
+                    <span class="form-hint">Must start with http:// or https://. Opens in a new tab.</span>
+                    @error('external_link_url')<span class="form-error">{{ $message }}</span>@enderror
+                </div>
             </div>
         </x-panel.box>
     </div>
