@@ -148,8 +148,128 @@ function initHeroRotation() {
     start();
 }
 
+
+/**
+ * Scroll reveal.
+ *
+ * IntersectionObserver, not a scroll handler: the browser tells us when an
+ * element crosses into view instead of us asking on every scroll frame, which
+ * is what makes this free on a phone. No animation library is involved.
+ *
+ * Sticky elements are deliberately excluded — a transform on an element (or
+ * on its ancestor) cancels position: sticky in its children.
+ */
+function initReveal() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const targets = document.querySelectorAll([
+        '.section-head',
+        '.u-grid > .card:not(.card--sticky)',
+        '.u-grid > article',
+        '.value-grid > .card',
+        '.plan-grid > .plan-card',
+        '.team-grid > .team-card',
+        '.timeline__item',
+        '.video-split__text',
+        '.video-split__player',
+        '.fact-grid',
+        '.office-box',
+        '.post-link',
+        '.contact-strip .u-between',
+    ].join(','));
+
+    if (! targets.length || ! ('IntersectionObserver' in window)) return;
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (! entry.isIntersecting) return;
+
+            entry.target.classList.add('is-in');
+            observer.unobserve(entry.target);
+            setTimeout(() => entry.target.classList.add('is-done'), 700);
+        });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+
+    targets.forEach((el, index) => {
+        el.classList.add('reveal');
+
+        // Cards in the same row arrive a beat apart.
+        const stagger = index % 3;
+        if (stagger) el.classList.add(`reveal--${stagger}`);
+
+        observer.observe(el);
+    });
+}
+
+/**
+ * A thin gold line at the top: it grows while the page is loading and while
+ * the visitor is moving to the next page. Deliberately not a full-screen
+ * loader — that hides a page that is already readable and feels slower.
+ */
+function initLoadBar() {
+    const bar = document.createElement('div');
+    bar.className = 'load-bar';
+    document.body.append(bar);
+
+    let width = 0;
+    let timer = null;
+
+    const creep = () => {
+        timer = setInterval(() => {
+            width = Math.min(width + (90 - width) * 0.12, 90);
+            bar.style.width = `${width}%`;
+        }, 180);
+    };
+
+    const finish = () => {
+        clearInterval(timer);
+        bar.style.width = '100%';
+        bar.classList.add('is-done');
+        setTimeout(() => { bar.style.width = '0'; bar.classList.remove('is-done'); }, 450);
+    };
+
+    if (document.readyState !== 'complete') {
+        creep();
+        window.addEventListener('load', finish, { once: true });
+    }
+
+    // Same bar when leaving for another page on this site.
+    document.addEventListener('click', (event) => {
+        const link = event.target.closest('a[href]');
+        if (! link) return;
+
+        const url = new URL(link.href, window.location.origin);
+        const sameTab = ! link.target || link.target === '_self';
+
+        if (url.origin === window.location.origin && sameTab && url.pathname !== window.location.pathname) {
+            width = 0;
+            bar.classList.remove('is-done');
+            creep();
+        }
+    });
+}
+
+/** Images fade in once decoded rather than snapping in half-drawn. */
+function initImageFade() {
+    document.querySelectorAll('img[loading="lazy"]').forEach((img) => {
+        if (img.complete) return;
+
+        img.classList.add('is-loading');
+        img.addEventListener('load', () => {
+            img.classList.remove('is-loading');
+            img.classList.add('is-ready');
+        }, { once: true });
+
+        // A broken image must not stay invisible.
+        img.addEventListener('error', () => img.classList.remove('is-loading'), { once: true });
+    });
+}
+
 initHeaderHeight();
 initMobileNav();
+initReveal();
+initLoadBar();
+initImageFade();
 initLazyEmbeds();
 initVideoFacade();
 initHeroRotation();

@@ -36,6 +36,10 @@
     vertical-align: middle;
 }
 
+/* The name column holds a thumbnail and two lines of text; it needs room. */
+.table-hp tbody td:first-child { min-width: 240px; }
+.table-hp tbody td:first-child strong { display: block; }
+
 .table-hp tbody tr:nth-child(even) { background-color: var(--off-white); }
 .table-hp tbody tr:last-child td { border-bottom: 0; }
 

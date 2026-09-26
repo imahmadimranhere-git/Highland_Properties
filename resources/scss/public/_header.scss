@@ -1,108 +1,226 @@
 /* ==========================================================================
-   Public site header. White, sticky, navy links with a gold underline.
-   Mobile menu is plain JS (a class toggle) — no Bootstrap collapse plugin.
+   Public site header — a floating pill.
+
+   The <header> itself stays sticky and transparent; the pill is the inner
+   container. Keeping the padding on the header means its measured height
+   (published as --sticky-top by public.js) still matches what the visitor
+   sees, so anything stuck below it lines up exactly.
    ========================================================================== */
 
 .site-header {
     position: sticky;
     top: 0;
     z-index: 1030;
-    background-color: var(--white);
-    border-bottom: 1px solid var(--border);
+    padding: 14px 0;
+    background-color: rgba(255, 255, 255, .82);
+    backdrop-filter: blur(10px);
 }
 
 .site-header__inner {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 24px;
-    height: var(--header-h);
+    gap: 20px;
+    height: calc(var(--header-h) - 28px);
+    padding: 0 12px 0 22px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-pill);
+    background-color: var(--white);
+    box-shadow: 0 2px 4px rgba(10, 31, 51, .04), 0 10px 28px rgba(10, 31, 51, .07);
 }
 
+/* Brand ------------------------------------------------------------------ */
 .site-brand {
     display: flex;
     align-items: center;
     gap: 10px;
+    flex: none;
     font-family: var(--font-serif);
-    font-size: 1.25rem;
+    font-size: 1.1875rem;
     font-weight: 600;
+    letter-spacing: -.01em;
     color: var(--navy-900);
 }
 
 .site-brand span { color: var(--gold-500); }
-.site-brand img { height: 42px; width: auto; }
+/*
+ * Sized by WIDTH now, not height: a wordmark should fill the space beside the
+ * menu. max-height stops a tall logo from bursting out of the pill, and
+ * object-fit keeps either shape undistorted.
+ */
+.site-brand img {
+    width: 100%;
+    max-width: 230px;
+    height: auto;
+    max-height: 60px;
+    object-fit: contain;
+    object-position: left center;
+    display: block;
+}
 
-.site-nav { display: flex; align-items: center; gap: 30px; }
+/* The brand keeps a fixed slot so the menu never shifts as pages change. */
+.site-brand { width: 230px; }
+
+/* Links ------------------------------------------------------------------ */
+.site-nav {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* The auth link belongs to the mobile drawer only — on a laptop the button
+   in the bar already covers it, and showing both read as "Login Login". */
+.site-nav__link--auth { display: none; }
 
 .site-nav__link {
     position: relative;
-    font-size: .9rem;
+    padding: 9px 14px;
+    border-radius: var(--radius-pill);
+    font-size: .875rem;
     font-weight: 500;
+    line-height: 1;
     color: var(--navy-800);
-    padding: 6px 0;
+    white-space: nowrap;
+    transition: background-color 220ms var(--ease), color 220ms var(--ease);
 }
 
-.site-nav__link::after {
+@media (hover: hover) {
+    .site-nav__link:hover {
+        background-color: var(--off-white);
+        color: var(--navy-900);
+    }
+}
+
+/* Current page: a soft gold pill with a gold dot, not a shouty block. */
+.site-nav__link.is-active {
+    background-color: var(--gold-100);
+    color: #6F5712;
+    font-weight: 600;
+}
+
+.site-nav__link.is-active::before {
     content: "";
     position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 0;
-    height: 2px;
-    background-color: var(--gold-500);
-    transition: width var(--speed) var(--ease);
+    left: 7px;
+    top: 50%;
+    width: 4px;
+    height: 4px;
+    margin-top: -2px;
+    border-radius: 50%;
+    background-color: var(--gold-600);
 }
 
-.site-nav__link:hover::after,
-.site-nav__link.is-active::after { width: 100%; }
-.site-nav__link.is-active { color: var(--navy-900); font-weight: 600; }
+.site-nav__link.is-active { padding-left: 18px; }
 
-.site-header__cta { display: flex; align-items: center; gap: 14px; }
+/* The drawer carries its own Login link for phones, where the header has no
+   room for the button. On a laptop the button is right there, so it is hidden. */
+@media (min-width: 992px) {
+    .site-nav__link--auth { display: none; }
+}
+
+/* Actions ---------------------------------------------------------------- */
+.site-header__cta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: none;
+}
+
+/* The one button in the bar: pill, navy, gold on hover. */
+.site-header__cta .btn {
+    border-radius: var(--radius-pill);
+    padding: 11px 20px;
+}
 
 .nav-burger {
     display: none;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
     border: 1px solid var(--border);
-    border-radius: var(--radius-btn);
+    border-radius: var(--radius-pill);
     background: none;
-    padding: 8px 10px;
     cursor: pointer;
+    transition: border-color 220ms var(--ease), background-color 220ms var(--ease);
 }
 
+.nav-burger:hover { border-color: var(--gold-500); background-color: var(--off-white); }
+
+/* Mobile ----------------------------------------------------------------- */
 @media (max-width: 991.98px) {
     .nav-burger { display: inline-flex; }
 
     /*
-     * The closed menu is fully invisible. A max-height of 0 hides the links
-     * but the panel's own border and background still paint, which left a
-     * stray line stuck under the navbar on every page.
+     * The closed menu is fully invisible: a max-height of 0 hides the links
+     * but a panel's border and background still paint, which used to leave a
+     * stray line under the bar.
      */
     .site-nav {
         position: fixed;
-        inset: var(--sticky-top, var(--header-h)) 0 auto 0;
+        inset: var(--sticky-top, var(--header-h)) 12px auto 12px;
         flex-direction: column;
         align-items: stretch;
-        gap: 0;
+        gap: 2px;
         padding: 0;
         max-height: 0;
         overflow: hidden;
         visibility: hidden;
         background-color: transparent;
-        border-bottom: 0;
+        border: 0;
+        border-radius: var(--radius-card);
         box-shadow: none;
-        transition: max-height var(--speed) var(--ease), visibility 0s linear var(--speed);
+        transition: max-height 260ms var(--ease), visibility 0s linear 260ms;
     }
 
     .site-nav.is-open {
         max-height: 80vh;
         overflow-y: auto;
         visibility: visible;
-        padding: 8px 0 16px;
+        padding: 10px;
         background-color: var(--white);
-        border-bottom: 1px solid var(--border);
-        box-shadow: 0 10px 24px rgba(10, 31, 51, .10);
-        transition: max-height var(--speed) var(--ease), visibility 0s;
+        border: 1px solid var(--border);
+        box-shadow: 0 14px 34px rgba(10, 31, 51, .14);
+        transition: max-height 260ms var(--ease), visibility 0s;
     }
-    .site-nav__link { padding: 13px var(--gutter); border-bottom: 1px solid var(--border); }
-    .site-nav__link::after { display: none; }
-    .site-header__cta .btn { display: none; }
+
+    .site-nav__link {
+        padding: 14px 16px;
+        border-radius: var(--radius-btn);
+        font-size: .9375rem;
+    }
+
+    .site-nav__link.is-active { padding-left: 24px; }
+    .site-nav__link.is-active::before { left: 12px; }
+
+    .site-nav__link--auth {
+        display: block;
+        margin-top: 4px;
+        border-top: 1px solid var(--border);
+        border-radius: 0 0 var(--radius-btn) var(--radius-btn);
+        color: var(--gold-600);
+        font-weight: 600;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .site-header__inner { padding: 0 10px 0 14px; gap: 10px; }
+
+    /* The logo grows into the empty middle instead of sitting alone in the
+       far corner, which is what made it look lost next to the buttons. */
+    .site-brand { flex: 1; width: auto; min-width: 0; }
+    .site-brand img { max-width: 100%; max-height: 46px; }
+    .site-brand span { display: none; }
+}
+
+@media (max-width: 575.98px) {
+    .site-header { padding: 10px 0; }
+    .site-brand { font-size: 1.0625rem; }
+    .site-brand img { max-height: 40px; }
+    .site-header__cta .btn { padding: 10px 14px; font-size: .8125rem; }
+}
+
+/* Very small phones: the button keeps only its icon. */
+@media (max-width: 379.98px) {
+    .site-header__cta .btn { padding: 10px 12px; }
 }

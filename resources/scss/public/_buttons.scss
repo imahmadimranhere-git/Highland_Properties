@@ -1,0 +1,66 @@
+/* ==========================================================================
+   Button treatment for the public site only.
+   ==========================================================================
+   This file is part of the public bundle, so none of it reaches the admin or
+   consultant panels — there a white "Cancel" next to a navy "Save" is what
+   tells the two apart, and filling both with navy would lose that.
+
+   On the website every button is navy and turns gold on hover or press.
+   -------------------------------------------------------------------------- */
+
+.btn--secondary {
+    background-color: var(--navy-800);
+    border-color: var(--navy-800);
+    color: var(--white);
+}
+
+.btn--secondary:hover,
+.btn--secondary:focus-visible {
+    background-color: var(--gold-500);
+    border-color: var(--gold-500);
+    color: var(--navy-900);
+}
+
+.btn--secondary:active {
+    background-color: var(--gold-600);
+    border-color: var(--gold-600);
+    color: var(--navy-900);
+}
+
+/* Primary and the light-on-dark variant press to gold as well. */
+.btn--primary:active,
+.btn--on-dark:active {
+    background-color: var(--gold-600);
+    border-color: var(--gold-600);
+    color: var(--navy-900);
+}
+
+/* The outline button keeps its gold edge, and fills in on press. */
+.btn--tertiary:active {
+    background-color: var(--gold-600);
+    border-color: var(--gold-600);
+    color: var(--navy-900);
+}
+
+/* "View details" on a card: navy by default, gold on hover — matching the
+   buttons around it instead of reading as a disabled white box. */
+.card__action {
+    background-color: var(--navy-800);
+    border-color: var(--navy-800);
+    color: var(--white);
+}
+
+@media (hover: hover) {
+    .card--interactive:hover .card__action,
+    .card__action:hover {
+        background-color: var(--gold-500);
+        border-color: var(--gold-500);
+        color: var(--navy-900);
+    }
+}
+
+.card__action:active {
+    background-color: var(--gold-600);
+    border-color: var(--gold-600);
+    color: var(--navy-900);
+}

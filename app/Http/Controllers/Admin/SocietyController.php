@@ -24,13 +24,14 @@ use Illuminate\View\View;
 class SocietyController extends Controller
 {
     private const FILE_FIELDS = [
-        'amenities', 'cover', 'cover_tablet', 'cover_mobile', 'gallery', 'master_plans', 'brochure',
+        'amenities', 'cover', 'cover_tablet', 'cover_mobile', 'location_image', 'gallery', 'master_plans', 'brochure',
     ];
 
     private const COVER_CROPS = [
         'cover' => 'cover_media_id',
         'cover_tablet' => 'cover_media_id_tablet',
         'cover_mobile' => 'cover_media_id_mobile',
+        'location_image' => 'location_media_id',
     ];
 
     public function __construct(private readonly MediaService $media)

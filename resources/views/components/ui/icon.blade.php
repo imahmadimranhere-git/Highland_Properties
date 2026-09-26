@@ -29,6 +29,7 @@
         'eye'       => '<path d="M2 12s3.6-6 10-6 10 6 10 6-3.6 6-10 6-10-6-10-6Z"/><circle cx="12" cy="12" r="2.8"/>',
         'check'     => '<path d="m5 13 4 4L19 7"/>',
         'download'  => '<path d="M12 4v10m0 0 4-4m-4 4-4-4M5 19h14"/>',
+        'megaphone' => '<path d="M4 10v4a1 1 0 0 0 1 1h3l6 4V5L8 9H5a1 1 0 0 0-1 1Z"/><path d="M18 9a4 4 0 0 1 0 6"/>',
     ];
 @endphp
 

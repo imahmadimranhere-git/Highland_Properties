@@ -90,20 +90,7 @@
                 </div>
             </div>
 
-            <div class="form-group">
-                <label class="form-label" for="map_embed_url">Map embed URL</label>
-                <textarea id="map_embed_url" name="map_embed_url" rows="3" maxlength="2000"
-                          class="form-control @error('map_embed_url') is-invalid @enderror"
-                          placeholder="Paste the embed link, or the whole &lt;iframe&gt; code">{{ old('map_embed_url', $society->map_embed_url) }}</textarea>
-                @error('map_embed_url')<span class="form-error">{{ $message }}</span>@enderror
-                <span class="form-hint">
-                    Best result: Google Maps &rarr; Share &rarr; <strong>Embed a map</strong> &rarr; Copy HTML, and paste
-                    the whole thing here. A plain "Copy link" address also works — the coordinates are read out of it.
-                    Leave it empty and the map falls back to the coordinates, then the address.
-                    The map only loads when a visitor clicks it.
-                </span>
-            </div>
-
+            
             <div class="form-group u-mb-0">
                 <label class="form-label" for="landmarks_text">Nearby landmarks</label>
                 <textarea id="landmarks_text" name="landmarks_text" rows="4" class="form-control"
@@ -144,6 +131,21 @@
                         @error($field)<span class="form-error">{{ $message }}</span>@enderror
                     </div>
                 @endforeach
+
+                <div class="col-md-4 form-group">
+                    <label class="form-label" for="location_image">Location image</label>
+                    <div class="banner-preview {{ $society->exists && $society->locationImage ? '' : 'is-empty' }}">
+                        @if ($society->exists && $society->locationImage)
+                            <img src="{{ $society->locationImage->thumb_url }}" alt="" loading="lazy" width="320" height="180">
+                        @else
+                            <span class="img-ph">Not uploaded</span>
+                        @endif
+                    </div>
+                    <input id="location_image" name="location_image" type="file" accept="image/*"
+                           class="form-control @error('location_image') is-invalid @enderror">
+                    <span class="form-hint">A map screenshot or a photo of the area. Shown on the listing card.</span>
+                    @error('location_image')<span class="form-error">{{ $message }}</span>@enderror
+                </div>
 
                 <div class="col-sm-4 form-group">
                     <label class="form-label" for="gallery">Add gallery images</label>

@@ -9,6 +9,7 @@ use App\Http\Controllers\Web\PageController;
 use App\Http\Controllers\Web\ProjectController;
 use App\Http\Controllers\Web\SitemapController;
 use App\Http\Controllers\Web\SocietyController;
+use App\Http\Controllers\Web\TeamMessageController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -42,6 +43,7 @@ Route::get('contact', [ContactController::class, 'show'])->name('contact');
 Route::middleware('throttle:5,1')->group(function () {
     Route::post('inquiry', [InquiryController::class, 'store'])->name('inquiry.store');
     Route::post('contact', [ContactController::class, 'store'])->name('contact.store');
+    Route::post('team/{team}/message', [TeamMessageController::class, 'store'])->name('team.message');
 });
 
 Route::get('sitemap.xml', SitemapController::class)->name('sitemap');

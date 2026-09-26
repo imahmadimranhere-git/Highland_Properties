@@ -22,6 +22,7 @@ class Project extends Model
     protected $fillable = [
         'developer_id', 'city_id', 'location_id', 'project_type_id',
         'assigned_consultant_id', 'cover_media_id', 'cover_media_id_tablet', 'cover_media_id_mobile',
+        'location_media_id',
         'name', 'slug', 'ownership_flag', 'status', 'short_description', 'description',
         'address', 'latitude', 'longitude', 'map_embed_url', 'nearby_landmarks',
         'total_area', 'total_floors', 'total_units', 'completion_target', 'approvals',
@@ -68,6 +69,12 @@ class Project extends Model
     public function cover(): BelongsTo
     {
         return $this->belongsTo(Media::class, 'cover_media_id');
+    }
+
+    /** Map screenshot or area photo shown on the listing card. */
+    public function locationImage(): BelongsTo
+    {
+        return $this->belongsTo(Media::class, 'location_media_id');
     }
 
     public function coverTablet(): BelongsTo
@@ -162,7 +169,7 @@ class Project extends Model
         return $query->select([
             'id', 'name', 'slug', 'status', 'starting_price', 'short_description',
             'city_id', 'location_id', 'sort_order',
-            'cover_media_id', 'cover_media_id_tablet', 'cover_media_id_mobile',
+            'cover_media_id', 'cover_media_id_tablet', 'cover_media_id_mobile', 'location_media_id',
         ]);
     }
 

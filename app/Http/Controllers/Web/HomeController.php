@@ -32,7 +32,7 @@ class HomeController extends Controller
             'featured' => Cache::remember(PublicCache::FEATURED_PROJECTS, PublicCache::TTL, fn () => Project::published()
                 ->featured()
                 ->forCard()
-                ->with(['city:id,name', 'location:id,name', 'cover:id,disk,path,webp_path,thumb_path', 'coverTablet:id,disk,path,webp_path,thumb_path', 'coverMobile:id,disk,path,webp_path,thumb_path'])
+                ->with(['city:id,name', 'location:id,name', 'cover:id,disk,path,webp_path,thumb_path', 'coverTablet:id,disk,path,webp_path,thumb_path', 'coverMobile:id,disk,path,webp_path,thumb_path', 'locationImage:id,disk,path,webp_path,thumb_path,alt_text'])
                 ->orderBy('sort_order')
                 ->limit(6)
                 ->get()),

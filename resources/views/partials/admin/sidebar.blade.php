@@ -22,6 +22,7 @@
         ],
         'Website' => [
             ['route' => 'admin.content.index', 'active' => ['admin.content.*', 'admin.posts.*', 'admin.testimonials.*'], 'label' => 'Content', 'icon' => 'edit'],
+            ['route' => 'admin.tickers.index', 'active' => ['admin.tickers.*'], 'label' => 'Announcement Ticker', 'icon' => 'megaphone'],
             ['route' => 'admin.settings.index', 'active' => ['admin.settings.*'], 'label' => 'Website Settings', 'icon' => 'settings'],
             ['route' => 'admin.media.index', 'active' => ['admin.media.*'], 'label' => 'Media Library', 'icon' => 'image'],
         ],

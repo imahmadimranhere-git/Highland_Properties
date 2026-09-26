@@ -27,10 +27,25 @@
             <a href="{{ route('projects.show', $project->slug) }}">{{ $project->name }}</a>
         </h3>
 
-        <p class="card__meta">
-            <x-ui.icon name="pin" :size="15" class="icon icon--gold" />
-            {{ collect([$project->location?->name, $project->city?->name])->filter()->implode(', ') }}
-        </p>
+        @php $place = collect([$project->location?->name, $project->city?->name])->filter()->implode(', '); @endphp
+
+        {{-- A picture of where it is, with the place name written on it.
+             Falls back to the plain line when no image has been uploaded. --}}
+        @if ($project->relationLoaded('locationImage') && $project->locationImage)
+            <figure class="card__place">
+                <img src="{{ $project->locationImage->thumb_url }}" alt="{{ $project->locationImage->alt_text ?: $place }}"
+                     width="480" height="150" loading="lazy" decoding="async">
+                <figcaption>
+                    <x-ui.icon name="pin" :size="14" class="icon icon--gold" />
+                    {{ $place }}
+                </figcaption>
+            </figure>
+        @else
+            <p class="card__meta">
+                <x-ui.icon name="pin" :size="15" class="icon icon--gold" />
+                {{ $place }}
+            </p>
+        @endif
 
         @if ($project->starting_price)
             <span class="card__price-label">Starting from</span>

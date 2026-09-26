@@ -27,7 +27,7 @@ class DeveloperController extends Controller
             ->with(['projects' => fn ($q) => $q->published()
                 ->forCard()
                 ->addSelect('developer_id')
-                ->with(['city:id,name', 'location:id,name', 'cover:id,disk,path,webp_path,thumb_path', 'coverTablet:id,disk,path,webp_path,thumb_path', 'coverMobile:id,disk,path,webp_path,thumb_path'])])
+                ->with(['city:id,name', 'location:id,name', 'cover:id,disk,path,webp_path,thumb_path', 'coverTablet:id,disk,path,webp_path,thumb_path', 'coverMobile:id,disk,path,webp_path,thumb_path', 'locationImage:id,disk,path,webp_path,thumb_path,alt_text'])])
             ->firstOrFail();
 
         return view('web.developers.show', compact('developer'));

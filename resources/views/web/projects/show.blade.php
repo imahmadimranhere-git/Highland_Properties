@@ -22,7 +22,6 @@
 @php
     $location = collect([$project->location?->name, $project->city?->name])->filter()->implode(', ');
     $plans = $project->unitCategories->filter(fn ($c) => $c->paymentPlan);
-    $mapUrl = \App\Support\MapEmbed::url($project->map_embed_url, $project->latitude, $project->longitude, $project->address);
 @endphp
 
 @section('content')
@@ -99,7 +98,6 @@
 
                 @if ($project->address)<p>{{ $project->address }}</p>@endif
 
-                @include('web.partials.map', ['url' => $mapUrl, 'title' => 'Map of ' . $project->name])
 
                 @if ($project->nearby_landmarks)
                     <ul class="landmarks">
@@ -330,9 +328,13 @@
     </div>
 
     {{-- 11. Contact strip ------------------------------------------------ --}}
+    <div class="u-container u-mb-40">
+        @include('web.partials.office')
+    </div>
+
     @include('web.partials.contact-strip', [
         'heading' => 'Questions about ' . $project->name . '?',
-        'whatsappText' => 'Assalam-o-Alaikum , I am interested in ' . $project->name . ' — ' . url()->current(),
+        'whatsappText' => \App\Support\WhatsappMessage::for($project->name, url()->current()),
     ])
 
     {{-- Mobile: a slim bar replaces the sticky side card. --}}

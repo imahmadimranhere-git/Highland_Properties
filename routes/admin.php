@@ -18,6 +18,7 @@ use App\Http\Controllers\Admin\ProjectController;
 use App\Http\Controllers\Admin\PlotCategoryController;
 use App\Http\Controllers\Admin\ProjectTypeController;
 use App\Http\Controllers\Admin\SocietyController;
+use App\Http\Controllers\Admin\TickerController;
 use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\TeamMemberController;
@@ -59,6 +60,15 @@ Route::middleware(['auth', 'active', 'role:super_admin'])->group(function () {
         Route::post('projects/{project}/updates', 'store')->name('projects.updates.store');
         Route::put('projects/{project}/updates/{update}', 'update')->name('projects.updates.update');
         Route::delete('projects/{project}/updates/{update}', 'destroy')->name('projects.updates.destroy');
+    });
+
+    /* Announcement ticker -------------------------------------------------- */
+    Route::controller(TickerController::class)->group(function () {
+        Route::get('tickers', 'index')->name('tickers.index');
+        Route::post('tickers', 'store')->name('tickers.store');
+        Route::put('tickers/{ticker}', 'update')->name('tickers.update');
+        Route::patch('tickers/{ticker}/toggle', 'toggle')->name('tickers.toggle');
+        Route::delete('tickers/{ticker}', 'destroy')->name('tickers.destroy');
     });
 
     /* Societies — plots sold in Marla and Kanal --------------------------- */

@@ -3,7 +3,7 @@
  * Reads flash messages rendered into the page by Blade and can also be
  * called from other scripts: window.hpToast('Saved', 'success').
  */
-export function toast(message, variant = 'default', timeout = 4500) {
+export function toast(message, variant = 'default', timeout = 4000) {
     const stack = document.querySelector('.toast-stack') || createStack();
 
     const el = document.createElement('div');
@@ -23,9 +23,21 @@ export function toast(message, variant = 'default', timeout = 4500) {
     el.append(text, close);
     stack.append(el);
 
-    if (timeout) {
-        setTimeout(() => dismiss(el), timeout);
+    if (! timeout) {
+        return;
     }
+
+    /*
+     * Four seconds, but the clock stops while the pointer is on the toast —
+     * otherwise a long message can vanish mid-sentence. It starts again as
+     * soon as the pointer leaves.
+     */
+    let timer = setTimeout(() => dismiss(el), timeout);
+
+    el.addEventListener('mouseenter', () => clearTimeout(timer));
+    el.addEventListener('mouseleave', () => {
+        timer = setTimeout(() => dismiss(el), timeout);
+    });
 }
 
 function createStack() {

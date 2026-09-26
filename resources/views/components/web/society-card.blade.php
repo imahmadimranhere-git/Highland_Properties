@@ -23,10 +23,25 @@
             <a href="{{ route('societies.show', $society->slug) }}">{{ $society->name }}</a>
         </h3>
 
-        <p class="card__meta">
-            <x-ui.icon name="pin" :size="15" class="icon icon--gold" />
-            {{ collect([$society->location?->name, $society->city?->name])->filter()->implode(', ') }}
-        </p>
+        @php $place = collect([$society->location?->name, $society->city?->name])->filter()->implode(', '); @endphp
+
+        {{-- A picture of where it is, with the place name written on it.
+             Falls back to the plain line when no image has been uploaded. --}}
+        @if ($society->relationLoaded('locationImage') && $society->locationImage)
+            <figure class="card__place">
+                <img src="{{ $society->locationImage->thumb_url }}" alt="{{ $society->locationImage->alt_text ?: $place }}"
+                     width="480" height="150" loading="lazy" decoding="async">
+                <figcaption>
+                    <x-ui.icon name="pin" :size="14" class="icon icon--gold" />
+                    {{ $place }}
+                </figcaption>
+            </figure>
+        @else
+            <p class="card__meta">
+                <x-ui.icon name="pin" :size="15" class="icon icon--gold" />
+                {{ $place }}
+            </p>
+        @endif
 
         <div class="u-between">
             <div>
@@ -35,9 +50,6 @@
                     <span class="card__price">{{ money($society->starting_price) }}</span>
                 @endif
             </div>
-            @if ($society->total_plots)
-                <span class="text-muted-hp" style="font-size:.8125rem;">{{ number_format($society->total_plots) }} plots</span>
-            @endif
         </div>
 
         <a href="{{ route('societies.show', $society->slug) }}" class="card__action">

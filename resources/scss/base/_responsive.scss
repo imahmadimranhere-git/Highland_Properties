@@ -13,9 +13,24 @@ img, svg, video, iframe, canvas, table {
 
 img { height: auto; }
 
-/* Long emails, URLs and slugs wrap instead of stretching their container. */
-td, dd, p, a, .card__meta, .library-card__name {
+/*
+ * Long emails, URLs and slugs must wrap instead of stretching their column —
+ * but "anywhere" on every cell also chopped ordinary names like
+ * "Green Valley Housing Society" into one letter per line. It now applies
+ * only where an unbroken string is actually expected.
+ */
+.detail-list dd,
+.library-card__name,
+.table-hp td a[href^="mailto:"],
+.table-hp td .is-longtext {
     overflow-wrap: anywhere;
+}
+
+/* Everything else breaks between words, the way text should. */
+.table-hp td,
+.table-hp th {
+    overflow-wrap: normal;
+    word-break: normal;
 }
 
 /* Grid and flex children shrink below their content width. */

@@ -18,7 +18,7 @@ class SettingRequest extends FormRequest
             // No tight limit: a logo is uploaded once and is not what slows
             // a site down. 4 MB simply stops an accidental camera photo.
             'logo' => ['nullable', 'file', 'mimes:svg,png,webp,jpg,jpeg', 'max:4096'],
-            'favicon' => ['nullable', 'file', 'mimes:png,ico,svg,webp', 'max:1024'],
+            'favicon' => ['nullable', 'file', 'mimes:png,ico,svg,webp', 'max:2048'],
         ],
         'contact' => [
             'phone' => ['nullable', 'string', 'max:30'],
@@ -26,6 +26,8 @@ class SettingRequest extends FormRequest
             'email' => ['nullable', 'email', 'max:150'],
             'address' => ['nullable', 'string', 'max:255'],
             'map_embed_url' => ['nullable', 'string', 'max:2000'],
+            // The first line of a WhatsApp chat started from a project page.
+            'whatsapp_message' => ['nullable', 'string', 'max:300'],
         ],
         'social' => [
             'facebook' => ['nullable', 'url', 'max:255'],

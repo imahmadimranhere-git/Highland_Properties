@@ -29,10 +29,28 @@
                 <a href="{{ route($route) }}"
                    class="site-nav__link {{ request()->routeIs($route) ? 'is-active' : '' }}">{{ $label }}</a>
             @endforeach
+
+            {{-- Shown inside the mobile menu only; on a laptop the button in
+                 the header already covers it. --}}
+            @auth
+                <a href="{{ auth()->user()->isSuperAdmin() ? route('admin.dashboard') : route('consultant.dashboard') }}"
+                   class="site-nav__link site-nav__link--auth">Dashboard</a>
+            @else
+                <a href="{{ route('login') }}" class="site-nav__link site-nav__link--auth">Login</a>
+            @endauth
         </nav>
 
         <div class="site-header__cta">
-            <a href="tel:{{ setting('phone') }}" class="btn btn--secondary btn--sm">{{ setting('phone', 'Call us') }}</a>
+            {{-- Staff sign-in. Signed in already, it points at the right panel. --}}
+            @auth
+                <a href="{{ auth()->user()->isSuperAdmin() ? route('admin.dashboard') : route('consultant.dashboard') }}"
+                   class="btn btn--primary btn--sm">Dashboard</a>
+            @else
+                <a href="{{ route('login') }}" class="btn btn--primary btn--sm">
+                    <x-ui.icon name="user" :size="15" style="color:currentColor;" />
+                    Login
+                </a>
+            @endauth
 
             <button type="button" class="nav-burger" aria-controls="site-nav" aria-expanded="false" aria-label="Menu">
                 <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">

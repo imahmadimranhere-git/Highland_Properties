@@ -22,7 +22,7 @@ class ProjectController extends Controller
 
         $projects = Cache::remember(PublicCache::PROJECT_GRID . '.' . $page, PublicCache::TTL, fn () => Project::published()
             ->forCard()
-            ->with(['city:id,name', 'location:id,name', 'cover:id,disk,path,webp_path,thumb_path', 'coverTablet:id,disk,path,webp_path,thumb_path', 'coverMobile:id,disk,path,webp_path,thumb_path'])
+            ->with(['city:id,name', 'location:id,name', 'cover:id,disk,path,webp_path,thumb_path', 'coverTablet:id,disk,path,webp_path,thumb_path', 'coverMobile:id,disk,path,webp_path,thumb_path', 'locationImage:id,disk,path,webp_path,thumb_path,alt_text'])
             ->orderBy('sort_order')
             ->orderBy('name')
             ->paginate(12));

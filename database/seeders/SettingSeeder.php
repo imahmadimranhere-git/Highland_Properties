@@ -22,6 +22,7 @@ class SettingSeeder extends Seeder
                 'email' => 'info@highlandproperties.test',
                 'address' => 'Blue Area, Islamabad, Pakistan',
                 'map_embed_url' => null,
+                'whatsapp_message' => 'Hi, I am interested in {project} — {url}',
             ],
             'social' => [
                 'facebook' => null,

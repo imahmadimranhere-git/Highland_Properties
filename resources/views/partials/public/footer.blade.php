@@ -52,7 +52,9 @@
                 <ul>
                     @if (setting('phone'))<li><a href="tel:{{ setting('phone') }}">{{ setting('phone') }}</a></li>@endif
                     @if (setting('email'))<li><a href="mailto:{{ setting('email') }}">{{ setting('email') }}</a></li>@endif
-                    @if (setting('address'))<li>{{ setting('address') }}</li>@endif
+                    @if (setting('address'))
+                        <li>@include('web.partials.office', ['compact' => true])</li>
+                    @endif
                 </ul>
             </div>
         </div>

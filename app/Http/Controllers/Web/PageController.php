@@ -47,6 +47,6 @@ class PageController extends Controller
     private function teamMembers()
     {
         return Cache::remember(PublicCache::TEAM, PublicCache::TTL, fn () => TeamMember::active()
-            ->get(['id', 'name', 'designation', 'photo', 'bio', 'phone', 'whatsapp', 'email', 'linkedin']));
+            ->get(['id', 'user_id', 'name', 'designation', 'photo', 'bio', 'phone', 'whatsapp', 'email', 'linkedin']));
     }
 }

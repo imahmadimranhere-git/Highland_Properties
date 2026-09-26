@@ -204,3 +204,80 @@
     font-size: .8125rem;
     color: var(--muted);
 }
+
+/* Our own office: full block on detail pages, one line in the footer. */
+.office-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+    padding: 22px 24px;
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--gold-500);
+    border-radius: var(--radius-card);
+    background-color: var(--off-white);
+}
+
+.office-box__address {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size: 1.0625rem;
+    color: var(--navy-900);
+}
+
+.office-box__contact { margin: 6px 0 0; font-size: .875rem; color: var(--muted); }
+
+.office-line {
+    display: inline-flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: .9rem;
+}
+
+.office-line .icon { margin-top: 2px; flex: none; }
+
+/* "Send a message" under a team member. Native <details>, no script. */
+.team-message { margin-top: 14px; }
+
+.team-message > summary {
+    list-style: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 9px 16px;
+    border: 1px solid var(--navy-800);
+    border-radius: var(--radius-btn);
+    font-size: .8125rem;
+    font-weight: 600;
+    letter-spacing: .03em;
+    color: var(--navy-800);
+    transition: background-color var(--speed) var(--ease), color var(--speed) var(--ease);
+}
+
+.team-message > summary::-webkit-details-marker { display: none; }
+.team-message > summary::after { content: "+"; font-size: 1rem; line-height: 1; }
+.team-message[open] > summary::after { content: "\2212"; }
+.team-message > summary:hover { background-color: var(--navy-800); color: var(--white); }
+
+.team-message form {
+    margin-top: 14px;
+    padding: 16px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-card);
+    background-color: var(--off-white);
+    text-align: left;
+}
+
+.team-message .form-group { margin-bottom: 12px; }
+
+.team-card__sent {
+    margin-top: 14px;
+    padding: 12px 14px;
+    border: 1px solid rgba(26, 122, 76, .3);
+    border-radius: var(--radius-card);
+    background-color: #EFF6F2;
+    font-size: .875rem;
+    color: var(--success);
+}

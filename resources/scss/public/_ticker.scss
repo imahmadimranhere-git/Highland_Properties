@@ -1,0 +1,83 @@
+/* ==========================================================================
+   Announcement ticker — a rounded red bar under the menu.
+   ==========================================================================
+   Pure CSS: the track holds two identical copies of the messages and slides
+   left by exactly half its width, so the moment the first copy leaves the
+   screen the second is sitting where it started. Nothing is measured in
+   JavaScript and the loop never shows a gap.
+   -------------------------------------------------------------------------- */
+
+/*
+ * The gap above comes from the header's own bottom padding, so this only has
+ * to match it below — the strip then sits with equal air on both sides,
+ * floating between the menu pill and the banner.
+ */
+.ticker-wrap { padding-bottom: 14px; }
+
+.ticker {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius-pill);
+    background-color: #C1272D;                 /* deep red, not a bright alert red */
+    box-shadow: 0 6px 16px rgba(193, 39, 45, .18);
+    color: var(--white);
+}
+
+.ticker__track {
+    display: flex;
+    width: max-content;
+    animation: ticker-run var(--ticker-duration, 38s) linear infinite;
+}
+
+.ticker__group {
+    display: flex;
+    align-items: center;
+    flex: none;
+}
+
+.ticker__item {
+    padding: 9px 0;
+    font-size: .875rem;
+    font-weight: 500;
+    letter-spacing: .01em;
+    white-space: nowrap;
+    color: var(--white);
+}
+
+a.ticker__item:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: var(--gold-500);
+}
+
+.ticker__sep {
+    padding: 0 22px;
+    font-size: .5rem;
+    color: var(--gold-500);
+}
+
+@keyframes ticker-run {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+}
+
+/* Reading a moving line is hard; hovering stops it. */
+@media (hover: hover) {
+    .ticker:hover .ticker__track { animation-play-state: paused; }
+}
+
+@media (max-width: 575.98px) {
+    .ticker-wrap { padding-bottom: 10px; }       /* matches the header on phones */
+    .ticker { border-radius: var(--radius-card); }
+    .ticker__item { font-size: .8125rem; padding: 8px 0; }
+    .ticker__sep { padding: 0 16px; }
+}
+
+/*
+ * Reduced motion: the strip stops and becomes a line the visitor can swipe
+ * through, rather than disappearing — the announcement still matters to them.
+ */
+@media (prefers-reduced-motion: reduce) {
+    .ticker__track { animation: none; width: auto; overflow-x: auto; }
+    .ticker__group:last-child { display: none; }
+}

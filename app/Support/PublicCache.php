@@ -21,6 +21,7 @@ final class PublicCache
     public const FEATURED_PROJECTS = 'public.featured_projects.' . self::VERSION;
     public const PROJECT_GRID = 'public.project_grid.' . self::VERSION;
     public const SOCIETY_GRID = 'public.society_grid.' . self::VERSION;
+    public const TICKER = 'public.ticker.' . self::VERSION;
     public const FEATURED_SOCIETIES = 'public.featured_societies.' . self::VERSION;
     public const DEVELOPERS = 'public.developers.' . self::VERSION;
     public const TESTIMONIALS = 'public.testimonials.' . self::VERSION;

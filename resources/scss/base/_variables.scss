@@ -51,7 +51,7 @@
     --topbar-h: 64px;
 
     /* Shared so sticky bars and #anchor scrolling always agree. */
-    --header-h: 76px;
+    --header-h: 100px;  /* pill height + the padding around it */
     --subnav-h: 52px;
 }
 
@@ -59,7 +59,7 @@
     :root {
         --section-y: 48px;
         --gutter: 16px;
-        --header-h: 64px;
+        --header-h: 84px;
         --subnav-h: 48px;
     }
 }

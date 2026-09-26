@@ -44,14 +44,31 @@
     color: var(--white);
 }
 
+/* Filled navy, gold on hover — the same behaviour as the primary button, one
+   step quieter because it carries a lighter shadow and no lift. */
 .btn--secondary {
+    background-color: var(--navy-800);
+    border-color: var(--navy-800);
+    color: var(--white);
+}
+
+.btn--secondary:hover,
+.btn--secondary:focus {
+    background-color: var(--gold-500);
+    border-color: var(--gold-500);
+    color: var(--navy-900);
+}
+
+/* Where a quiet outline is genuinely needed (inside a filled dark strip,
+   or beside a primary button in a form), add .btn--outline. */
+.btn--outline {
     background-color: transparent;
     border-color: var(--navy-800);
     color: var(--navy-800);
 }
 
-.btn--secondary:hover,
-.btn--secondary:focus {
+.btn--outline:hover,
+.btn--outline:focus {
     background-color: var(--navy-800);
     color: var(--white);
 }

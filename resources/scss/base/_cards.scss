@@ -121,10 +121,10 @@
     width: 100%;
     margin-top: auto;
     padding: 11px 16px;
-    border: 1px solid var(--border);
+    border: 1px solid var(--navy-800);
     border-radius: var(--radius-btn);
-    background-color: var(--white);
-    color: var(--navy-800);
+    background-color: var(--navy-800);
+    color: var(--white);
     font-size: .8125rem;
     font-weight: 600;
     letter-spacing: .03em;
@@ -140,15 +140,19 @@
 }
 
 @media (hover: hover) {
+    /* Gold on hover, whether the pointer is on the button or anywhere on
+       the card — the whole card is one link. */
     .card--interactive:hover .card__action,
     .card__action:hover {
-        background-color: var(--navy-800);
-        border-color: var(--navy-800);
-        color: var(--white);
+        background-color: var(--gold-500);
+        border-color: var(--gold-500);
+        color: var(--navy-900);
     }
 
     .card--interactive:hover .card__action svg { transform: translateX(3px); }
 }
+
+.card__action:active { transform: scale(.99); }
 
 /* Media corners follow the card radius. */
 .card__media { border-radius: 0; }
@@ -170,3 +174,35 @@
 /* Anything that must stay separately clickable sits above that overlay. */
 .card--interactive .badge--on-image,
 .card--interactive .card__media { z-index: 2; }
+
+/* Location picture on a listing card, with the place written across it. */
+.card__place {
+    position: relative;
+    margin: 0 0 16px;
+    border-radius: var(--radius-btn);
+    overflow: hidden;
+    background-color: var(--off-white);
+    aspect-ratio: 16 / 5;
+}
+
+.card__place img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.card__place figcaption {
+    position: absolute;
+    inset: auto 0 0 0;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 10px;
+    background: linear-gradient(180deg, transparent, rgba(10, 31, 51, .85));
+    color: var(--white);
+    font-size: .8125rem;
+    font-weight: 500;
+}
+
+.card__place figcaption .icon { color: var(--gold-500); }

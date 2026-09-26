@@ -24,7 +24,7 @@
                  style="display:block;margin-bottom:10px;">
         @endif
         <input id="favicon" name="favicon" type="file" accept=".png,.ico,.svg,.webp" class="form-control @error('favicon') is-invalid @enderror">
-        <span class="form-hint">Square image, 512 × 512 is ideal. Up to 1 MB.</span>
+        <span class="form-hint">Square image, 512 × 512 is ideal. Up to 2 MB.</span>
         @error('favicon')<span class="form-error">{{ $message }}</span>@enderror
     </div>
 </div>

@@ -39,10 +39,6 @@ class ProjectRequest extends FormRequest
             'address' => ['nullable', 'string', 'max:255'],
             'latitude' => ['nullable', 'numeric', 'between:-90,90'],
             'longitude' => ['nullable', 'numeric', 'between:-180,180'],
-            // Google embed links are 600–900 characters, and admins often paste
-            // the whole <iframe> block, so this accepts text and the src is
-            // pulled out when the page is rendered.
-            'map_embed_url' => ['nullable', 'string', 'max:2000'],
             'nearby_landmarks' => ['nullable', 'array', 'max:12'],
             'nearby_landmarks.*' => ['string', 'max:160'],
 
@@ -68,6 +64,7 @@ class ProjectRequest extends FormRequest
             'cover' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:6144'],
             'cover_tablet' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:6144'],
             'cover_mobile' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:6144'],
+            'location_image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:6144'],
             'gallery' => ['nullable', 'array', 'max:24'],
             'gallery.*' => ['image', 'mimes:jpg,jpeg,png,webp', 'max:6144'],
             'floor_plans' => ['nullable', 'array', 'max:12'],

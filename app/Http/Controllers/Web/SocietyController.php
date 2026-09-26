@@ -24,7 +24,7 @@ class SocietyController extends Controller
                 'location:id,name',
                 'cover:id,disk,path,webp_path,thumb_path',
                 'coverTablet:id,disk,path,webp_path,thumb_path',
-                'coverMobile:id,disk,path,webp_path,thumb_path',
+                'coverMobile:id,disk,path,webp_path,thumb_path', 'locationImage:id,disk,path,webp_path,thumb_path,alt_text',
             ])
             ->orderBy('sort_order')
             ->orderBy('name')

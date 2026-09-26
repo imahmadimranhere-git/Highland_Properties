@@ -35,6 +35,7 @@
 </head>
 <body>
     @include('partials.public.header')
+    @include('web.partials.ticker')
 
     <main id="main">
         @yield('content')

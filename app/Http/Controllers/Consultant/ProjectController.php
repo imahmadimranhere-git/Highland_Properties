@@ -21,7 +21,7 @@ class ProjectController extends Controller
             // Live projects, plus any unpublished one this consultant is assigned to.
             ->where(fn ($q) => $q->published()->orWhere('assigned_consultant_id', $userId))
             ->select(['id', 'name', 'slug', 'status', 'starting_price', 'city_id', 'location_id', 'cover_media_id', 'assigned_consultant_id', 'is_published'])
-            ->with(['city:id,name', 'location:id,name', 'cover:id,disk,path,webp_path,thumb_path', 'coverTablet:id,disk,path,webp_path,thumb_path', 'coverMobile:id,disk,path,webp_path,thumb_path'])
+            ->with(['city:id,name', 'location:id,name', 'cover:id,disk,path,webp_path,thumb_path', 'coverTablet:id,disk,path,webp_path,thumb_path', 'coverMobile:id,disk,path,webp_path,thumb_path', 'locationImage:id,disk,path,webp_path,thumb_path,alt_text'])
             ->withCount('unitCategories')
             ->when($request->filled('q'), fn ($q) => $q->where('name', 'like', '%' . $request->string('q') . '%'))
             ->orderByRaw('assigned_consultant_id = ? DESC', [$userId])

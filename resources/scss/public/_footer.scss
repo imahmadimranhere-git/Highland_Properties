@@ -15,28 +15,6 @@
     padding-bottom: 48px;
 }
 
-@media (max-width: 767.98px) {
-    .site-footer { padding-top: 44px; }
-    .site-footer__grid { grid-template-columns: 1fr 1fr; gap: 28px 20px; padding-bottom: 32px; }
-
-    /* The brand block spans both columns so the tagline is not squeezed. */
-    .site-footer__grid > div:first-child { grid-column: 1 / -1; }
-
-    .site-footer h4 { margin-bottom: 12px; }
-    .site-footer li + li { margin-top: 8px; }
-
-    .site-footer__bottom {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 6px;
-        text-align: left;
-    }
-}
-
-@media (max-width: 420px) {
-    .site-footer__grid { grid-template-columns: 1fr; }
-}
-
 .site-footer h4 {
     font-family: var(--font-sans);
     font-size: 11px;
@@ -68,4 +46,44 @@
     justify-content: space-between;
     gap: 12px;
     flex-wrap: wrap;
+}
+
+/* Tablet ------------------------------------------------------------------ */
+@media (max-width: 991.98px) {
+    .site-footer__grid { grid-template-columns: 1fr 1fr; gap: 32px 24px; }
+    .site-footer__grid > div:first-child { grid-column: 1 / -1; }
+}
+
+/* Phone -------------------------------------------------------------------
+   Two columns all the way down to the smallest phone: Explore and Company
+   sit side by side instead of stacking, which is what made the footer run
+   on for a whole screen. The brand and the contact details span both
+   columns, because their lines are too long to halve.
+   ------------------------------------------------------------------------- */
+@media (max-width: 767.98px) {
+    .site-footer { padding-top: 40px; }
+
+    .site-footer__grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 24px 18px;
+        padding-bottom: 26px;
+    }
+
+    .site-footer__grid > div:first-child,
+    .site-footer__grid > div:last-child { grid-column: 1 / -1; }
+
+    .site-footer h4 { margin-bottom: 10px; }
+    .site-footer li + li { margin-top: 7px; }
+    .site-footer li,
+    .site-footer a { font-size: .875rem; }
+
+    .site-footer__brand { font-size: 1.125rem; margin-bottom: 6px; }
+
+    .site-footer__bottom {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+        padding: 16px 0;
+        text-align: left;
+    }
 }

@@ -16,7 +16,6 @@
 
 @php
     $location = $society->full_location;
-    $mapUrl = \App\Support\MapEmbed::url($society->map_embed_url, $society->latitude, $society->longitude, $society->address);
 @endphp
 
 @section('content')
@@ -88,7 +87,6 @@
 
                 @if ($society->address)<p>{{ $society->address }}</p>@endif
 
-                @include('web.partials.map', ['url' => $mapUrl, 'title' => 'Map of ' . $society->name])
 
                 @if ($society->nearby_landmarks)
                     <ul class="landmarks">
@@ -259,9 +257,13 @@
         </aside>
     </div>
 
+    <div class="u-container u-mb-40">
+        @include('web.partials.office')
+    </div>
+
     @include('web.partials.contact-strip', [
         'heading' => 'Questions about ' . $society->name . '?',
-        'whatsappText' => 'Hi, I am interested in ' . $society->name . ' — ' . url()->current(),
+        'whatsappText' => \App\Support\WhatsappMessage::for($society->name, url()->current()),
     ])
 
     <div class="mobile-cta">

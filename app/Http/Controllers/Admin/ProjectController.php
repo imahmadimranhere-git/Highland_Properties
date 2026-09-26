@@ -27,7 +27,7 @@ class ProjectController extends Controller
 {
     /** Handled by syncRelations(), never mass-assigned. */
     private const FILE_FIELDS = [
-        'amenities', 'cover', 'cover_tablet', 'cover_mobile', 'gallery', 'floor_plans', 'brochure',
+        'amenities', 'cover', 'cover_tablet', 'cover_mobile', 'location_image', 'gallery', 'floor_plans', 'brochure',
     ];
 
     /** Upload field => database column for the three cover crops. */
@@ -35,6 +35,7 @@ class ProjectController extends Controller
         'cover' => 'cover_media_id',
         'cover_tablet' => 'cover_media_id_tablet',
         'cover_mobile' => 'cover_media_id_mobile',
+        'location_image' => 'location_media_id',
     ];
 
     public function __construct(private readonly MediaService $media)
