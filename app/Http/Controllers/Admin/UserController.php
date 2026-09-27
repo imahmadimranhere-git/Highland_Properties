@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\PasswordResetRequest;
 use App\Http\Requests\Admin\UserRequest;
 use App\Models\ConsultantTarget;
+use App\Enums\RoleSlug;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
@@ -39,7 +40,8 @@ class UserController extends Controller
     {
         return view('admin.users.create', [
             'user' => new User(['is_active' => true]),
-            'roles' => Role::orderBy('name')->get(['id', 'name', 'slug']),
+            // New accounts are consultants; the super admin is seeded, not created.
+            'roles' => Role::where('slug', RoleSlug::SalesConsultant->value)->get(['id', 'name', 'slug']),
             'target' => null,
         ]);
     }
@@ -61,7 +63,9 @@ class UserController extends Controller
 
         return view('admin.users.edit', [
             'user' => $user,
-            'roles' => Role::orderBy('name')->get(['id', 'name', 'slug']),
+            'roles' => Role::where('slug', RoleSlug::SalesConsultant->value)
+                ->orWhere('id', $user->role_id)
+                ->get(['id', 'name', 'slug']),
             'target' => $user->targets()->where('period', ConsultantTarget::currentPeriod())->first(),
         ]);
     }

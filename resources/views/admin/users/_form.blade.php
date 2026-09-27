@@ -17,7 +17,9 @@
     <div class="col-md-6 form-group">
         <label class="form-label" for="email">Email (used to sign in) <span class="required">*</span></label>
         <input id="email" name="email" type="email" maxlength="150" required autocomplete="off"
-               class="form-control @error('email') is-invalid @enderror" value="{{ old('email', $user->email) }}">
+               class="form-control @error('email') is-invalid @enderror" value="{{ old('email', $user->email) }}"
+               placeholder="name@highlandproperties.com">
+        <span class="form-hint">Company addresses only — must end in @highlandproperties.</span>
         @error('email')<span class="form-error">{{ $message }}</span>@enderror
     </div>
 
@@ -43,6 +45,8 @@
         @if ($isSelf)
             <input type="hidden" name="role_id" value="{{ $user->role_id }}">
             <span class="form-hint">You cannot change your own role.</span>
+        @elseif ($roles->count() === 1)
+            <span class="form-hint">Accounts created here are sales consultants.</span>
         @endif
         @error('role_id')<span class="form-error">{{ $message }}</span>@enderror
     </div>

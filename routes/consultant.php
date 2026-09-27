@@ -4,6 +4,7 @@ use App\Http\Controllers\Consultant\DashboardController;
 use App\Http\Controllers\Consultant\LeadController;
 use App\Http\Controllers\Consultant\ProfileController;
 use App\Http\Controllers\Consultant\ProjectController;
+use App\Http\Controllers\Consultant\SocietyController;
 use App\Http\Controllers\Consultant\ReportController;
 use Illuminate\Support\Facades\Route;
 
@@ -35,6 +36,9 @@ Route::middleware(['auth', 'auth.session', 'active', 'role:sales_consultant'])->
     });
 
     /* Projects — read-only. --------------------------------------------- */
+    Route::get('societies', [SocietyController::class, 'index'])->name('societies.index');
+    Route::get('societies/{slug}', [SocietyController::class, 'show'])->name('societies.show');
+
     Route::get('projects', [ProjectController::class, 'index'])->name('projects.index');
     Route::get('projects/{slug}', [ProjectController::class, 'show'])->name('projects.show');
 
