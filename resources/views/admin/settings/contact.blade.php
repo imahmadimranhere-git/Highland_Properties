@@ -14,5 +14,14 @@
         ])
     </div>
 
+    <div class="col-12">
+        @include('admin.settings._field', [
+            'key' => 'tawk_id',
+            'label' => 'Live chat (Tawk.to) widget id',
+            'placeholder' => '68a1b2c3d4e5f6/1h2i3j4k5',
+            'hint' => 'Tawk.to → Administration → Chat Widget → copy the part of the embed code that comes after tawk.to/chat/. Leave empty to turn live chat off.',
+        ])
+    </div>
+
     <div class="col-12">@include('admin.settings._field', ['key' => 'map_embed_url', 'label' => 'Office map', 'type' => 'textarea', 'rows' => 3, 'hint' => 'Google Maps → Share → Embed a map → Copy HTML, or just a plain map link. Loaded only after the visitor clicks.'])</div>
 </div>

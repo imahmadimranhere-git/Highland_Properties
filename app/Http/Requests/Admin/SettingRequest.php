@@ -28,6 +28,13 @@ class SettingRequest extends FormRequest
             'map_embed_url' => ['nullable', 'string', 'max:2000'],
             // The first line of a WhatsApp chat started from a project page.
             'whatsapp_message' => ['nullable', 'string', 'max:300'],
+            /*
+             * Tawk.to widget id, the part after tawk.to/chat/ in the embed
+             * code: "68a1b2c3d4e5f6/1h2i3j4k5". Two ids only — accepting a
+             * whole <script> block here would mean printing raw HTML from
+             * the database into every page.
+             */
+            'tawk_id' => ['nullable', 'string', 'max:80', 'regex:~^[A-Za-z0-9]+/[A-Za-z0-9]+$~'],
         ],
         'social' => [
             'facebook' => ['nullable', 'url', 'max:255'],
@@ -65,6 +72,7 @@ class SettingRequest extends FormRequest
     public function messages(): array
     {
         return [
+            'tawk_id.regex' => 'Paste only the widget id, for example 68a1b2c3d4e5f6/1h2i3j4k5',
             'youtube_video_url.regex' => 'Paste a YouTube link, for example https://youtu.be/xxxxxxxxxxx',
             'youtube_channel_url.regex' => 'Paste a YouTube channel link, for example https://youtube.com/@yourchannel',
             'whatsapp.regex' => 'Use digits only with the country code, for example 923001234567.',

@@ -88,3 +88,12 @@
 @media (max-width: 767.98px) {
     .split-row { --bs-gutter-x: 24px; }
 }
+
+/* Tawk.to puts its bubble in the bottom-right corner, exactly where the
+   WhatsApp button sits. When live chat is on, the green button moves up so
+   the two do not overlap. */
+body.has-livechat .wa-float { bottom: 96px; }
+
+@media (max-width: 575.98px) {
+    body.has-livechat .wa-float { bottom: 84px; }
+}

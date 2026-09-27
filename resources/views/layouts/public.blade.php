@@ -33,7 +33,7 @@
     @vite(['resources/scss/public.scss', 'resources/js/public.js'])
     @stack('head')
 </head>
-<body>
+<body class="{{ setting('tawk_id') ? 'has-livechat' : '' }}">
     @include('partials.public.header')
     @include('web.partials.ticker')
 
@@ -45,6 +45,7 @@
     @include('partials.public.whatsapp-float')
     @include('partials.flash')
 
+    @include('partials.public.tawk')
     @stack('scripts')
 </body>
 </html>
