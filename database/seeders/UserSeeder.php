@@ -17,7 +17,7 @@ class UserSeeder extends Seeder
 
         // Change this password immediately after the first login.
         User::updateOrCreate(
-            ['email' => 'admin@highlandproperties.test'],
+            ['email' => 'admin@highlandproperties'],
             [
                 'role_id' => $adminRole->id,
                 'name' => 'Super Admin',
@@ -29,7 +29,7 @@ class UserSeeder extends Seeder
         );
 
         $consultant = User::updateOrCreate(
-            ['email' => 'consultant@highlandproperties.test'],
+            ['email' => 'consultant@highlandproperties'],
             [
                 'role_id' => $consultantRole->id,
                 'name' => 'Ahmed Raza',

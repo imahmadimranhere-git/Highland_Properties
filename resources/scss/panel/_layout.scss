@@ -3,7 +3,13 @@
    navy sidebar, white content area, off-white page background.
    ========================================================================== */
 
-.panel { min-height: 100vh; background-color: var(--off-white); }
+.panel {
+    min-height: 100vh;
+    background-color: var(--off-white);
+    /* Nothing in a panel may scroll the page sideways. Wide tables scroll
+       inside their own wrapper instead. */
+    overflow-x: hidden;
+}
 
 /* Sidebar ------------------------------------------------------------- */
 .panel-sidebar {
@@ -140,7 +146,7 @@
 
 /* Content -------------------------------------------------------------- */
 .panel-main { margin-left: var(--sidebar-w); min-width: 0; }
-.panel-content { padding: 28px; }
+.panel-content { padding: 28px; max-width: 100%; overflow-x: clip; }
 
 .page-head {
     display: flex;
@@ -256,3 +262,55 @@
 @media (max-width: 991.98px) {
     .panel-burger { display: inline-flex; }
 }
+
+/* ==========================================================================
+   Filter bar.
+   ==========================================================================
+   Built with flex-wrap rather than the grid: grid rows carry negative side
+   margins and each column holds its share of the width even when the control
+   inside wants more, which is what pushed the date fields off screen. Here
+   every control simply wraps onto the next line when it runs out of room.
+   -------------------------------------------------------------------------- */
+
+.filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    width: 100%;
+}
+
+.filter-bar > * { min-width: 0; }
+
+.filter-bar__field { flex: 1 1 170px; max-width: 100%; }
+.filter-bar__field--wide { flex: 1 1 240px; }
+
+/* The two date boxes travel together and drop to their own line as a pair. */
+.filter-bar__dates {
+    display: flex;
+    gap: 8px;
+    flex: 1 1 280px;
+    min-width: 0;
+}
+
+.filter-bar__dates .form-control { flex: 1 1 0; min-width: 0; }
+
+.filter-bar__actions {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex: 1 1 100%;
+}
+
+@media (max-width: 575.98px) {
+    .filter-bar__field,
+    .filter-bar__dates { flex: 1 1 100%; }
+    .filter-bar__actions { flex-direction: column; align-items: flex-start; }
+    .filter-bar__actions .btn { width: 100%; }
+}
+
+/* The smaller search/filter forms use inline widths; let them wrap too so a
+   narrow window never forces the page sideways. */
+.panel form.u-flex { flex-wrap: wrap; }
+.panel form.u-flex .form-control,
+.panel form.u-flex .form-select { max-width: 100%; }

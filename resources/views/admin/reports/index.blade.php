@@ -16,8 +16,8 @@
     @include('admin.reports._tabs')
 
     <x-panel.box>
-        <form method="GET" class="row g-2">
-            <div class="col-md-2">
+        <form method="GET" class="filter-bar">
+            <div class="filter-bar__field">
                 <select name="type" class="form-select">
                     <option value="">Any type</option>
                     @foreach ($types as $type)
@@ -25,7 +25,7 @@
                     @endforeach
                 </select>
             </div>
-            <div class="col-md-2">
+            <div class="filter-bar__field">
                 <select name="user" class="form-select">
                     <option value="">Anyone</option>
                     @foreach ($people as $person)
@@ -33,7 +33,7 @@
                     @endforeach
                 </select>
             </div>
-            <div class="col-md-2">
+            <div class="filter-bar__field">
                 <select name="project" class="form-select">
                     <option value="">Any project</option>
                     @foreach ($projects as $project)
@@ -41,7 +41,7 @@
                     @endforeach
                 </select>
             </div>
-            <div class="col-md-2">
+            <div class="filter-bar__field">
                 <select name="status" class="form-select">
                     <option value="">Draft or final</option>
                     @foreach ($statuses as $status)
@@ -49,11 +49,11 @@
                     @endforeach
                 </select>
             </div>
-            <div class="col-md-4 u-flex u-gap-8">
+            <div class="filter-bar__dates">
                 <input type="date" name="from" value="{{ request('from') }}" class="form-control" aria-label="From">
                 <input type="date" name="to" value="{{ request('to') }}" class="form-control" aria-label="To">
             </div>
-            <div class="col-12 u-flex u-gap-16" style="align-items:center;">
+            <div class="filter-bar__actions">
                 <div class="form-check u-mb-0">
                     <input id="unreviewed" type="checkbox" name="reviewed" value="no" @checked(request('reviewed') === 'no')>
                     <label for="unreviewed">Not yet reviewed</label>

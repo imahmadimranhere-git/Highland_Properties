@@ -47,7 +47,10 @@ class ProjectController extends Controller
         $projects = Project::query()
             ->select([
                 'id', 'name', 'slug', 'status', 'ownership_flag', 'starting_price',
-                'developer_id', 'city_id', 'cover_media_id', 'assigned_consultant_id',
+                'developer_id', 'city_id', 'assigned_consultant_id',
+                // hasAllCovers() reads all three: without them every row was
+                // told the tablet and mobile crops were missing.
+                'cover_media_id', 'cover_media_id_tablet', 'cover_media_id_mobile',
                 'is_featured', 'is_published', 'updated_at',
             ])
             // One query per relation instead of one per row.
@@ -86,9 +89,10 @@ class ProjectController extends Controller
         $this->syncRelations($request, $project);
         DashboardStatsService::flush();
 
+        // Back to the list; the next step is named in the message instead.
         return redirect()
-            ->route('admin.projects.categories.index', $project)
-            ->with('success', "{$project->name} was created. Add its unit categories next.");
+            ->route('admin.projects.index')
+            ->with('success', "{$project->name} was created. Open its unit categories to add prices.");
     }
 
     public function edit(Project $project): View
@@ -112,8 +116,8 @@ class ProjectController extends Controller
         DashboardStatsService::flush();
 
         return redirect()
-            ->route('admin.projects.edit', $project)
-            ->with('success', 'Project saved.');
+            ->route('admin.projects.index')
+            ->with('success', "{$project->name} was saved.");
     }
 
     public function destroy(Project $project): RedirectResponse

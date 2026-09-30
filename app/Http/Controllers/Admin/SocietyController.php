@@ -71,9 +71,14 @@ class SocietyController extends Controller
         $society = Society::create($request->safe()->except(self::FILE_FIELDS));
         $this->syncRelations($request, $society);
 
+        /*
+         * Back to the list. The reminder about plot sizes stays in the message
+         * rather than in a forced redirect, so an admin adding several
+         * societies in a row is not pulled into a sub-screen each time.
+         */
         return redirect()
-            ->route('admin.societies.plots.index', $society)
-            ->with('success', "{$society->name} was created. Add its plot sizes next.");
+            ->route('admin.societies.index')
+            ->with('success', "{$society->name} was created. Open its plot sizes to add rates.");
     }
 
     public function edit(Society $society): View
@@ -94,7 +99,7 @@ class SocietyController extends Controller
         $society->update($request->safe()->except(self::FILE_FIELDS));
         $this->syncRelations($request, $society);
 
-        return redirect()->route('admin.societies.edit', $society)->with('success', 'Society saved.');
+        return redirect()->route('admin.societies.index')->with('success', "{$society->name} was saved.");
     }
 
     public function destroy(Society $society): RedirectResponse

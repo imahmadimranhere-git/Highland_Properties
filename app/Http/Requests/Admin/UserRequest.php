@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Admin;
 
 use App\Enums\RoleSlug;
+use App\Http\Requests\Concerns\DefaultsSortOrder;
 use App\Models\Role;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -10,6 +11,8 @@ use Illuminate\Validation\Rules\Password;
 
 class UserRequest extends FormRequest
 {
+    use DefaultsSortOrder;
+
     public function authorize(): bool
     {
         return true;
@@ -22,14 +25,14 @@ class UserRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:150'],
             /*
-             * Company address only. The pattern accepts any ending
-             * (.com, .pk, .test), so moving the live domain later needs no
-             * code change — but a personal gmail cannot be used to create a
-             * staff account.
+             * Company address only. The ending is optional and unrestricted:
+             * admin@highlandproperties, .com, .pk and .test all pass, so the
+             * live domain can change later without touching this code — but a
+             * personal gmail cannot be used to create a staff account.
              */
             'email' => [
                 'required', 'email', 'max:150',
-                'regex:/@highlandproperties\.[a-z]{2,}$/i',
+                'regex:/@highlandproperties(\.[a-z]{2,})?$/i',
                 Rule::unique('users', 'email')->ignore($user?->id),
             ],
             'phone' => ['nullable', 'string', 'max:30'],
@@ -60,6 +63,7 @@ class UserRequest extends FormRequest
     protected function prepareForValidation(): void
     {
         $this->merge([
+            ...$this->zeroFor(['target_deals', 'target_amount']),
             'is_active' => $this->boolean('is_active'),
             // A new account is always a consultant, whatever the form sent.
             'role_id' => $this->route('user')
@@ -71,7 +75,7 @@ class UserRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'email.regex' => 'Use a company address ending in @highlandproperties.',
+            'email.regex' => 'Use a company address: anything ending in @highlandproperties.',
             'role_id.in' => 'Only sales consultant accounts can be created here.',
         ];
     }

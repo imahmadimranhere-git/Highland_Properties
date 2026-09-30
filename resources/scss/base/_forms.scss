@@ -101,3 +101,30 @@ textarea.form-control { min-height: 120px; resize: vertical; }
 .alert--danger { border-left-color: var(--danger); background-color: #FBF1F0; }
 .alert--success { border-left-color: var(--success); background-color: #EFF6F2; }
 .alert ul { margin: 8px 0 0; padding-left: 18px; }
+
+/* ==========================================================================
+   Grid safety.
+   ==========================================================================
+   A form control inside a grid column keeps its own intrinsic minimum width
+   unless told otherwise, and a date input's is large because of the picker
+   button. Two of them side by side pushed their column wider than its share
+   of the row, which widened the row, which gave the whole admin page a
+   sideways scrollbar.
+   -------------------------------------------------------------------------- */
+
+.form-control,
+.form-select {
+    min-width: 0;
+    max-width: 100%;
+}
+
+/* Date and time fields are the worst offenders. */
+input[type="date"].form-control,
+input[type="time"].form-control,
+input[type="datetime-local"].form-control {
+    min-width: 0;
+    width: 100%;
+}
+
+/* A row of filters wraps instead of stretching the page. */
+.row > [class^="col"] { min-width: 0; }

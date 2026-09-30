@@ -220,7 +220,7 @@
                     <ul class="amenity-list">
                         @foreach ($society->amenities as $amenity)
                             <li>
-                                <x-ui.icon :name="$amenity->icon ?: 'check'" :size="20" class="icon icon--gold" />
+                                <x-ui.amenity-icon :icon="$amenity->icon" :size="20" />
                                 {{ $amenity->name }}
                             </li>
                         @endforeach

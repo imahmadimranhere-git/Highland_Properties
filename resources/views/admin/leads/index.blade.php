@@ -16,12 +16,12 @@
     </x-panel.page-head>
 
     <x-panel.box>
-        <form method="GET" class="row g-2" style="--bs-gutter-y:12px;">
-            <div class="col-md-3">
+        <form method="GET" class="filter-bar">
+            <div class="filter-bar__field filter-bar__field--wide">
                 <input type="search" name="q" value="{{ request('q') }}" class="form-control" placeholder="Name, phone or email">
             </div>
 
-            <div class="col-md-2">
+            <div class="filter-bar__field">
                 <select name="status" class="form-select">
                     <option value="">Any status</option>
                     @foreach ($statuses as $status)
@@ -30,7 +30,7 @@
                 </select>
             </div>
 
-            <div class="col-md-2">
+            <div class="filter-bar__field">
                 <select name="consultant" class="form-select">
                     <option value="">Any consultant</option>
                     <option value="none" @selected(request('consultant') === 'none')>Unassigned</option>
@@ -40,7 +40,7 @@
                 </select>
             </div>
 
-            <div class="col-md-2">
+            <div class="filter-bar__field">
                 <select name="project" class="form-select">
                     <option value="">Any project</option>
                     @foreach ($projects as $project)
@@ -49,12 +49,12 @@
                 </select>
             </div>
 
-            <div class="col-md-3 u-flex u-gap-8">
+            <div class="filter-bar__dates">
                 <input type="date" name="from" value="{{ request('from') }}" class="form-control" aria-label="From date">
                 <input type="date" name="to" value="{{ request('to') }}" class="form-control" aria-label="To date">
             </div>
 
-            <div class="col-12 u-flex u-gap-16" style="align-items:center;">
+            <div class="filter-bar__actions">
                 <div class="form-check u-mb-0">
                     <input id="due" type="checkbox" name="due" value="1" @checked(request()->boolean('due'))>
                     <label for="due">Follow-up due or overdue</label>

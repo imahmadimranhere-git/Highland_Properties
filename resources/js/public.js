@@ -3,6 +3,7 @@
  * No framework and no Bootstrap JS. Page-specific code (lightbox,
  * calculator) lives in project.js and loads on the project page only.
  */
+
 import { initFlashToasts } from './toast.js';
 
 /**

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\HomeSlider;
 use App\Models\Post;
 use App\Models\Project;
+use App\Models\Society;
 use App\Models\Testimonial;
 use App\Support\PublicCache;
 use Illuminate\Support\Facades\Cache;
@@ -30,6 +31,15 @@ class HomeController extends Controller
                 ->get(['id', 'media_id', 'media_id_tablet', 'media_id_mobile', 'title', 'subtitle', 'cta_label', 'cta_url'])),
 
             'featured' => Cache::remember(PublicCache::FEATURED_PROJECTS, PublicCache::TTL, fn () => Project::published()
+                ->featured()
+                ->forCard()
+                ->with(['city:id,name', 'location:id,name', 'cover:id,disk,path,webp_path,thumb_path', 'coverTablet:id,disk,path,webp_path,thumb_path', 'coverMobile:id,disk,path,webp_path,thumb_path', 'locationImage:id,disk,path,webp_path,thumb_path,alt_text'])
+                ->orderBy('sort_order')
+                ->limit(6)
+                ->get()),
+
+            // Societies marked "Featured on the home page" in the admin.
+            'featuredSocieties' => Cache::remember(PublicCache::FEATURED_SOCIETIES, PublicCache::TTL, fn () => Society::published()
                 ->featured()
                 ->forCard()
                 ->with(['city:id,name', 'location:id,name', 'cover:id,disk,path,webp_path,thumb_path', 'coverTablet:id,disk,path,webp_path,thumb_path', 'coverMobile:id,disk,path,webp_path,thumb_path', 'locationImage:id,disk,path,webp_path,thumb_path,alt_text'])

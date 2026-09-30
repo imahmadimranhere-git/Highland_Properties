@@ -97,3 +97,6 @@ body.has-livechat .wa-float { bottom: 96px; }
 @media (max-width: 575.98px) {
     body.has-livechat .wa-float { bottom: 84px; }
 }
+
+/* Bootstrap Icons used for amenities, coloured like the SVG ones. */
+.amenity-icon { color: var(--gold-500); line-height: 1; flex: none; }

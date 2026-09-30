@@ -14,6 +14,11 @@
                    class="form-control @error('icon') is-invalid @enderror" value="{{ old('icon') }}"
                    placeholder="shield, pool, gym">
             <span class="form-hint">Must exist in the icon component.</span>
+            <span class="form-hint">
+                Any Bootstrap Icons name — <code>bi-wifi</code>, <code>bi-p-square</code>,
+                <code>bi-shield-check</code>. Browse them at icons.getbootstrap.com.
+                Leave empty for a tick mark.
+            </span>
             @error('icon')<span class="form-error">{{ $message }}</span>@enderror
         </div>
 
@@ -41,7 +46,13 @@
                             </form>
 
                             <td><input form="am-{{ $amenity->id }}" name="name" class="form-control" value="{{ $amenity->name }}" maxlength="120"></td>
-                            <td><input form="am-{{ $amenity->id }}" name="icon" class="form-control" value="{{ $amenity->icon }}" maxlength="60"></td>
+                            <td>
+                                <div class="u-flex u-gap-8" style="align-items:center;">
+                                    <x-ui.amenity-icon :icon="$amenity->icon" :size="18" />
+                                    <input form="am-{{ $amenity->id }}" name="icon" class="form-control"
+                                           value="{{ $amenity->icon }}" maxlength="60" placeholder="bi-wifi">
+                                </div>
+                            </td>
                             <td>
                                 <div class="form-check u-mb-0">
                                     <input form="am-{{ $amenity->id }}" type="checkbox" name="is_active" value="1" {{ $amenity->is_active ? 'checked' : '' }}>

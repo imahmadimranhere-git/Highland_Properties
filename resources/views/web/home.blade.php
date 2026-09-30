@@ -97,6 +97,28 @@
         </section>
     @endif
 
+    {{-- Societies marked as featured in the admin --}}
+    @if ($featuredSocieties->isNotEmpty())
+        <section class="u-section u-bg-off">
+            <div class="u-container">
+                <x-ui.section-heading
+                    label="Societies"
+                    title="Plots open for booking"
+                    text="Approved housing schemes with plot sizes and rates set out plainly." />
+
+                <div class="u-grid">
+                    @foreach ($featuredSocieties as $society)
+                        <x-web.society-card :society="$society" />
+                    @endforeach
+                </div>
+
+                <div class="u-center u-mt-40">
+                    <a href="{{ route('societies.index') }}" class="btn btn--secondary">View all societies</a>
+                </div>
+            </div>
+        </section>
+    @endif
+
     {{-- 3. Video --}}
     @include('web.partials.video')
 

@@ -2,11 +2,14 @@
 
 namespace App\Http\Requests\Admin;
 
+use App\Http\Requests\Concerns\DefaultsSortOrder;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
 class DeveloperRequest extends FormRequest
 {
+    use DefaultsSortOrder;
+
     public function authorize(): bool
     {
         // The route is already behind role:super_admin middleware.
@@ -41,6 +44,7 @@ class DeveloperRequest extends FormRequest
     protected function prepareForValidation(): void
     {
         $this->merge([
+            ...$this->zeroFor(['completed_projects']),
             'is_active' => $this->boolean('is_active'),
         ]);
     }

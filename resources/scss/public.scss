@@ -1,4 +1,17 @@
 /* Public website bundle. Loads no panel CSS. */
+/*
+ * Bootstrap Icons, used for the amenity icons chosen in Master Data.
+ *
+ * Imported as SCSS by path, not as a .css file and not from a JS entry:
+ *   - "@import 'pkg/....css'" is left as a runtime import by Sass, so the
+ *     font files never reach the build and every icon shows as a box.
+ *   - importing from a JS entry only works if that entry is actually loaded
+ *     on the page.
+ * Pulling in the package's own .scss compiles it into this bundle and lets
+ * Vite rewrite the font URLs, which works no matter which assets a page loads.
+ */
+@import "../../node_modules/bootstrap-icons/font/bootstrap-icons.scss";
+
 @import "base/bootstrap-core";
 @import "base/variables";
 @import "base/typography";

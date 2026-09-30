@@ -24,7 +24,7 @@ class ContentSeeder extends Seeder
                 'bio' => 'Twelve years advising families and investors on residential purchases in the capital region.',
                 'phone' => '+92 301 1111111',
                 'whatsapp' => '923011111111',
-                'email' => 'consultant@highlandproperties.test',
+                'email' => 'consultant@highlandproperties',
                 'sort_order' => 1,
                 'is_active' => true,
             ]

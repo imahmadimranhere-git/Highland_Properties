@@ -19,7 +19,7 @@ class SettingSeeder extends Seeder
             'contact' => [
                 'phone' => '+92 51 1234567',
                 'whatsapp' => '923000000000',
-                'email' => 'info@highlandproperties.test',
+                'email' => 'info@highlandproperties',
                 'address' => 'Blue Area, Islamabad, Pakistan',
                 'map_embed_url' => null,
                 'whatsapp_message' => 'Hi, I am interested in {project} — {url}',

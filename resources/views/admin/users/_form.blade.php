@@ -18,8 +18,8 @@
         <label class="form-label" for="email">Email (used to sign in) <span class="required">*</span></label>
         <input id="email" name="email" type="email" maxlength="150" required autocomplete="off"
                class="form-control @error('email') is-invalid @enderror" value="{{ old('email', $user->email) }}"
-               placeholder="name@highlandproperties.com">
-        <span class="form-hint">Company addresses only — must end in @highlandproperties.</span>
+               placeholder="admin@highlandproperties">
+        <span class="form-hint">Company addresses only — must end in @highlandproperties (with or without .com / .pk).</span>
         @error('email')<span class="form-error">{{ $message }}</span>@enderror
     </div>
 
