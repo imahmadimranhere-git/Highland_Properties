@@ -6,6 +6,7 @@ use App\Enums\LeadStatus;
 use App\Enums\RoleSlug;
 use App\Models\Lead;
 use App\Models\Project;
+use App\Models\Society;
 use App\Models\User;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
@@ -25,6 +26,10 @@ class DashboardStatsService
                 ->selectRaw('COUNT(*) AS total, SUM(is_published = 1) AS published')
                 ->first();
 
+            $societies = Society::query()
+                ->selectRaw('COUNT(*) AS total, SUM(is_published = 1) AS published')
+                ->first();
+
             $closed = Lead::query()
                 ->where('status', LeadStatus::ClosedWon->value)
                 ->selectRaw('COUNT(*) AS deals, COALESCE(SUM(deal_value), 0) AS value')
@@ -33,6 +38,8 @@ class DashboardStatsService
             return [
                 'projects' => (int) $projects->total,
                 'projects_published' => (int) $projects->published,
+                'societies' => (int) $societies->total,
+                'societies_published' => (int) $societies->published,
                 'leads_this_month' => Lead::whereBetween('created_at', [
                     now()->startOfMonth(), now()->endOfMonth(),
                 ])->count(),

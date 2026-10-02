@@ -160,6 +160,29 @@ function initHeroRotation() {
  * Sticky elements are deliberately excluded — a transform on an element (or
  * on its ancestor) cancels position: sticky in its children.
  */
+/**
+ * "Read more" on a team card. Both the short and the full text are already in
+ * the page; this only swaps which one is visible, so there is nothing to load
+ * and the bio is complete for search engines either way.
+ */
+function initBioToggles() {
+    document.querySelectorAll('[data-bio-toggle]').forEach((button) => {
+        const bio = button.closest('.team-card__bio');
+        const short = bio?.querySelector('[data-bio-short]');
+        const full = bio?.querySelector('[data-bio-full]');
+        if (! short || ! full) return;
+
+        button.addEventListener('click', () => {
+            const opening = full.hidden;          // hidden now, so we are opening it
+
+            full.hidden = ! opening;
+            short.hidden = opening;
+            button.textContent = opening ? ' Show less' : 'Read more';
+            button.setAttribute('aria-expanded', String(opening));
+        });
+    });
+}
+
 function initReveal() {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
@@ -271,6 +294,7 @@ initMobileNav();
 initReveal();
 initLoadBar();
 initImageFade();
+initBioToggles();
 initLazyEmbeds();
 initVideoFacade();
 initHeroRotation();

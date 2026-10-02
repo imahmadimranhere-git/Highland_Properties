@@ -32,47 +32,101 @@
 /* Team */
 .team-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-    gap: 32px;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 28px;
+}
+
+/* A proper card: white, rounded, bordered, with everything inside it. */
+.team-card {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    transition: transform var(--speed) var(--ease), box-shadow var(--speed) var(--ease);
+}
+
+@media (hover: hover) {
+    .team-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 16px 34px rgba(10, 31, 51, .10);
+    }
 }
 
 .team-card__photo {
-    aspect-ratio: 1;
+    position: relative;
+    aspect-ratio: 4 / 5;
     overflow: hidden;
-    border-radius: var(--radius-card);
     background-color: var(--off-white);
-    margin-bottom: 16px;
+    display: grid;
+    place-items: center;
     border-bottom: 3px solid var(--gold-500);
 }
 
-.team-card__photo img { width: 100%; height: 100%; object-fit: cover; }
+.team-card__photo img { width: 100%; height: 100%; object-fit: cover; object-position: top center; }
 .team-card__photo .img-ph { font-family: var(--font-serif); font-size: 2rem; letter-spacing: 0; }
 
-.team-card__name { font-size: 1.1875rem; margin: 0 0 2px; }
+/* Everything below the photo shares one padding box. */
+.team-card > *:not(.team-card__photo) { padding-inline: 20px; }
+.team-card > *:not(.team-card__photo):first-of-type { padding-top: 18px; }
+.team-card > *:last-child { padding-bottom: 20px; }
+
+.team-card__name { font-size: 1.1875rem; margin: 18px 0 2px; }
 
 .team-card__role {
+    margin: 0 0 12px;
     font-size: 11px;
+    font-weight: 600;
     letter-spacing: 1.6px;
     text-transform: uppercase;
     color: var(--gold-600);
-    margin-bottom: 10px;
 }
 
-.team-card__links { display: flex; gap: 8px; }
+/* Bio and the inline "Read more" --------------------------------------- */
+.team-card__bio {
+    margin: 0 0 16px;
+    font-size: .9rem;
+    line-height: 1.65;
+    color: var(--muted);
+    flex: 1;
+}
+
+/* A link, not a button: it sits in the sentence, right after the ellipsis. */
+.team-card__more {
+    display: inline;
+    margin-left: 4px;
+    padding: 0;
+    border: 0;
+    background: none;
+    font: inherit;
+    font-weight: 600;
+    color: var(--navy-800);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: var(--gold-500);
+    cursor: pointer;
+}
+
+.team-card__more:hover { color: var(--gold-600); }
+.team-card__more:focus-visible { outline: 2px solid var(--gold-500); outline-offset: 2px; }
+
+.team-card__links { display: flex; gap: 8px; margin-bottom: 14px; }
 
 .team-card__links a {
     display: inline-grid;
     place-items: center;
-    width: 34px;
-    height: 34px;
+    width: 36px;
+    height: 36px;
     border: 1px solid var(--border);
     border-radius: var(--radius-btn);
-    font-size: 11px;
+    font-size: .75rem;
     font-weight: 600;
-    color: var(--navy-600);
+    color: var(--navy-800);
+    transition: border-color var(--speed) var(--ease), color var(--speed) var(--ease), background-color var(--speed) var(--ease);
 }
 
-.team-card__links a:hover { border-color: var(--gold-500); color: var(--gold-600); }
+.team-card__links a:hover { border-color: var(--gold-500); background-color: var(--off-white); color: var(--gold-600); }
 
 /* About value cards */
 .value-grid {
@@ -238,9 +292,11 @@
 .office-line .icon { margin-top: 2px; flex: none; }
 
 /* "Send a message" under a team member. Native <details>, no script. */
-.team-message { margin-top: 14px; }
+.team-message { margin-top: 0; margin-bottom: 4px; }
 
 .team-message > summary {
+    width: 100%;
+    justify-content: space-between;
     list-style: none;
     cursor: pointer;
     display: inline-flex;

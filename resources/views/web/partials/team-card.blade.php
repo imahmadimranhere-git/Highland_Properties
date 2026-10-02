@@ -8,7 +8,25 @@
     </div>
     <h3 class="team-card__name">{{ $member->name }}</h3>
     @if ($member->designation)<p class="team-card__role">{{ $member->designation }}</p>@endif
-    @if (!empty($showBio) && $member->bio)<p class="text-muted-hp">{{ $member->bio }}</p>@endif
+    @if (!empty($showBio) && $member->bio)
+        @php
+            $bio = strip_tags($member->bio);
+            $short = \Illuminate\Support\Str::words($bio, 30, '');
+            $isLong = $short !== $bio;
+        @endphp
+
+        {{-- Thirty words, then "… Read more" on the same line. The full text
+             is already here, just hidden, so opening it is instant and search
+             engines still read the whole bio. --}}
+        <p class="team-card__bio">
+            <span data-bio-short>{{ $short }}@if ($isLong)…@endif</span>
+            <span data-bio-full hidden>{{ $bio }}</span>
+
+            @if ($isLong)
+                <button type="button" class="team-card__more" data-bio-toggle aria-expanded="false">Read more</button>
+            @endif
+        </p>
+    @endif
 
     <div class="team-card__links">
         @if ($member->phone)<a href="tel:{{ $member->phone }}" aria-label="Call {{ $member->name }}"><x-ui.icon name="phone" :size="16" /></a>@endif

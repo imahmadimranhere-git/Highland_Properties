@@ -47,7 +47,7 @@ class SocietyController extends Controller
                 'cover_media_id_mobile', 'is_featured', 'is_published', 'updated_at',
             ])
             ->with(['developer:id,name', 'city:id,name', 'cover:id,disk,path,webp_path,thumb_path'])
-            ->withCount(['plotCategories', 'leads'])
+            ->withCount('leads')
             ->when($request->filled('q'), fn ($q) => $q->where('name', 'like', '%' . $request->string('q') . '%'))
             ->when($request->filled('status'), fn ($q) => $q->where('status', $request->string('status')))
             ->orderBy('sort_order')

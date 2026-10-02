@@ -166,6 +166,10 @@
                         @include('web.partials.post-card', ['post' => $post])
                     @endforeach
                 </div>
+
+                <div class="u-center u-mt-40">
+                    <a href="{{ route('blog.index') }}" class="btn btn--secondary">Read all articles</a>
+                </div>
             </div>
         </section>
     @endif

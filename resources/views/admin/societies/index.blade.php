@@ -35,7 +35,7 @@
                     <thead>
                         <tr>
                             <th>Society</th><th>Developer</th><th>Status</th>
-                            <th>Plot sizes</th><th>Starting from</th><th>Leads</th><th>Live</th>
+                            <th>Starting from</th><th>Leads</th><th>Live</th>
                             <th class="is-actions">Actions</th>
                         </tr>
                     </thead>
@@ -62,9 +62,8 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td>{{ $society->developer?->name ?? '—' }}</td>
+                                <td class="is-secondary">{{ $society->developer?->name ?? '—' }}</td>
                                 <td><x-ui.status-badge :status="$society->status" /></td>
-                                <td>{{ $society->plot_categories_count }}</td>
                                 <td class="is-price">{{ money($society->starting_price) }}</td>
                                 <td>{{ $society->leads_count }}</td>
                                 <td>
@@ -73,15 +72,22 @@
                                     </span>
                                 </td>
                                 <td class="is-actions">
-                                    <a href="{{ route('admin.societies.plots.index', $society) }}" class="btn-icon" aria-label="Plot sizes" title="Plot sizes">
-                                        <x-ui.icon name="layers" :size="16" />
-                                    </a>
-                                    <a href="{{ route('admin.societies.edit', $society) }}" class="btn-icon" aria-label="Edit">
-                                        <x-ui.icon name="pencil" :size="16" />
-                                    </a>
-                                    <x-ui.delete-form
-                                        :action="route('admin.societies.destroy', $society)"
-                                        :confirm="'Remove ' . $society->name . ' from the website?'" />
+                                    <x-panel.row-actions :label="'Actions for ' . $society->name">
+                                        <a href="{{ route('admin.societies.edit', $society) }}" title="Edit society" aria-label="Edit society">
+                                            <x-ui.icon name="pencil" :size="16" />
+                                        </a>
+                                        <a href="{{ route('admin.societies.plots.index', $society) }}" title="Plot sizes" aria-label="Plot sizes">
+                                            <x-ui.icon name="layers" :size="16" />
+                                        </a>
+                                        <span class="row-menu__sep" aria-hidden="true"></span>
+                                        <form method="POST" action="{{ route('admin.societies.destroy', $society) }}"
+                                              data-confirm="Remove {{ $society->name }} from the website?">
+                                            @csrf @method('DELETE')
+                                            <button type="submit" class="is-danger" title="Delete" aria-label="Delete">
+                                                <x-ui.icon name="trash" :size="16" />
+                                            </button>
+                                        </form>
+                                    </x-panel.row-actions>
                                 </td>
                             </tr>
                         @endforeach

@@ -14,9 +14,14 @@
 
     <div class="stat-grid">
         <x-panel.stat-card
-            label="Projects"
+            label="High-rise projects"
             :value="$counts['projects']"
             :foot="$counts['projects_published'] . ' live on the website'" />
+
+        <x-panel.stat-card
+            label="Societies"
+            :value="$counts['societies']"
+            :foot="$counts['societies_published'] . ' live on the website'" />
 
         <x-panel.stat-card
             label="Leads this month"

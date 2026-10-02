@@ -83,7 +83,7 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td>{{ $project->developer?->name }}</td>
+                                <td class="is-secondary">{{ $project->developer?->name }}</td>
                                 <td><x-ui.status-badge :status="$project->status" /></td>
                                 <td class="is-price">{{ money($project->starting_price) }}</td>
                                 <td>{{ $project->consultant?->name ?? 'Unassigned' }}</td>
@@ -94,18 +94,25 @@
                                     </span>
                                 </td>
                                 <td class="is-actions">
-                                    <a href="{{ route('admin.projects.categories.index', $project) }}" class="btn-icon" aria-label="Unit categories" title="Unit categories">
-                                        <x-ui.icon name="layers" :size="16" />
-                                    </a>
-                                    <a href="{{ route('admin.projects.updates.index', $project) }}" class="btn-icon" aria-label="Development updates" title="Development updates">
-                                        <x-ui.icon name="clock" :size="16" />
-                                    </a>
-                                    <a href="{{ route('admin.projects.edit', $project) }}" class="btn-icon" aria-label="Edit">
-                                        <x-ui.icon name="pencil" :size="16" />
-                                    </a>
-                                    <x-ui.delete-form
-                                        :action="route('admin.projects.destroy', $project)"
-                                        :confirm="'Remove ' . $project->name . ' from the website? Leads and reports keep their link to it.'" />
+                                    <x-panel.row-actions :label="'Actions for ' . $project->name">
+                                        <a href="{{ route('admin.projects.edit', $project) }}" title="Edit project" aria-label="Edit project">
+                                            <x-ui.icon name="pencil" :size="16" />
+                                        </a>
+                                        <a href="{{ route('admin.projects.categories.index', $project) }}" title="Unit categories" aria-label="Unit categories">
+                                            <x-ui.icon name="layers" :size="16" />
+                                        </a>
+                                        <a href="{{ route('admin.projects.updates.index', $project) }}" title="Development updates" aria-label="Development updates">
+                                            <x-ui.icon name="clock" :size="16" />
+                                        </a>
+                                        <span class="row-menu__sep" aria-hidden="true"></span>
+                                        <form method="POST" action="{{ route('admin.projects.destroy', $project) }}"
+                                              data-confirm="Remove {{ $project->name }} from the website?">
+                                            @csrf @method('DELETE')
+                                            <button type="submit" class="is-danger" title="Delete" aria-label="Delete">
+                                                <x-ui.icon name="trash" :size="16" />
+                                            </button>
+                                        </form>
+                                    </x-panel.row-actions>
                                 </td>
                             </tr>
                         @endforeach

@@ -46,6 +46,14 @@
 
 /* Secondary columns wrap rather than stretch the table. */
 .table-hp tbody td { max-width: 240px; }
+
+/* Long company names wrap inside a narrower column instead of spreading the
+   table until the action buttons fall off the edge. */
+.table-hp tbody td.is-secondary {
+    max-width: 170px;
+    font-size: .875rem;
+    color: var(--muted);
+}
 .table-hp tbody td.is-actions { max-width: none; white-space: nowrap; }
 .table-hp tbody td:first-child strong { display: block; }
 

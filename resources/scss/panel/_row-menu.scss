@@ -1,0 +1,110 @@
+/* ==========================================================================
+   Row actions: a labelled button that opens a small strip of icons.
+   ========================================================================== */
+
+.row-menu { position: relative; display: inline-block; }
+
+.row-menu__button {
+    list-style: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-btn);
+    background-color: var(--white);
+    color: var(--navy-800);
+    font-size: .8125rem;
+    font-weight: 600;
+    letter-spacing: .02em;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: border-color var(--speed) var(--ease),
+                background-color var(--speed) var(--ease),
+                color var(--speed) var(--ease);
+}
+
+.row-menu__button::-webkit-details-marker { display: none; }
+.row-menu__button:hover { border-color: var(--gold-500); background-color: var(--off-white); }
+.row-menu__button svg { transition: transform var(--speed) var(--ease); }
+
+.row-menu[open] .row-menu__button {
+    border-color: var(--navy-800);
+    background-color: var(--navy-800);
+    color: var(--white);
+}
+
+.row-menu[open] .row-menu__button svg { transform: rotate(180deg); }
+
+/* The menu: icons only, side by side. */
+.row-menu__panel {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 6px);
+    z-index: 1200;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-btn);
+    background-color: var(--white);
+    box-shadow: 0 14px 30px rgba(10, 31, 51, .16);
+    white-space: nowrap;
+}
+
+.row-menu__panel a,
+.row-menu__panel button {
+    display: inline-grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    border: 0;
+    border-radius: var(--radius-btn);
+    background: none;
+    color: var(--navy-800);
+    cursor: pointer;
+    transition: background-color var(--speed) var(--ease), color var(--speed) var(--ease);
+}
+
+/* The icons themselves are navy; the sprite otherwise inherits a muted grey. */
+.row-menu__panel .icon { color: var(--navy-800); width: 17px; height: 17px; }
+
+.row-menu__panel a:hover,
+.row-menu__panel button:hover { background-color: var(--off-white); }
+.row-menu__panel a:hover .icon,
+.row-menu__panel button:hover .icon { color: var(--navy-900); }
+
+.row-menu__panel form { margin: 0; display: inline-flex; }
+
+/* A thin rule before the destructive one. */
+.row-menu__panel .row-menu__sep {
+    width: 1px;
+    height: 20px;
+    margin: 0 2px;
+    background-color: var(--border);
+}
+
+.row-menu__panel .is-danger .icon { color: var(--danger); }
+.row-menu__panel .is-danger:hover { background-color: #FDF2F2; }
+.row-menu__panel .is-danger:hover .icon { color: var(--danger); }
+
+/* Lifted out of the table by panel.js so the scrollbox cannot clip it. */
+.row-menu__panel.is-floating { position: fixed; top: auto; right: auto; }
+
+/* ==========================================================================
+   The table must not move.
+   ==========================================================================
+   The actions column is given a fixed, content-sized width and never wraps,
+   so opening a menu cannot change a row's height or shift a single column.
+   The menu floats above the table instead of sitting inside it.
+   -------------------------------------------------------------------------- */
+
+.table-hp th.is-actions,
+.table-hp td.is-actions {
+    width: 1%;
+    min-width: 112px;
+    white-space: nowrap;
+    text-align: right;
+}
